@@ -3,15 +3,37 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider, useSelector } from "react-redux";
+import store from './redux/store';
+import { ConfigProvider } from "antd";
+import "antd/dist/reset.css";
+const ConfigProviderWithTheme = ({ children }) => {
+  const {theme} = useSelector((state) => state.theme);
 
+  return (
+    <ConfigProvider theme={{
+      token: {
+        colorBgContainer: theme ? '#0f0e0f' : 'white',
+        colorBgLayout: theme ? '#0f0e0f' : 'white',
+        colorText: theme ? 'white' : '#0f0e0f',
+      }
+    }}>
+      {children}
+    </ConfigProvider>
+  );
+};
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ConfigProviderWithTheme>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ConfigProviderWithTheme>
+    </Provider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

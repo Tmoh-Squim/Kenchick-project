@@ -1,24 +1,87 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import Layout from "./components/layout/Layout";
+import { useEffect } from "react";
+import store from "./redux/store";
+import { getProducts } from "./redux/product";
+import ProductDetails from "./components/products/Product-details";
+import { getUser } from "./redux/user";
+import UserProfile from "./components/user/User-Profile";
+import { getTotal } from "./redux/cart";
+import { useSelector } from "react-redux";
+import ForgotPassword from "./auth/Forgot-Password";
+import VerifyOtp from "./auth/Verify-Otp";
+import ChangePassword from "./auth/Change-Password";
+import PaymentDetails from "./components/order/Payment-details";
+import ProtectedRoute from "./middleware/auth";
+import UpdateProduct from "./components/user/UpdateProduct";
+import { getOrdersUser } from "./redux/order";
+import UpdateOrder from "./components/user/UpdateOrder";
 function App() {
+  const cart = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user?.user);
+  useEffect(() => {
+    store.dispatch(getProducts());
+    store.dispatch(getUser());
+
+    //eslint-disable-next-line
+  }, [store]);
+
+  useEffect(() => {
+    store.dispatch(getTotal());
+    store.dispatch(getOrdersUser(user?._id));
+  }, [cart, user]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<Layout />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/product-details/:id" element={<ProductDetails />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route
+          path="/payment-details"
+          element={
+            <ProtectedRoute>
+              <PaymentDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/update-product/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/update-order/:id"
+          element={
+            <ProtectedRoute>
+              <UpdateOrder />
+            </ProtectedRoute>
+          }
+        />
+        
+      </Routes>
+    </>
   );
 }
 
