@@ -80,7 +80,6 @@ const updateProduct = asyncHandler(async(req,res,next)=>{
         const id = req.params.id;
         const {title,description,price,stock,category} = req.body;
         const product =await chickModel.findById(id);
-        console.log('bo',req.body)
         if(!product){
             return res.send({
                 success:false,

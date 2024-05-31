@@ -8,6 +8,8 @@ const {
   ResetPassword,
   changePassword,
   getUsers,
+  updateUserDetails,
+  deleteUserAdmin,
 } = require("../controller/user");
 const { isAuthenticated } = require("../middleware/auth");
 
@@ -21,5 +23,7 @@ router.post("/verify-otp", VerifyOtp);
 router.post("/reset-password", ForgotPassword);
 router.post('/change-password/:id',changePassword);
 router.get('/admin-users',getUsers);
+router.post('/update-user-details/:id',updateUserDetails);
+router.delete('/delete-user/:id',deleteUserAdmin);
 
 module.exports = router;

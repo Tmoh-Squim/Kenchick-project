@@ -1,17 +1,17 @@
 const { HashPassword, ComparePassword } = require("../helper/hashPassword");
 const userModel = require("../model/user");
-const asyncHandler = require("express-async-handler");
 const JWT = require("jsonwebtoken");
 const sendMail = require("../utils/mailer");
 const sendOtp = require("../utils/otp");
 const otpModel = require("../model/otp");
 const user = require("../model/user");
+const expressAsyncHandler = require("express-async-handler");
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-const createUser = asyncHandler(async (req, res, next) => {
+const createUser = expressAsyncHandler(async (req, res, next) => {
   try {
     const { name, email, phone, password } = req.body;
     if (!name || !email || !phone || !password) {
@@ -49,7 +49,7 @@ const createUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-const Login = asyncHandler(async (req, res, next) => {
+const Login = expressAsyncHandler(async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -93,7 +93,7 @@ const Login = asyncHandler(async (req, res, next) => {
   }
 });
 
-const ResetPassword = asyncHandler(async (req, res, next) => {
+const ResetPassword = expressAsyncHandler(async (req, res, next) => {
   try {
     const { email } = req.body;
     const otp = generateOTP();
@@ -155,15 +155,15 @@ const ResetPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-const VerifyOtp = asyncHandler(async (req, res, next) => {
+const VerifyOtp = expressAsyncHandler(async (req, res, next) => {
   try {
     const { otp, email } = req.body;
     const emailCheck = email.email;
-    const otpCheck = otp.otp;
+    const otpCheck = email.otp;
     if (!otpCheck || !emailCheck) {
-      return res.send({ message: "Invalid otp", success: false });
+      return res.send({ message: "Otp can't be empty", success: false });
     }
-    const exist = otpModel.findOne({ email: emailCheck });
+    const exist =await otpModel.findOne({ email: emailCheck,otp:otpCheck });
     if (!exist) {
       return res.send({
         success: false,
@@ -171,6 +171,7 @@ const VerifyOtp = asyncHandler(async (req, res, next) => {
       });
     }
     exist.verified = true;
+    await exist.save();
 
     res.send({
       success: true,
@@ -181,7 +182,7 @@ const VerifyOtp = asyncHandler(async (req, res, next) => {
   }
 });
 
-const ForgotPassword = asyncHandler(async (req, res, next) => {
+const ForgotPassword = expressAsyncHandler(async (req, res, next) => {
   try {
     const { email, newPassword, otp } = req.body;
 
@@ -223,7 +224,7 @@ const ForgotPassword = asyncHandler(async (req, res, next) => {
   }
 });
 
-const loadUser = asyncHandler(async (req, res, next) => {
+const loadUser = expressAsyncHandler(async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
     if (!user) {
@@ -242,7 +243,7 @@ const loadUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-const changePassword = asyncHandler(async (req, res, next) => {
+const changePassword = expressAsyncHandler(async (req, res, next) => {
   try {
     const { newPassword, password } = req.body;
     const id = req.params.id;
@@ -277,7 +278,7 @@ const changePassword = asyncHandler(async (req, res, next) => {
     );
   }
 });
-const getUsers = asyncHandler(async (req, res, next) => {
+const getUsers = expressAsyncHandler(async (req, res, next) => {
   try {
     const users = await userModel.find({});
 
@@ -294,6 +295,63 @@ const getUsers = asyncHandler(async (req, res, next) => {
     );
   }
 });
+const updateUserDetails = expressAsyncHandler(async(req,res,next)=>{
+  try {
+    const {email,phone,password} = req.body;
+    const id = req.params.id;
+
+    const user = await userModel.findById(id);
+    if(!user){
+      res.send({
+        success:false,
+        message:'User not found!'
+      })
+    }
+    const match = await ComparePassword(password,user?.password);
+    if(!match){
+     return next( res.send({
+      success:false,
+      message:'Invalid password!'
+    }))
+    }
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+    await user.save();
+
+    res.send({
+      success:true,
+      message:"Details updated successfully"
+    })
+  } catch (error) {
+    return res.send({
+      success:false,
+      message:error.message
+    })
+  }
+});
+const deleteUserAdmin = expressAsyncHandler(async(req,res,next)=>{
+  try {
+    const id = req.params.id;
+    const user = await userModel.findById(id);
+    if(!user){
+      return res.send({
+        success:false,
+        message:'User with that id not found!'
+      })
+    }
+    await userModel.findByIdAndDelete(id);
+
+    res.send({
+      success:true,
+      message:'User deleted successfully'
+    })
+  } catch (error) {
+    return next(res.send({
+      success:false,
+      message:error.message
+    }))
+  }
+})
 
 module.exports = {
   createUser,
@@ -304,4 +362,6 @@ module.exports = {
   VerifyOtp,
   changePassword,
   getUsers,
+  updateUserDetails,
+  deleteUserAdmin
 };
