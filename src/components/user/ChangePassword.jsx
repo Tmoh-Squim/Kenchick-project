@@ -24,8 +24,8 @@ const ChangePassword = () => {
     }
   }
   return (
-    <Layout className="px-4 flex justify-center items-center">
-     <Row>
+    <Layout className="px-4 flex justify-center h-screen items-center">
+     <Row className="my-auto">
      <Typography.Title className="text-center">
         Change Your Password
       </Typography.Title>

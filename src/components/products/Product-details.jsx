@@ -6,6 +6,7 @@ import Ratings from "../../utils/Rating";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cart";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const location = useLocation();
@@ -17,7 +18,11 @@ const ProductDetails = () => {
   }
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+    if(product.stock === 0){
+      return toast.error('Product is currently not available in the shop')
+    }else{
+      dispatch(addToCart(product));
+    }
   };
 
   return (

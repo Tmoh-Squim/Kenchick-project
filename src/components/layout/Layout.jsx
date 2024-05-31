@@ -15,7 +15,7 @@ const Layout = () => {
   return (
     <div>
       <motion.div
-        className="fixed bottom-5 cursor-pointer right-5 h-[50px] w-[50px] bg-green-500 rounded-xl flex justify-center items-center"
+        className={`${open ? 'hidden' :''} fixed bottom-5 z-50 cursor-pointer right-5 h-[50px] w-[50px] bg-green-500 rounded-xl flex justify-center items-center`}
         animate={{ scale: 1.2 }}
         transition={{
           duration: 7,
@@ -36,7 +36,7 @@ const Layout = () => {
     }
     {
       active &&(
-        <div className="w-[200px] h-[200px] bg-white absolute top-[50px] px-2 left-[50px]">
+        <div className="w-[200px] h-[200px] z-50 bg-white absolute top-[50px] px-2 left-[50px]">
           <div className="absolute top-2 right-2 cursor-pointer" onClick={()=>setActive(false)}>
             <AiOutlineClose size={28} />
           </div>

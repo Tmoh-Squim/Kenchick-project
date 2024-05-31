@@ -4,6 +4,7 @@ import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
 import {useDispatch, useSelector} from "react-redux"
 import { ForgotPasswordi } from "../redux/user";
+import Loader from "../utils/Loader";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error,setError] = useState(false);
@@ -34,7 +35,14 @@ const ForgotPassword = () => {
   },[success])
 
   return (
-    <div className="block w-full justify-between 800px:px-4 800px:flex">
+   <>
+   {
+    loading ? (
+      <div className="w-full h-screen bg-[#0000004b] flex justify-center items-center">
+        <Loader />
+      </div>
+    ):(
+      <div className="block w-full justify-between 800px:px-4 800px:flex">
       <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] flex items-center bg-white">
         <div>
           <div>
@@ -95,6 +103,9 @@ const ForgotPassword = () => {
         </div>
       </div>
     </div>
+    )
+   }
+   </>
   );
 };
 

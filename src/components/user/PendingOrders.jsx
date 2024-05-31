@@ -27,19 +27,14 @@ const PendingOrders = () => {
       },
 
       {
-        title:"Name",
+        title:"Item Qty",
         key:"title",
-        dataIndex:`price`,
-        render:(_id)=>(
-          <h1>
-            {_id}
-          </h1>
-        )
+        render: (text, record) => record.cart.length,
       },
       {
-        title:"Description",
-        key:"description",
-        dataIndex:"description"
+        title:"Total",
+        key:"total",
+        dataIndex:"totalPrice"
       },
       {
         title:"Created At",

@@ -17,7 +17,7 @@ const cartSlice = createSlice({
       );
       if (exists !== -1) {
         toast.error("Item already exists in cart");
-      } else {
+      }else {
         state.cartItem.push({ ...action.payload, qty: 1 });
         localStorage.setItem("cart", JSON.stringify(state.cartItem));
         toast.success("Item added to cart");

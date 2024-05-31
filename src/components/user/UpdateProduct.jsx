@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Server, Server_Url } from "../../server";
 import { useLocation } from "react-router-dom";
+import Headerr from "../layout/Header";
 
 const UpdateProduct = () => {
   const location = useLocation();
@@ -41,9 +42,11 @@ const UpdateProduct = () => {
     }
   };
   return (
-    <div className="h-screen">
-      <div className="800px:flex block justify-center  items-center  ">
-        <div className="bg-white py-4 rounded-md px-2 800px:mx-4 block my-4 800px:w-[60%]  800px:my-0">
+    <div className="h-[100vh] overflow-y-scroll">
+      <Headerr />
+      <h1 className="text-2xl text-center my-2">Update Product</h1>
+      <div className="800px:flex block h-[100vh]  justify-center  items-center mt-[35px] ">
+        <div className="bg-white py-4 rounded-md px-2 800px:mx-4 block  800px:w-[60%]  ">
           <div className="block py-2">
             <div>
               <label htmlFor="county" className="text-gray-500">

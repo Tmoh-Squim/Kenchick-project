@@ -45,13 +45,16 @@ const PaymentDetails = () => {
             status:'success'
           }
         }
-  
+
+        if(deliveryDetails === ''){
+          return toast.error('Delivery details are required!')
+        }
         const response = await axios.post(`${Server_Url}/order/create-order`,newOrder)
   
-        if(response.data.sucess){
-         return toast.success(response.data.message);
+        if(response.data.success){
+          toast.success(response.data.message);
         }else{
-         return toast.error(response.data.message);
+          toast.error(response.data.message);
         }
   
       }

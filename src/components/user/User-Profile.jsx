@@ -6,6 +6,7 @@ import {
   AiOutlineDashboard,
   AiOutlineFileAdd,
   AiOutlineLock,
+  AiOutlineLogout,
   AiOutlineMenu,
   AiOutlineMoon,
   AiOutlineOrderedList,
@@ -14,6 +15,9 @@ import {
   AiOutlineUser,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
+import {
+  MdOutlineTrackChanges
+} from "react-icons/md";
 import Dashboard from "./Dashboard";
 import Orders from "./Orders";
 import Profile from "./Profile";
@@ -26,6 +30,10 @@ import AdminUsers from "./Users";
 import { getOrdersAdmin } from "../../redux/order";
 import CompletedOrders from "./CompleteOrders";
 import PendingOrders from "./PendingOrders";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import TrackOrder from "./TrackOrder";
+import OutOfStock from "./OutOfStock";
 const UserProfile = () => {
   const date = Date().slice(15,18);
 
@@ -34,6 +42,7 @@ const UserProfile = () => {
   const { user } = useSelector((state) => state.user?.user);
   const { theme } = useSelector((state) => state.theme);
   const [greeting,setGreeting] = useState('');
+  const navigate = useNavigate();
  
   const dispatch = useDispatch();
   dispatch(getUsers());
@@ -55,6 +64,17 @@ const UserProfile = () => {
       setGreeting('Good Evening')
     }
   },[date])
+
+  const handleLogout = ()=>{
+    try {
+      localStorage.removeItem('token');
+      navigate('/');
+      window.location.reload();
+      toast.success('Logged out successfully')
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
   return (
     <Layout className="overflow-x-hidden">
       <Header className={`${theme? '#0000004b':'bg-white'} flex items-center`}>
@@ -146,6 +166,15 @@ const UserProfile = () => {
                 icon: <AiOutlineFileAdd size={20} />,
               },
               {
+                title: "Track Order",
+                label: "Track Order",
+                key: "Track Order",
+                onClick: () => {
+                  setActive(9);
+                },
+                icon: < MdOutlineTrackChanges size={20} />,
+              },
+              {
                 title: "Users",
                 label: "Users",
                 key: "Users",
@@ -185,6 +214,13 @@ const UserProfile = () => {
                   <AiOutlineMoon size={20} />
                 ),
               },
+              {
+                title: "Logout",
+                label: "Logout",
+                key: "Logout",
+                onClick:()=> {handleLogout()},
+                icon: <AiOutlineLogout size={20} />,
+              },
             ]}
           />
         </Sider>
@@ -197,7 +233,8 @@ const UserProfile = () => {
           {active === 6 && <ChangePassword />}
           {active === 7 && <PendingOrders />}
           {active === 8 && <CompletedOrders />}
-          
+          {active === 9 && <TrackOrder />}
+          {active === 10 && <OutOfStock />}
         </Content>
       </Layout>
     </Layout>

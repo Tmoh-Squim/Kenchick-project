@@ -4,6 +4,7 @@ import Ratings from "../../utils/Rating";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cart";
 import { Server } from "../../server";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
@@ -14,7 +15,11 @@ const ProductCard = ({ product }) => {
   };
 
   const handleAddToCart = (product)=>{
-    dispatch(addToCart(product));
+    if(product.stock === 0){
+      return toast.error('Product is currently not available in the shop')
+    }else{
+      dispatch(addToCart(product));
+    }
   }
 
   return (

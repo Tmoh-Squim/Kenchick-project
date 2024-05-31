@@ -132,7 +132,7 @@ const Headerr = () => {
             <AiOutlineShoppingCart size={30} />
 
             <div className="absolute left-3.5 w-[18px] h-[18px] top-[-1px] py-1  flex justify-center items-center rounded-full bg-green-500">
-                <h1 className="text-white text-center">
+                <h1 className="text-white text-center mt-2">
                     {cartItem?.length}
                 </h1>
             </div>
@@ -144,7 +144,7 @@ const Headerr = () => {
       </div>
       {data?.length > 0 && (
         <div
-          className={`block absolute bg-[#000000b0] w-[30%] overflow-y-scroll left-0  px-2 h-screen  ${
+          className={`block absolute z-50 bg-[#000000b0] w-[30%] overflow-y-scroll left-0  px-2 h-screen  ${
             active
               ? "top-[100px] "
               : "top-[17.5%] "

@@ -3,12 +3,14 @@ import { Content } from 'antd/es/layout/layout'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteProducti } from '../../redux/product'
-
+import {toast} from "react-toastify"
+import axios from "axios"
+import { Server_Url } from '../../server'
 const AdminUsers = () => {
   const {users} = useSelector((state)=>state.users?.users);
   const [data,setData] = useState([]);
   const [open,setOpen] = useState(false);
-  const [deleteProduct,setDeleteProduct] = useState('');
+  const [id,setDeleteUser] = useState('');
   const dispatch = useDispatch();
 
   const getData = ()=>{
@@ -25,9 +27,20 @@ const AdminUsers = () => {
   },[])
 
 
-  const handleDeleteProduct = (deleteProduct) =>{
-    dispatch(deleteProducti(deleteProduct,dispatch));
+  const handleDeleteUser = async(id) =>{
+    try {
+      const response = await axios.delete(`${Server_Url}/auth/delete-user/${id}`);
+
+    if(response.data.success){
+      toast.success(response.data.message)
+    }else{
+      toast.error(response.data.message)
+    }
+   // dispatch(deleteProducti(id,dispatch));
     setOpen(false)
+    } catch (error) {
+      toast.error('Something went wrong!')
+    }
   }
   return (
    <Content>
@@ -69,7 +82,7 @@ const AdminUsers = () => {
             <Button type='primary' danger 
             onClick={()=>{
               setOpen(true);
-              setDeleteProduct(id)
+              setDeleteUser(id)
             }}>
               Delete
             </Button>
@@ -81,7 +94,7 @@ const AdminUsers = () => {
     <Modal
     open={open}
     onCancel={()=>setOpen(false)}
-    onOk={()=>handleDeleteProduct(deleteProduct)}
+    onOk={()=>handleDeleteUser(id)}
     title="Do you want to delete the user?"
      />
 

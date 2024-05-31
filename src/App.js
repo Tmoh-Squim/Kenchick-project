@@ -21,6 +21,7 @@ import ProtectedRoute from "./middleware/auth";
 import UpdateProduct from "./components/user/UpdateProduct";
 import { getOrdersUser } from "./redux/order";
 import UpdateOrder from "./components/user/UpdateOrder";
+import Track from "./components/user/Track";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -79,7 +80,15 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+         <Route
+          path="/track-order/:id"
+          element={
+            <ProtectedRoute>
+              <Track />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </>
   );

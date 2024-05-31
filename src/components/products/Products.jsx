@@ -1,11 +1,14 @@
 import React from 'react'
 import ProductCard from './ProductCard'
 import { useSelector } from 'react-redux'
+import Slider from '../../utils/Slider'
 
 const Products = () => {
     const {products,loading} = useSelector((state)=>state.products)
   return (
-    <div className='flex flex-wrap justify-between 800px:px-4 bg-gray-200'>
+   <div>
+    <Slider />
+     <div className='flex flex-wrap justify-between 800px:px-4 bg-gray-200'>
         {
             loading ? (
                 <div>
@@ -29,6 +32,7 @@ const Products = () => {
         }
         
     </div>
+   </div>
   )
 }
 

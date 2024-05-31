@@ -1,20 +1,20 @@
-import { Table } from 'antd'
+import {Table } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import React, { useEffect, useState } from 'react'
-import { AiOutlineEye } from 'react-icons/ai'
+import { MdOutlineTrackChanges } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import {useNavigate} from "react-router-dom"
 
-const CompletedOrders = () => {
-  const {orders} = useSelector((state)=>state.adminOrders.orders);
+const TrackOrder = () => {
+  const {orders} = useSelector((state)=>state.userOrders.orders);
   const [data,setData] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(()=>{  
-    const dat = orders.filter((order)=>order.status === 'Delivered');
+  useEffect(()=>{
+    const dat = orders.filter((order) => order?.status !== 'Delivered');
     setData(dat)
-  },[])
-  
+  },[orders])
+
 
   return (
    <Content>
@@ -22,11 +22,15 @@ const CompletedOrders = () => {
     dataSource={data}
     columns={[
       {
-        title:"Id",
+        title:"Order Id",
         key:"_id",
         dataIndex:"_id"
       },
-
+      {
+        title:"Status",
+        key:"status",
+        dataIndex:'status'
+      },
       {
         title:"Item Qty",
         key:"title",
@@ -34,7 +38,7 @@ const CompletedOrders = () => {
       },
       {
         title:"Total",
-        key:"total",
+        key:"description",
         dataIndex:"totalPrice"
       },
       {
@@ -43,20 +47,15 @@ const CompletedOrders = () => {
         dataIndex:'createdAt'
       },
       {
-        title:"Status",
-        key:"status",
-        dataIndex:'status'
-      },
-      {
         title:"Preview",
         key:"Preview",
         dataIndex:"_id",
         className:'cursor-pointer',
         render:(id,order)=>(
           
-          <AiOutlineEye size={28}
+          <MdOutlineTrackChanges size={28}
           onClick={()=>{
-            navigate(`/update-order/${id}`,{state:{order: order}})
+            navigate(`/track-order/${id}`,{state:{order: order}})
           }}
            />
         )
@@ -69,4 +68,4 @@ const CompletedOrders = () => {
   )
 }
 
-export default CompletedOrders
+export default TrackOrder
