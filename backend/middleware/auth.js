@@ -1,9 +1,9 @@
 
-const asyncHandler = require("express-async-handler")
 const jwt = require("jsonwebtoken");
 const userModel = require("../model/user");
+const expressAsyncHandler = require("express-async-handler");
 
-exports.isAuthenticated = asyncHandler(async (req, res, next) => {
+exports.isAuthenticated = expressAsyncHandler(async (req, res, next) => {
     try {
         const token = req.headers.authorization;
 
@@ -26,3 +26,22 @@ exports.isAuthenticated = asyncHandler(async (req, res, next) => {
     }
 });
 
+exports.isAdmin = expressAsyncHandler(async(req,res,next)=>{
+    try {
+        const user = req.user;
+
+        if(user?.role !== 'Admin'){
+            return res.send({
+                success:false,
+                message:'unAuthorized Access!'
+            })
+        }else{
+            next()
+        }
+    } catch (error) {
+        return next(res.send({
+            success:false,
+            message:error.message
+        }))
+    }
+})

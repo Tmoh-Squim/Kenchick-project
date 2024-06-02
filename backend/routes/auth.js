@@ -11,7 +11,7 @@ const {
   updateUserDetails,
   deleteUserAdmin,
 } = require("../controller/user");
-const { isAuthenticated } = require("../middleware/auth");
+const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -22,8 +22,8 @@ router.get("/getUser", isAuthenticated, loadUser);
 router.post("/verify-otp", VerifyOtp);
 router.post("/reset-password", ForgotPassword);
 router.post('/change-password/:id',changePassword);
-router.get('/admin-users',getUsers);
-router.post('/update-user-details/:id',updateUserDetails);
-router.delete('/delete-user/:id',deleteUserAdmin);
+router.get('/admin-users',isAuthenticated,isAdmin,getUsers);
+router.post('/update-user-details/:id',isAuthenticated,updateUserDetails);
+router.delete('/delete-user/:id',isAuthenticated,isAdmin,deleteUserAdmin);
 
 module.exports = router;

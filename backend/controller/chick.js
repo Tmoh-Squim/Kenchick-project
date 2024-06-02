@@ -40,7 +40,7 @@ const createChick = asyncHandler(async(req,res,next)=>{
 
 const getProducts = asyncHandler(async(req,res,next)=>{
     try {
-        const products = await chickModel.find({});
+        const products = await chickModel.find({}).sort({createdAt:-1});
 
         res.send({
             success:true,
