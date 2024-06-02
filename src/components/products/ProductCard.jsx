@@ -39,7 +39,7 @@ const ProductCard = ({ product }) => {
       <div className="my-2 flex justify-between items-center">
         <h2 className="text-red-400">Ksh {product.price}</h2>
 
-        <div className="w-max bg-blue-500 rounded-xl px-4 py-1 cursor-pointer" onClick={()=>handleAddToCart(product)}>
+        <div className="w-max hidden 800px:block bg-blue-500 rounded-xl px-4 py-1 cursor-pointer" onClick={()=>handleAddToCart(product)}>
           <h1>Buy Now</h1>
         </div>
       </div>

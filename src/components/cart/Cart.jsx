@@ -54,7 +54,7 @@ const Cart = ({ setOpen }) => {
                       <AiOutlinePlus size={16} />
                     </div>
                     <div className="w-[20px] h-[20px] rounded-full my-2  bg-white  flex justify-center items-center">
-                      <h1>{item.qty}</h1>
+                      <h1 className="mt-1.5">{item.qty}</h1>
                     </div>
                     <div
                       className="w-[20px] h-[20px] rounded-full  bg-white cursor-pointer flex items-center justify-center"

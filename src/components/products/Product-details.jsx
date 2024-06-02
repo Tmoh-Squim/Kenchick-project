@@ -28,12 +28,12 @@ const ProductDetails = () => {
   return (
     <div>
       <Headerr />
-      <div className=" p-2">
+      <div className=" p-1">
         <div className="800px:flex block">
           <img
             src={`${Server}/${product.image}`}
             alt={product.name}
-            className="800px:w-[300px] 800px:h-[300px] w-full h-[400px]"
+            className="800px:w-[300px] 800px:h-[300px] w-full h-[300px]"
           />
 
           <div className="800px:mx-6 my-2 800px:w-[40%]">
