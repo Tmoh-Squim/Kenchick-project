@@ -14,7 +14,12 @@ const authRoutes = require("./routes/auth");
 const chickRoutes = require("./routes/chicks")
 const orderRoutes = require("./routes/order")
 //middlewares
-app.use(cors())
+app.use(cors({
+    origin:[
+        'https://kenchick.vercel.app/',
+        'http://localhost:3000'
+    ]
+}))
 app.use(express.json())
 app.use(compression())
 app.use("/",express.static(path.join(__dirname,'/uploads')))
