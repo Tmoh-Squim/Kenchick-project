@@ -32,10 +32,10 @@ const Cart = ({ setOpen }) => {
     dispatch(decrement(item));
   };
   return (
-    <div className="relative w-full h-screen">
-      <div className="w-[30%] absolute z-10 right-0 h-screen overflow-y-scroll bg-slate-200">
+    <div className="relative w-full h-screen 800px:mt-0 mt-[90px]">
+      <div className="800px:w-[30%] w-full  fixed z-10 right-0 h-screen overflow-y-scroll bg-slate-200">
         <div
-          className="cursor-pointer absolute right-2 top-2"
+          className="cursor-pointer absolute flex w-full justify-end right-2 top-2"
           onClick={() => setOpen(false)}
         >
           <AiOutlineClose size={28} />
@@ -109,7 +109,7 @@ const Cart = ({ setOpen }) => {
       </div>
 
       <div
-        className="absolute bottom-2 z-30  right-7 cursor-pointer w-[25%] py-1.5 bg-blue-600 rounded-lg px-4 hover:bg-blue-500"
+        className="fixed bottom-2 z-30  right-7 cursor-pointer 800px:w-[25%] w-[80%] mx-auto py-1.5 bg-blue-600 rounded-lg px-4 hover:bg-blue-500"
         onClick={() => {
           navigate("/payment-details");
         }}

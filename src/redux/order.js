@@ -2,14 +2,24 @@ import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Server_Url } from "../server";
 
+const token = localStorage.getItem('token');
+
 export const getOrdersAdmin = createAsyncThunk("/admin-orders",async()=>{
-    const response = await axios.get(`${Server_Url}/order/admin-orders`);
+    const response = await axios.get(`${Server_Url}/order/admin-orders`,{
+      headers:{
+        'Authorization':token
+      }
+    });
 
     return response.data;
 });
 
 export const getOrdersUser = createAsyncThunk("/user-orders",async(id)=>{
-  const response = await axios.get(`${Server_Url}/order/user-orders/${id}`);
+  const response = await axios.get(`${Server_Url}/order/user-orders/${id}`,{
+    headers:{
+      'Authorization':token
+    }
+  });
 
   return response.data;
 })

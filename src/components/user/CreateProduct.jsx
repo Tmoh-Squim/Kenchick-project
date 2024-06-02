@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { Server_Url } from '../../server';
-
+const token = localStorage.getItem('token')
 const CreateProduct = () => {
     const [error,setError] = useState(false);
     const [title,setTitle] = useState('');
@@ -42,7 +42,8 @@ const CreateProduct = () => {
 
             const response = await axios.post(`${Server_Url}/chick/create-chick`,formData,{
                 headers:{
-                    'Content-Type':'multipart/formdata'
+                    'Content-Type':'multipart/formdata',
+                    'Authorization':token
                 }
             })
             if(response.data.success){

@@ -2,6 +2,8 @@ import {createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import axios from "axios"
 import { Server_Url } from "../server";
 import {toast} from "react-toastify"
+const token = localStorage.getItem('token');
+
 export const getProducts = createAsyncThunk("/products",async()=>{
     const res = await axios.get(`${Server_Url}/chick/get-products`);
 
@@ -9,7 +11,11 @@ export const getProducts = createAsyncThunk("/products",async()=>{
 })
 
 export const deleteProducti = createAsyncThunk("/delete-product",async(id,dispatch)=>{
-    const res = await axios.delete(`${Server_Url}/chick/delete-product/${id}`);
+    const res = await axios.delete(`${Server_Url}/chick/delete-product/${id}`,{
+        headers:{
+            'Authorization':token
+        }
+    });
 
     if(res.data.success){
         toast.success(res.data.message);

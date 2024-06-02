@@ -3,8 +3,8 @@ import axios from "axios";
 import { Server_Url } from "../server";
 import { toast } from "react-toastify";
 
+const token = localStorage.getItem("token");
 export const getUser = createAsyncThunk("/user", async () => {
-  const token = localStorage.getItem("token");
   const response = await axios.get(`${Server_Url}/auth/getUser`, {
     headers: {
       Authorization: token,
@@ -14,7 +14,11 @@ export const getUser = createAsyncThunk("/user", async () => {
 });
 
 export const getUsers = createAsyncThunk("/admin-user", async () => {
-  const response = await axios.get(`${Server_Url}/auth/admin-users`);
+  const response = await axios.get(`${Server_Url}/auth/admin-users`,{
+    headers:{
+      'Authorization':token
+    }
+  });
   return response.data;
 });
 

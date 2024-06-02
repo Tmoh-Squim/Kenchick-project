@@ -26,7 +26,7 @@ class Slider extends Component {
           pagination={{ clickable: true }}
           loop={true}
           modules={[Autoplay, Navigation, Pagination]}
-          className="h-[83vh]"
+          className="800px:h-[83vh] h-[40vh]"
         >
           {
             images.map((image)=>(
