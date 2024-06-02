@@ -17,6 +17,7 @@ const orderRoutes = require("./routes/order")
 app.use(cors({
     origin:[
         'https://kenchick.vercel.app/',
+        'https://kenchick-project.vercel.app/',
         'http://localhost:3000'
     ]
 }))
