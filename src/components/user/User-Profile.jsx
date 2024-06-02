@@ -77,15 +77,15 @@ const UserProfile = () => {
   }
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme? '#0000004b':'bg-white'} flex items-center`}>
+      <Header className={`${theme? '#0000004b':'bg-white'} flex items-center px-1`}>
         <div
-          className="mx-4 cursor-pointer mb-[1rem]"
+          className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
           onClick={() => setCollapsed(!collapsed)}
         >
           <AiOutlineMenu size={25} color={theme ===true ?'white' :'black'} />
         </div>
 
-        <h1 className={`${theme ? 'text-white' :'text-black'} text-2xl align-middle text-center`}>
+        <h1 className={`${theme ? 'text-white' :'text-black'} 800px:text-2xl text-xl align-middle text-center`}>
           {greeting} {user.name} Welcome to Your Dashboard
         </h1>
       </Header>
