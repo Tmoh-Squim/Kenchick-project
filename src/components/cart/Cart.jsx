@@ -32,7 +32,7 @@ const Cart = ({ setOpen }) => {
     dispatch(decrement(item));
   };
   return (
-    <div className="relative w-full h-screen 800px:mt-0 mt-[90px]">
+    <div className="relative w-full h-screen">
       <div className="800px:w-[30%] w-full  fixed z-10 right-0 h-screen overflow-y-scroll bg-slate-200">
         <div
           className="cursor-pointer absolute flex w-full justify-end right-2 top-2"
