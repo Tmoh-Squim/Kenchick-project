@@ -15,7 +15,8 @@ const chickRoutes = require("./routes/chicks")
 const orderRoutes = require("./routes/order")
 //middlewares
 app.use(cors({
-    origin:[ 'https://kenchick.vercel.app/',
+    origin:['https://kenchick.vercel.app',
+    "https://kenchick-project.vercel.app",
     "http://localhost:3000"
   ],
     credentials: true
