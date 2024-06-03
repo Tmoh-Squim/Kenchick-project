@@ -24,7 +24,7 @@ app.use(cors({
 app.use(express.json())
 app.use(compression())
 app.use("/",express.static(path.join(__dirname,'/uploads')))
-//rest apis
+///rest apis
 
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/chick",chickRoutes);
