@@ -74,7 +74,7 @@ const SearchPage = () => {
                       className="w-[100px] h-[100px]"
                     />
                     <div className="mx-2 block">
-                      <h1 className="text-white">{chick.title}</h1>
+                      <h1 className="text-black">{chick.title}</h1>
 
                       <p className="text-red-400">Ksh {chick.price}</p>
                       <Ratings rating={chick.rating?.rate} />
