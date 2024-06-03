@@ -1,4 +1,4 @@
-import { Card, Col, Row, Space, Typography } from "antd";
+import { Card, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 //import { Bar, Pie } from "@ant-design/charts";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ import {
 } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [deliverd, setDelivered] = useState(0);
@@ -27,7 +26,6 @@ const Dashboard = () => {
   const { products } = useSelector((state) => state.products);
   const { users } = useSelector((state) => state.users?.users);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const dat = orders?.filter((order) => order.status === "Delivered");

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Headerr from "./Header";
 import HomePage from "../../pages/HomePage";
 import Footer from "./Footer";
@@ -6,7 +6,6 @@ import { SiChatbot } from "react-icons/si";
 import { motion } from "framer-motion";
 import ChatBot from "../chatbot/ChatBot";
 import { AiOutlineClose } from "react-icons/ai";
-import { messages } from "../../utils/Chats";
 
 const Layout = () => {
   const [open,setOpen] = useState(false);
