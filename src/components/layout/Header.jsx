@@ -191,11 +191,15 @@ const Headerr = () => {
         </div>
       )}
 
-      <div className={` ${menu ? 'hidden' : ''} h-[70px] fixed z-50 w-full overflow-x-hidden items-center justify-between flex px-2 bg-slate-200 800px:hidden right-0 left-0 top-0`}>
+      <div
+        className={` ${
+          menu ? "hidden" : ""
+        } h-[70px] fixed z-50 w-full overflow-x-hidden items-center justify-between flex px-2 bg-slate-200 800px:hidden right-0 left-0 top-0`}
+      >
         <div className="cursor-pointer" onClick={() => setMenu(!menu)}>
           <AiOutlineMenu size={33} />
         </div>
-        <div className="cursor-pointer">
+        <div className="cursor-pointer" onClick={()=>navigate('/search')}>
           <AiOutlineSearch size={33} />
         </div>
       </div>
@@ -210,22 +214,32 @@ const Headerr = () => {
             <AiOutlineClose size={30} />
           </div>
           <div className="my-2 block h-full w-full justify-center">
-            <div className="w-full p-2 bg-blue-300">
+            <div className="w-full p-2 bg-blue-300 my-1 rounded-lg">
               <Link to={"/"}>Home</Link>
             </div>
             <div
-              className="w-full p-2 bg-blue-300"
+              className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg"
               onClick={() => setOpen(true)}
             >
-              <h1>
-                Cart <AiOutlineShoppingCart />
-              </h1>
+              <h1 className=" text-xl">Cart</h1>
+              <AiOutlineShoppingCart size={25} className="mx-2 mt-[-2px]" />
             </div>
 
-            <div>
-            <Link to={"/profile"} className="my-2">
-              Profile
-            </Link>
+            <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
+              <h1>About us</h1>
+            </div>
+            <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
+              <h1>Contact us</h1>
+            </div>
+
+            <div
+              className=" w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg"
+              onClick={() => navigate("/profile")}
+            >
+              <Link to={"/profile"} className="my-2">
+                Profile
+              </Link>
+              <AiOutlineUser size={25} className="mx-2" />
             </div>
           </div>
         </div>

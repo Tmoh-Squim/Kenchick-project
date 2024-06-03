@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
 import {useDispatch, useSelector} from "react-redux"
@@ -8,7 +8,6 @@ import Loader from "../utils/Loader";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error,setError] = useState(false);
-  const [suc,setSuc] = useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const {success,loading} = useSelector((state)=>state.forgotpassword);

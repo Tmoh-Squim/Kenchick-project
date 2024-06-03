@@ -22,6 +22,7 @@ import UpdateProduct from "./components/user/UpdateProduct";
 import { getOrdersUser } from "./redux/order";
 import UpdateOrder from "./components/user/UpdateOrder";
 import Track from "./components/user/Track";
+import SearchPage from "./pages/SearchPage";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -48,6 +49,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route
           path="/payment-details"
           element={

@@ -1,8 +1,7 @@
 import { Button, Modal, Table } from 'antd'
 import { Content } from 'antd/es/layout/layout'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteProducti } from '../../redux/product'
+import { useSelector } from 'react-redux'
 import {toast} from "react-toastify"
 import axios from "axios"
 import { Server_Url } from '../../server'
@@ -11,7 +10,6 @@ const AdminUsers = () => {
   const [data,setData] = useState([]);
   const [open,setOpen] = useState(false);
   const [id,setDeleteUser] = useState('');
-  const dispatch = useDispatch();
 
   const getData = ()=>{
     const dat = [];
