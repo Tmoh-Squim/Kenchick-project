@@ -28,7 +28,7 @@ const ProductDetails = () => {
   return (
     <div>
       <Headerr />
-      <div className=" p-1">
+      <div className=" p-1 my-2">
         <div className="800px:flex block">
           <img
             src={`${Server}/${product.image}`}

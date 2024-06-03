@@ -9,6 +9,7 @@ import { Card, Steps } from "antd";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const token = localStorage.getItem('token');
 const PaymentDetails = () => {
   const { user } = useSelector((state) => state.user?.user);
   const { cartItem, cartTotalAmount } = useSelector((state) => state.cart);
@@ -49,7 +50,11 @@ const PaymentDetails = () => {
         if(deliveryDetails === ''){
           return toast.error('Delivery details are required!')
         }
-        const response = await axios.post(`${Server_Url}/order/create-order`,newOrder)
+        const response = await axios.post(`${Server_Url}/order/create-order`,newOrder,{
+          headers:{
+            'Authorization':token
+          }
+        })
   
         if(response.data.success){
           toast.success(response.data.message);
