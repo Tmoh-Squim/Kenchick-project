@@ -23,6 +23,9 @@ import { getOrdersUser } from "./redux/order";
 import UpdateOrder from "./components/user/UpdateOrder";
 import Track from "./components/user/Track";
 import SearchPage from "./pages/SearchPage";
+import Products from "./components/products/Products";
+import Contact from "./pages/Contact";
+import AboutUs from "./pages/AboutUs";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -50,6 +53,9 @@ function App() {
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route
           path="/payment-details"
           element={

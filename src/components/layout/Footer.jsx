@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
-      <div className="w-full 800px:p-4 p-1 bg-blue-300 flex 800px:justify-around flex-wrap">
+      <div className="w-full 800px:p-[3rem] p-1 bg-blue-200 flex 800px:justify-around flex-wrap">
         <div className="block 800px:w-[20%] w-[60%]">
-          <h1 className="my-2">Our Location</h1>
+          <h1 className="my-2 text-xl text-blue-500">Our Location</h1>
 
           <p>
             Kenchic LTD Head Office, Exsan Hse, Enterprise Rd P.O. BOX 20052,
@@ -13,7 +13,7 @@ const Footer = () => {
           </p>
         </div>
         <div className="block 800px:w-[20%] w-[60%]">
-          <h1 className="my-2">Customer Support</h1>
+          <h1 className="my-2 text-xl text-blue-500">Customer Support</h1>
 
           <p>
             HQ: +254 722 202 163 <br />
@@ -25,7 +25,7 @@ const Footer = () => {
         </div>
 
         <div className="block 800px:w-[20%] w-[60%]">
-          <h1 className="my-2">Our Socials</h1>
+          <h1 className="my-2 text-xl text-blue-500">Our Socials</h1>
 
           <p>
             Kenchic LTD Head Office, Exsan Hse, Enterprise Rd P.O. BOX 20052,
@@ -34,7 +34,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="p-4 bg-pink-300 w-full 800px:flex justify-center hidden ">
+      <div className="p-[2rem] bg-pink-200 w-full 800px:flex justify-center hidden ">
         <div className="800px:w-[35%]">
           <h1 className="text-blue-500 ">&copy; 2024 Kenchic LTD</h1>
         </div>

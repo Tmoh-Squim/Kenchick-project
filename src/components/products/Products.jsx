@@ -1,13 +1,16 @@
 import React from 'react'
 import ProductCard from './ProductCard'
 import { useSelector } from 'react-redux'
-import Slider from '../../utils/Slider'
+import Headerr from '../layout/Header'
 
 const Products = () => {
     const {products,loading} = useSelector((state)=>state.products)
   return (
-   <div>
-    <Slider />
+    <div className='bg-gray-200'>
+    <Headerr />
+     <h1 className='text-2xl text-center text-black my-3 font-semibold'>
+            Our Products
+        </h1>
      <div className='flex flex-wrap justify-between 800px:px-4 bg-gray-200'>
         {
             loading ? (
@@ -31,7 +34,7 @@ const Products = () => {
             )
         }
         
-    </div>
+   </div>
    </div>
   )
 }

@@ -6,6 +6,8 @@ import { SiChatbot } from "react-icons/si";
 import { motion } from "framer-motion";
 import ChatBot from "../chatbot/ChatBot";
 import { AiOutlineClose } from "react-icons/ai";
+import About from "../../pages/About";
+import Slider from "../../utils/Slider";
 
 const Layout = () => {
   const [open,setOpen] = useState(false);
@@ -25,6 +27,8 @@ const Layout = () => {
         <SiChatbot size={28} color="white" />
       </motion.div>
       <Headerr />
+      <Slider />
+      <About />
       <HomePage />
       <Footer />
 

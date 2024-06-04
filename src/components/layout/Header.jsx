@@ -27,7 +27,7 @@ const Headerr = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 140) {
+      if (window.scrollY > 130) {
         setActive(true);
       } else {
         setActive(false);
@@ -96,24 +96,21 @@ const Headerr = () => {
                 Home
               </h1>
             </div>
-            <div className="flex items-center hover:text-red-500">
-              <h1 className="text-xl cursor-pointer">Coporate</h1>
-              <MdKeyboardArrowDown size={25} />
-            </div>
-            <div className="flex items-center hover:text-red-500">
-              <h1 className="text-xl cursor-pointer ">Foods</h1>
-              <MdKeyboardArrowDown size={25} />
+            <div className="flex items-center hover:text-red-500" onClick={()=>navigate('/products')}>
+              <h1 className="text-xl cursor-pointer ">Products</h1>
             </div>
             <div className="flex items-center hover:text-red-500">
               <h1 className="text-xl cursor-pointer">Day Old Chick</h1>
               <MdKeyboardArrowDown size={25} />
             </div>
             <div>
+              <Link to={'/about-us'}>
               <h1 className="text-xl cursor-pointer hover:text-red-500 mt-1">
-                Carrers
+                About us
               </h1>
+              </Link>
             </div>
-            <div>
+            <div className="cursor-pointer" onClick={()=>navigate('/contact')}>
               <h1 className="text-xl cursor-pointer hover:text-red-500 mt-1">
                 Contacts
               </h1>
@@ -221,7 +218,7 @@ const Headerr = () => {
               className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg"
               onClick={() => setOpen(true)}
             >
-              <h1 className=" text-xl">Cart</h1>
+              <h1 className=" ">Cart</h1>
               <AiOutlineShoppingCart size={25} className="mx-2 mt-[-2px]" />
             </div>
 
