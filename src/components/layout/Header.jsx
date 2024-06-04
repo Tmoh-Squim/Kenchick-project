@@ -214,6 +214,9 @@ const Headerr = () => {
             <div className="w-full p-2 bg-blue-300 my-1 rounded-lg">
               <Link to={"/"}>Home</Link>
             </div>
+            <div className="w-full p-2 hover:bg-blue-300 my-1 rounded-lg">
+              <Link to={"/products"}>Products</Link>
+            </div>
             <div
               className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg"
               onClick={() => setOpen(true)}
