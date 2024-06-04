@@ -223,10 +223,14 @@ const Headerr = () => {
             </div>
 
             <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
+              <Link to={'/about-us'}>
               <h1>About us</h1>
+              </Link>
             </div>
             <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
+              <Link to={'/contact'}>
               <h1>Contact us</h1>
+              </Link>
             </div>
 
             <div
