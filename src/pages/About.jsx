@@ -13,7 +13,7 @@ const About = () => {
       </div>
 
       <div className="800px:w-[50%] block 800px:mx-4 ">
-        <h1 className="800px:text-5xl text-xl font-bold text-black">
+        <h1 className="800px:text-5xl text-2xl font-bold text-black">
           Enable Shared Prosperity Through Sustainable Food Production
         </h1>
 

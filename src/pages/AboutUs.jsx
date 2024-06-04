@@ -46,7 +46,7 @@ const AboutUs = () => {
           <img
             src="https://www.kenchic.com/wp-content/uploads/2023/12/food.webp"
             alt="food-"
-            className="h-[400px] w-full"
+            className="800px:h-[400px] h-[300px] w-full"
           />
         </div>
       </div>
