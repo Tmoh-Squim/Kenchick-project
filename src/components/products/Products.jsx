@@ -2,7 +2,6 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import { useSelector } from 'react-redux'
 import Headerr from '../layout/Header'
-import Footer from "../layout/Footer"
 const Products = () => {
     const {products,loading} = useSelector((state)=>state.products)
   return (
@@ -37,7 +36,6 @@ const Products = () => {
    </div>
 
 
-   <Footer />
    </div>
   )
 }
