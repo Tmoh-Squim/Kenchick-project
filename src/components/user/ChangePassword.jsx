@@ -24,12 +24,13 @@ const ChangePassword = () => {
     }
   }
   return (
-    <Layout className="px-4 flex justify-center h-screen items-center">
+    <Layout className="800px:px-4 flex justify-center h-screen items-center">
      <Row className="my-auto">
-     <Typography.Title className="text-center">
-        Change Your Password
-      </Typography.Title>
-      <Form layout="vertical" className="800px:w-full rounded-md bg-slate-100 py-4 px-2" onFinish={(values) => handleChangePassword(values)}>
+     <h1 className="text-2xl text-center">
+     Change Your Password
+     </h1>
+     
+      <Form layout="vertical" className="800px:w-full rounded-md bg-slate-100 py-4 px-1 800px:px-2" onFinish={(values) => handleChangePassword(values)}>
         <Form.Item name={"password"} label={'Enter your old password'}>
           <Input
             placeholder="Enter your old password"
