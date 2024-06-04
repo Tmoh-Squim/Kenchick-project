@@ -16,7 +16,7 @@ const AboutUs = () => {
         }}
       >
         <div>
-          <h1 className="text-white text-5xl font-semibold text-center">
+          <h1 className="text-white 800px:text-5xl text-2xl font-semibold text-center">
             Delivery Prosperity
           </h1>
         </div>
