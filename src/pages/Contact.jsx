@@ -12,8 +12,8 @@ const Contact = () => {
     >
       <Headerr />
 
-      <div className="flex justify-end px-2 items-center mt-[4rem]">
-        <div className="800px:w-[37%] w-full p-5 rounded-xl bg-blue-300 my-2 800px:mx-[6rem]">
+      <div className="flex justify-end 800px:px-2 px-1 items-center mt-[4rem]">
+        <div className="800px:w-[37%] w-full 800px:p-5 p-2 rounded-xl bg-blue-300 my-2 800px:mx-[6rem]">
           <div className="bg-white p-2">
             <h1 className="text-4xl text-blue-600 font-bold my-2 text-center">
               Share Your Feedback
