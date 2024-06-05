@@ -14,18 +14,20 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
+  var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const handleLogin = async()=>{
     try {
       const user ={
         email:email,
         password:password
       }
+      if (!email.match(validRegex)) {
+        return toast.error("Invalid email address");
+      }
       const response = await axios.post(`${Server_Url}/auth/login-user`,user);
 
       if(response.data.success){
         const {token} = response.data;
-        console.log('tok',token)
 
         localStorage.setItem("token",token);
         navigate("/");

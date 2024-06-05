@@ -14,6 +14,10 @@ const ForgotPassword = () => {
 
   const handleLogin = async()=>{
     try {
+      var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!email.match(validRegex)) {
+        return toast.error("Invalid email address");
+      }
       if(email.length >0){
         dispatch(ForgotPasswordi({email}));
 

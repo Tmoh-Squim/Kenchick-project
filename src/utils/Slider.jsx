@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 class Slider extends Component {
   render() {
     return (
-      <div className="w-full overflow-hidden mb-1 z-10">
+      <div className="w-full overflow-hidden z-10">
         <Swiper
           autoplay={{
             delay: 3000,
@@ -25,7 +25,7 @@ class Slider extends Component {
           pagination={{ clickable: true }}
           loop={true}
           modules={[Autoplay, Navigation, Pagination]}
-          className="800px:h-[83vh] h-[40vh]"
+          className="800px:h-[50vh] h-[40vh]"
         >
           {
             images.map((image)=>(

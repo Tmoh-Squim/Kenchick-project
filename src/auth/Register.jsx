@@ -13,7 +13,7 @@ const Register = () => {
   const [phone,setPhone] = useState("");
 
   const navigate = useNavigate();
-
+  var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const handleSignup = async()=>{
     try {
       const user = {
@@ -21,6 +21,13 @@ const Register = () => {
         email:email,
         phone:phone,
         password:password
+      }
+      if (!/^[a-zA-Z\s]+$/.test(name) || name.length < 3) {
+        return toast.error("Invalid name");
+      }if (!email.match(validRegex)) {
+        return toast.error("Invalid email address");
+      }if (isNaN(phone) || phone.length < 10 || phone.length > 12) {
+        return toast.error("Invalid phone number");
       }
       if (password.length <6){
         return toast.error("Password must be at least 6 char")
@@ -94,7 +101,7 @@ const Register = () => {
             </div>
             <div className="mt-2">
               <input
-                type="text"
+                type="email"
                 className="outline-none px-2 focus:outline-1 focus:outline-blue-500 h-[2.6rem] w-full 800px:w-[80%] rounded-lg bg-slate-300"
                 placeholder="Enter your email"
                 onChange={(e)=>setEmail(e.target.value)}
@@ -108,7 +115,7 @@ const Register = () => {
                 htmlFor="phone"
                 className="text-[16px] font-semibold text-black py-2"
               >
-                Enter your phone
+                Enter your phone number
               </label>
             </div>
             <div className="mt-2">

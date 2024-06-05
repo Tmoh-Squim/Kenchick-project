@@ -28,7 +28,7 @@ const ChatBot = ({ setOpen }) => {
     setData(chats)
   }
   return (
-    <div className="w-[80%] z-50 800px:w-[20%] h-screen bg-white fixed top-0 overflow-y-scroll right-0 px-2">
+    <div className="w-[80%] z-50 800px:w-[25%] h-[60vh] rounded-t-lg bg-white fixed bottom-0 overflow-y-scroll right-0 px-2">
         <div>
         <div
         className="cursor-pointer absolute right-2 top-2"

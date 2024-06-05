@@ -13,9 +13,9 @@ const Contact = () => {
       <Headerr />
 
       <div className="flex justify-end 800px:px-2 px-1 items-center mt-[4rem]">
-        <div className="800px:w-[37%] w-full 800px:p-5 p-2 rounded-xl bg-blue-300 my-2 800px:mx-[6rem]">
-          <div className="bg-white p-2">
-            <h1 className="text-4xl text-blue-600 font-bold my-2 text-center">
+        <div className="800px:w-[37%] w-full 800px:p-5 p-2 rounded-xl bg-blue-200 my-2 800px:mx-[6rem]">
+          <div className="bg-slate-50 p-2">
+            <h1 className="800px:text-4xl text-xl text-blue-600 font-bold my-2 text-center">
               Share Your Feedback
             </h1>
 
@@ -58,7 +58,7 @@ const Contact = () => {
               </div>
 
               <div className="my-[3rem] rounded-[20px] bg-yellow-400 flex justify-center items-center w-max px-6 py-2 mx-auto cursor-pointer hover:bg-yellow-200">
-                <h1 className="text-white font-semibold text-center">
+                <h1 className="text-slate-50 font-semibold text-center">
                     Submit
                 </h1>
               </div>

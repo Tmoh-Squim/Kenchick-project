@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="800px:flex justify-around items-center w-full 800px:p-5 p-1">
+    <div className="800px:flex bg-slate-50 justify-around items-center w-full 800px:p-5 p-1">
       <div className="800px:w-[40%] cursor-pointer">
         <img
           src="https://www.kenchic.com/wp-content/uploads/2023/07/Artboard-1-1-1536x864.jpg"

@@ -6,13 +6,14 @@ import {
   AiOutlineShoppingCart,
   AiOutlineUser,
 } from "react-icons/ai";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Ratings from "../../utils/Rating";
 import Cart from "../cart/Cart";
 import { Server } from "../../server";
 const Headerr = () => {
+  const { user } = useSelector((state) => state.user?.user);
   const [active, setActive] = useState(false);
   const [query, setQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +23,7 @@ const Headerr = () => {
   const [open, setOpen] = useState(false);
   const [searchIcon, setSearchIcon] = useState(true);
   const [menu, setMenu] = useState(false);
+  const [dropdown, setDropDown] = useState(false);
 
   const navigate = useNavigate();
 
@@ -68,8 +70,8 @@ const Headerr = () => {
       <div
         className={`${
           active
-            ? "bg-slate-100 h-[100px] hidden fixed top-0 left-0 right-0 800px:block"
-            : "bg-slate-100 h-[100px] hidden 800px:block"
+            ? "bg-slate-50 h-[100px] hidden fixed top-0 z-50 left-0 right-0 800px:block"
+            : "bg-slate-50 h-[100px] z-50 hidden 800px:block"
         }`}
       >
         <div className="flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500">
@@ -84,39 +86,77 @@ const Headerr = () => {
           </div>
         </div>
 
-        <div className="flex justify-between my-4">
-          <div className="800px:w-[50%] flex justify-around">
+        <div className="flex justify-between w-full my-4 px-2">
+          <div className="800px:w-[50%] flex justify-between">
             <div
               className="cursor-pointer"
               onClick={() => {
                 navigate("/");
               }}
             >
-              <h1 className="text-red-500 text-xl mt-2  hover:text-red-500">
-                Home
-              </h1>
+              <h1 className="text-red-500 text-xl  hover:text-red-500">Home</h1>
             </div>
-            <div className="flex items-center hover:text-red-500" onClick={()=>navigate('/products')}>
+            <div
+              className="flex items-center hover:text-red-500"
+              onClick={() => navigate("/products")}
+            >
               <h1 className="text-xl cursor-pointer ">Products</h1>
             </div>
-            <div className="flex items-center hover:text-red-500">
-              <h1 className="text-xl cursor-pointer">Day Old Chick</h1>
-              <MdKeyboardArrowDown size={25} />
+            <div
+              className="flex items-center relative"
+              onClick={() => {
+                setDropDown(!dropdown);
+              }}
+              onMouseOver={() => {
+                setDropDown(true);
+              }}
+            >
+              <h1 className="text-xl cursor-pointer hover:text-red-500">
+                Chicks
+              </h1>
+              {dropdown ? (
+                <MdKeyboardArrowUp size={25} />
+              ) : (
+                <MdKeyboardArrowDown size={25} />
+              )}
+
+              <div
+                className={`${
+                  dropdown
+                    ? "p-2 bg-slate-50  absolute top-[2.5rem] w-max z-50 left-0"
+                    : "hidden"
+                } `}
+              >
+                <div className="block">
+                  <h1 className="cursor-pointer hover:text-red-500">
+                    Day old chicks
+                  </h1>
+                  <h1 className="my-[1.2rem] cursor-pointer hover:text-red-500">
+                    1 week old chicks
+                  </h1>
+                  <h1 className="cursor-pointer hover:text-red-500">
+                    3 months old chicks
+                  </h1>
+                </div>
+              </div>
             </div>
             <div>
-              <Link to={'/about-us'}>
-              <h1 className="text-xl cursor-pointer hover:text-red-500 mt-1">
-                About us
-              </h1>
+              <Link to={"/about-us"}>
+                <h1 className="text-xl cursor-pointer hover:text-red-500 mt-1">
+                  About us
+                </h1>
               </Link>
             </div>
-            <div className="cursor-pointer" onClick={()=>navigate('/contact')}>
+            <div
+              className="cursor-pointer"
+              onClick={() => navigate("/contact")}
+            >
               <h1 className="text-xl cursor-pointer hover:text-red-500 mt-1">
                 Contacts
               </h1>
             </div>
           </div>
-          <div className="flex justify-around 800px:w-[40%] px-2 items-center relative">
+          <div className="flex justify-around 800px:w-[40%] mx-2 px-2 items-center relative">
             <input
               type="text"
               placeholder="Search chick..."
@@ -131,22 +171,39 @@ const Headerr = () => {
             )}
           </div>
 
-          <div className="800px:w-[10%] flex items-center justify-end px-5 cursor-pointer ">
-            <div
-              className="cursor-pointer mx-6 relative"
-              onClick={() => setOpen(true)}
-            >
-              <AiOutlineShoppingCart size={30} />
-
-              <div className="absolute left-3.5 w-[18px] h-[18px] top-[-1px] py-1  flex justify-center items-center rounded-full bg-green-500">
-                <h1 className="text-white text-center mt-2">
-                  {cartItem?.length}
-                </h1>
+          <div className="800px:w-[40%] flex items-center justify-end px-5 cursor-pointer ">
+            {!user && (
+              <div className="flex justify-between">
+                <div className="border-blue-500 border-2 px-4 rounded-lg flex justify-center items-center">
+                  <Link to={"/login"} className="text-xl">
+                    Login
+                  </Link>
+                </div>
+                <div className="mx-3 border-blue-500 border-2 px-4 rounded-lg flex justify-center items-center ">
+                  <Link to={"/register"}>Register</Link>
+                </div>
               </div>
+            )}
+            <div className="flex justify-center items-center">
+              <div
+                className="cursor-pointer mx-6 relative"
+                onClick={() => setOpen(true)}
+              >
+                <AiOutlineShoppingCart size={30} />
+
+                <div className="absolute left-3.5 w-[18px] h-[18px] top-[-1px] py-1  flex justify-center items-center rounded-full bg-green-500">
+                  <h1 className="text-white text-center mt-2">
+                    {cartItem?.length}
+                  </h1>
+                </div>
+              </div>
+
+              {user && (
+                <Link to={"/profile"}>
+                  <h1 className="text-xl">Profile</h1>
+                </Link>
+              )}
             </div>
-            <Link to="/login">
-              <AiOutlineUser size={30} />
-            </Link>
           </div>
         </div>
         {data?.length > 0 && (
@@ -196,7 +253,7 @@ const Headerr = () => {
         <div className="cursor-pointer" onClick={() => setMenu(!menu)}>
           <AiOutlineMenu size={33} />
         </div>
-        <div className="cursor-pointer" onClick={()=>navigate('/search')}>
+        <div className="cursor-pointer" onClick={() => navigate("/search")}>
           <AiOutlineSearch size={33} />
         </div>
       </div>
@@ -226,13 +283,13 @@ const Headerr = () => {
             </div>
 
             <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
-              <Link to={'/about-us'}>
-              <h1>About us</h1>
+              <Link to={"/about-us"}>
+                <h1>About us</h1>
               </Link>
             </div>
             <div className="w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg">
-              <Link to={'/contact'}>
-              <h1>Contact us</h1>
+              <Link to={"/contact"}>
+                <h1>Contact us</h1>
               </Link>
             </div>
 
