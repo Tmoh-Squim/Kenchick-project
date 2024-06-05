@@ -29,7 +29,7 @@ const Headerr = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 130) {
+      if (window.scrollY > 150) {
         setActive(true);
       } else {
         setActive(false);
@@ -70,11 +70,11 @@ const Headerr = () => {
       <div
         className={`${
           active
-            ? "bg-slate-50 h-[100px] hidden fixed top-0 z-50 shadow-md left-0 right-0 800px:block"
-            : "bg-slate-50 h-[100px] z-50 hidden 800px:block shadow-md"
+            ? "bg-slate-50 h-[90px] hidden fixed top-0 z-50 shadow-md left-0 right-0 800px:block"
+            : "bg-slate-50 h-[90px] z-50 hidden 800px:block shadow-md"
         }`}
       >
-        <div className="flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500">
+        <div className={`${ active ? 'hidden' :'flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500'}`}>
           <div className="w-max mx-4">
             <h1 className="text-blue-500 font-semibold">
               Africa poutly development
