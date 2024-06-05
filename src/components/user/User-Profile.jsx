@@ -11,6 +11,7 @@ import {
   AiOutlineMoon,
   AiOutlineOrderedList,
   AiOutlineProduct,
+  AiOutlineSave,
   AiOutlineSun,
   AiOutlineUser,
   AiOutlineUsergroupAdd,
@@ -191,6 +192,15 @@ const UserProfile = () => {
                   setActive(5);
                 },
                 icon: <AiOutlineUser size={20} />,
+              },
+              {
+                title: "Address",
+                label: "Address",
+                key: "Address",
+                onClick: () => {
+                  setActive();
+                },
+                icon: <AiOutlineSave size={20} />,
               },
               {
                 title: "Change password",
