@@ -21,6 +21,7 @@ const UpdateOrder = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState(order?.status);
   const email = order?.user?.email;
+  const token = localStorage.getItem('token')
 
   const menu = (
     <Menu>
@@ -43,7 +44,11 @@ const UpdateOrder = () => {
     try {
       const response = await axios.post(
         `${Server_Url}/order/update-order/${order?._id}`,
-        { email: email, status: status }
+        { email: email, status: status },{
+          headers:{
+            'Authorization':token
+          }
+        }
       );
 
       if (response.data.success) {
@@ -58,7 +63,10 @@ const UpdateOrder = () => {
 
   return (
     <Layout className="p-2">
-      <Typography.Title>Order details</Typography.Title>
+      <h1 className="800px:text-3xl text-xl">
+      Order details
+      </h1>
+     
       <Col>
         {order?.cart.map((item, index) => {
           return (
@@ -67,7 +75,7 @@ const UpdateOrder = () => {
                 <Image
                   src={`${Server}/${item.image}`}
                   alt={item.name}
-                  className="w-[100px] h-[100px] cursor-pointer rounded-md"
+                  className="800px:w-[100px] 800px:h-[100px] w-[100%] mx-auto cursor-pointer rounded-md"
                   width={200}
                   height={200}
                   onClick={() =>

@@ -36,9 +36,10 @@ const Layout = () => {
       {!user && (
         <>
           <Slider />
-          <About />
+         
         </>
       )}
+       <About />
       <HomePage />
       <Footer />
 

@@ -4,7 +4,7 @@ import Footer from "../components/layout/Footer";
 
 const AboutUs = () => {
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-50">
       <Headerr />
       <div
         className="w-full 800px:h-screen h-[35vh] py-[4.5rem]"

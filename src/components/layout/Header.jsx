@@ -70,8 +70,8 @@ const Headerr = () => {
       <div
         className={`${
           active
-            ? "bg-slate-50 h-[100px] hidden fixed top-0 z-50 left-0 right-0 800px:block"
-            : "bg-slate-50 h-[100px] z-50 hidden 800px:block"
+            ? "bg-slate-50 h-[100px] hidden fixed top-0 z-50 shadow-md left-0 right-0 800px:block"
+            : "bg-slate-50 h-[100px] z-50 hidden 800px:block shadow-md"
         }`}
       >
         <div className="flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500">
