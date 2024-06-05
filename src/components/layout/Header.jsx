@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  AiOutlineArrowRight,
   AiOutlineClose,
   AiOutlineMenu,
   AiOutlineSearch,
@@ -199,9 +200,12 @@ const Headerr = () => {
               </div>
 
               {user && (
-                <Link to={"/profile"}>
-                  <h1 className="text-xl">Profile</h1>
+                <div className="border-blue-500 border-2 px-3 rounded-lg flex justify-between items-center">
+                  <Link to={"/profile"}>
+                  <h1 className="text-xl mt-1 text-center">Profile</h1>
                 </Link>
+                <AiOutlineArrowRight size={22} className="mx-1" />
+                </div>
               )}
             </div>
           </div>
