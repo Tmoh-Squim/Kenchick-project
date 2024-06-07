@@ -10,6 +10,8 @@ const {
   getUsers,
   updateUserDetails,
   deleteUserAdmin,
+  AddDeliveryDetails,
+  removeAddress,
 } = require("../controller/user");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
@@ -25,5 +27,7 @@ router.post('/change-password/:id',changePassword);
 router.get('/admin-users',isAuthenticated,isAdmin,getUsers);
 router.post('/update-user-details/:id',isAuthenticated,updateUserDetails);
 router.delete('/delete-user/:id',isAuthenticated,isAdmin,deleteUserAdmin);
+router.post('/delivery-details/:id',isAuthenticated,AddDeliveryDetails);
+router.post('/remove-address/:id',isAuthenticated,removeAddress)
 
 module.exports = router;

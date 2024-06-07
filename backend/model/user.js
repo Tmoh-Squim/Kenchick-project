@@ -7,16 +7,34 @@ const userSchema = mongoose.Schema({
         required:true
     },
     email:{
-        type:String
+        type:String,
+        required:true,
     },
     phone:{
-        type:String,
+        type:Number,
         required:true
     },
     password:{
         type:String,
         required:true
     },
+    deliveryDetails:[
+        {
+            county:{
+                type:String,
+            },
+            subcounty:{
+                type:String,
+            },
+            location:{
+                type:String
+            },
+            type:{
+                type:String,
+                required:true
+            }
+        }
+    ],
     role:{
         type:String,
         default:'user'

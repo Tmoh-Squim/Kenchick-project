@@ -163,7 +163,7 @@ const VerifyOtp = expressAsyncHandler(async (req, res, next) => {
     if (!otpCheck || !emailCheck) {
       return res.send({ message: "Otp can't be empty", success: false });
     }
-    const exist =await otpModel.findOne({ email: emailCheck,otp:otpCheck });
+    const exist = await otpModel.findOne({ email: emailCheck, otp: otpCheck });
     if (!exist) {
       return res.send({
         success: false,
@@ -295,63 +295,143 @@ const getUsers = expressAsyncHandler(async (req, res, next) => {
     );
   }
 });
-const updateUserDetails = expressAsyncHandler(async(req,res,next)=>{
+const updateUserDetails = expressAsyncHandler(async (req, res, next) => {
   try {
-    const {email,phone,password} = req.body;
+    const { email, phone, password } = req.body;
     const id = req.params.id;
 
     const user = await userModel.findById(id);
-    if(!user){
+    if (!user) {
       res.send({
-        success:false,
-        message:'User not found!'
-      })
+        success: false,
+        message: "User not found!",
+      });
     }
-    const match = await ComparePassword(password,user?.password);
-    if(!match){
-     return next( res.send({
-      success:false,
-      message:'Invalid password!'
-    }))
+    const match = await ComparePassword(password, user?.password);
+    if (!match) {
+      return next(
+        res.send({
+          success: false,
+          message: "Invalid password!",
+        })
+      );
     }
     user.email = email || user.email;
     user.phone = phone || user.phone;
     await user.save();
 
     res.send({
-      success:true,
-      message:"Details updated successfully"
-    })
+      success: true,
+      message: "Details updated successfully",
+    });
   } catch (error) {
     return res.send({
-      success:false,
-      message:error.message
-    })
+      success: false,
+      message: error.message,
+    });
   }
 });
-const deleteUserAdmin = expressAsyncHandler(async(req,res,next)=>{
+const deleteUserAdmin = expressAsyncHandler(async (req, res, next) => {
   try {
     const id = req.params.id;
     const user = await userModel.findById(id);
-    if(!user){
+    if (!user) {
       return res.send({
-        success:false,
-        message:'User with that id not found!'
-      })
+        success: false,
+        message: "User with that id not found!",
+      });
     }
     await userModel.findByIdAndDelete(id);
 
     res.send({
-      success:true,
-      message:'User deleted successfully'
-    })
+      success: true,
+      message: "User deleted successfully",
+    });
   } catch (error) {
-    return next(res.send({
-      success:false,
-      message:error.message
-    }))
+    return next(
+      res.send({
+        success: false,
+        message: error.message,
+      })
+    );
   }
-})
+});
+
+const AddDeliveryDetails = expressAsyncHandler(async (req, res, next) => {
+  try {
+    const { county, subcounty, location, type } = req.body;
+    const id = req.params.id;
+
+    if (!county || !subcounty || !location || !type) {
+      return res.send({
+        success: false,
+        message: "Incomplete delivery details",
+      });
+    }
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.send({
+        success: false,
+        message: "User with that id not found!",
+      });
+    }
+    const newDeliveryDetails = {
+      county: county,
+      subcounty: subcounty,
+      location: location,
+      type: type,
+    };
+
+    user.deliveryDetails.push(...user.deliveryDetails, newDeliveryDetails);
+    await user.save();
+
+    res.send({
+      success: true,
+      message: "Details added succesfully",
+    });
+  } catch (error) {
+    return next(
+      res.send({
+        success: false,
+        message: error.message,
+      })
+    );
+  }
+});
+const removeAddress = expressAsyncHandler(async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { addressId } = req.body;
+    if (!addressId) {
+      return next(
+        res.send({
+          success: true,
+          message: "address id is required!",
+        })
+      );
+    }
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.send({
+        success: false,
+        message: "User with that id not found!",
+      });
+    }
+    user.deliveryDetails.pull({ _id: addressId });
+    await user.save();
+    res.send({
+      success: true,
+      message: "Details deleted successfully!",
+    });
+  } catch (error) {
+    return next(
+      res.send({
+        success: false,
+        message: error.message,
+      })
+    );
+  }
+});
 
 module.exports = {
   createUser,
@@ -363,5 +443,7 @@ module.exports = {
   changePassword,
   getUsers,
   updateUserDetails,
-  deleteUserAdmin
+  deleteUserAdmin,
+  AddDeliveryDetails,
+  removeAddress,
 };

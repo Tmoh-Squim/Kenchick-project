@@ -6,7 +6,12 @@ const sendMail = require("../utils/mailer");
 const createOrder = asyncHandler(async (req, res, next) => {
   try {
     const { cart, paymentInfo, user, deliveryDetails, totalPrice } = req.body;
-
+    if(!cart || !paymentInfo || !user || !deliveryDetails || !totalPrice){
+      return res.send({
+        success:false,
+        message:"complete fields to place order"
+      })
+    }
     cart.forEach(async (product) => {
       const exists = await productModel.findById(product._id);
       exists.sold += product?.qty;
