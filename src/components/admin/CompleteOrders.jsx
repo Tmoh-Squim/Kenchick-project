@@ -1,18 +1,25 @@
-import {Table } from 'antd'
+import { Table } from 'antd'
 import { Content } from 'antd/es/layout/layout'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import {useNavigate} from "react-router-dom"
 
-const PendingOrders = () => {
-  const {orders} = useSelector((state)=>state.userOrders.orders);
+const CompletedOrders = () => {
+  const {orders} = useSelector((state)=>state.adminOrders.orders);
+  const [data,setData] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(()=>{  
+    const dat = orders.filter((order)=>order.status === 'Delivered');
+    setData(dat)
+  },[])
+  
 
   return (
    <Content>
     <Table
-    dataSource={orders}
+    dataSource={data}
     columns={[
       {
         title:"Id",
@@ -49,7 +56,7 @@ const PendingOrders = () => {
           
           <AiOutlineEye size={28}
           onClick={()=>{
-            navigate(`/order/${id}`,{state:{order: order}})
+            navigate(`/update-order/${id}`,{state:{order: order}})
           }}
            />
         )
@@ -62,4 +69,4 @@ const PendingOrders = () => {
   )
 }
 
-export default PendingOrders
+export default CompletedOrders

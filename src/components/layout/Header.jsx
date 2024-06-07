@@ -75,7 +75,13 @@ const Headerr = () => {
             : "bg-slate-50 h-[90px] z-50 hidden 800px:block shadow-md"
         }`}
       >
-        <div className={`${ active ? 'hidden' :'flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500'}`}>
+        <div
+          className={`${
+            active
+              ? "hidden"
+              : "flex items-end justify-end ml-auto mr-4  w-max px-5 border-b-2 border-gray-500"
+          }`}
+        >
           <div className="w-max mx-4">
             <h1 className="text-blue-500 font-semibold">
               Africa poutly development
@@ -201,10 +207,12 @@ const Headerr = () => {
 
               {user && (
                 <div className="border-blue-500 border-2 px-3 rounded-lg flex justify-between items-center">
-                  <Link to={"/profile"}>
-                  <h1 className="text-xl mt-1 text-center">Profile</h1>
-                </Link>
-                <AiOutlineArrowRight size={22} className="mx-1" />
+                  <Link
+                    to={user?.role === "Admin" ? "/admin-dashboard" : "profile"}
+                  >
+                    <h1 className="text-xl mt-1 text-center">Dashboard</h1>
+                  </Link>
+                  <AiOutlineArrowRight size={22} className="mx-1" />
                 </div>
               )}
             </div>
@@ -299,10 +307,17 @@ const Headerr = () => {
 
             <div
               className=" w-full p-2  flex items-center hover:bg-blue-300  my-1 rounded-lg"
-              onClick={() => navigate("/profile")}
+              onClick={() =>
+                navigate(
+                  user?.role === "Admin" ? "/admin-dashboard" : "profile"
+                )
+              }
             >
-              <Link to={"/profile"} className="my-2">
-                Profile
+              <Link
+                to={user?.role === "Admin" ? "/admin-dashboard" : "profile"}
+                className="my-2"
+              >
+                Dashboard
               </Link>
               <AiOutlineUser size={25} className="mx-2" />
             </div>

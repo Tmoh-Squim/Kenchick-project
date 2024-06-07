@@ -4,22 +4,27 @@ import Layout, { Content, Header } from "antd/es/layout/layout";
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineDashboard,
+  AiOutlineFileAdd,
   AiOutlineLock,
   AiOutlineLogout,
   AiOutlineMenu,
   AiOutlineMoon,
   AiOutlineOrderedList,
+  AiOutlineProduct,
   AiOutlineSave,
   AiOutlineSun,
   AiOutlineUser,
+  AiOutlineUsergroupAdd,
 } from "react-icons/ai";
 import {
   MdOutlineTrackChanges
 } from "react-icons/md";
 import Dashboard from "./Dashboard";
+import Orders from "./Orders";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
+import CreateProduct from "./CreateProduct";
 import { removeTheme, setTheme } from "../../redux/theme";
 import { getUsers } from "../../redux/user";
 import AdminUsers from "./Users";
@@ -28,10 +33,8 @@ import CompletedOrders from "./CompleteOrders";
 import PendingOrders from "./PendingOrders";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import TrackOrder from "./TrackOrder";
 import OutOfStock from "./OutOfStock";
-import Address from "./Address";
-const UserProfile = () => {
+const AdminDashboard = () => {
   const date = Date().slice(15,18);
 
   const [collapsed, setCollapsed] = useState(false);
@@ -105,21 +108,71 @@ const UserProfile = () => {
                 icon: <AiOutlineDashboard size={20} />,
               },
               {
+                title: "Products",
+                label: "Products",
+                key: "Products",
+                onClick: () => {
+                  setActive(2);
+                },
+                icon: <AiOutlineProduct size={20} />,
+              },
+              {
                 title: "Orders",
                 label: "Orders",
                 key: "Orders",
-               onClick:()=>{setActive(7)},
+                children: [
+                  {
+                    title: "Pending orders",
+                    label: "Pending orders",
+                    key: "Pending orders",
+                    
+                    onClick:()=>{setActive(7)}
+                  },
+                  {
+                    title: "Completed orders",
+                    label: "Completed orders",
+                    key: "Completed orders",
+                    onClick:()=>{setActive(8)}
+                  },
+                ],
                
                 icon: <AiOutlineOrderedList size={20} />,
               },
               {
-                title: "Track Order",
-                label: "Track Order",
-                key: "Track Order",
+                title: "Add Product",
+                label: "Add Product",
+                key: "Add Product",
                 onClick: () => {
-                  setActive(9);
+                  setActive(3);
                 },
-                icon: < MdOutlineTrackChanges size={20} />,
+                icon: <AiOutlineFileAdd size={20} />,
+              },
+              {
+                title: "Categories",
+                label: "Categories",
+                key: "Categories",
+                onClick: () => {
+                  setActive();
+                },
+                icon: <AiOutlineProduct size={20} />,
+              },
+              {
+                title: "Add Category",
+                label: "Add Category",
+                key: "Add Category",
+                onClick: () => {
+                  setActive();
+                },
+                icon: <AiOutlineFileAdd size={20} />,
+              },
+              {
+                title: "Users",
+                label: "Users",
+                key: "Users",
+                onClick: () => {
+                  setActive(4);
+                },
+                icon: <AiOutlineUsergroupAdd size={20} />,
               },
               {
                 title: "Profile",
@@ -129,24 +182,6 @@ const UserProfile = () => {
                   setActive(5);
                 },
                 icon: <AiOutlineUser size={20} />,
-              },
-              {
-                title: "Add Address",
-                label: "Add Address",
-                key: "Add Address",
-                onClick: () => {
-                  setActive(2);
-                },
-                icon: <AiOutlineSave size={20} />,
-              },
-              {
-                title: "Saved Address",
-                label: "Saved Address",
-                key: "Saved Address",
-                onClick: () => {
-                  setActive(2);
-                },
-                icon: <AiOutlineSave size={20} />,
               },
               {
                 title: "Change password",
@@ -182,13 +217,13 @@ const UserProfile = () => {
         </Sider>
         <Content className="p-2">
           {active === 1 && <Dashboard />}
-          {active === 2 && <Address /> }
+          {active === 2 && <Orders />}
+          {active === 3 && <CreateProduct />}
           {active === 4 && <AdminUsers />}
           {active === 5 && <Profile />}
           {active === 6 && <ChangePassword />}
           {active === 7 && <PendingOrders />}
           {active === 8 && <CompletedOrders />}
-          {active === 9 && <TrackOrder />}
           {active === 10 && <OutOfStock />}
         </Content>
       </Layout>
@@ -196,4 +231,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default AdminDashboard;

@@ -8,6 +8,8 @@ import Headerr from "../layout/Header";
 const UpdateProduct = () => {
   const location = useLocation();
   const product = location.state.product;
+  const token = localStorage.getItem('token');
+
 
   const [error] = useState(false);
   const [title, setTitle] = useState(product?.title);
@@ -30,7 +32,11 @@ const UpdateProduct = () => {
 
       const response = await axios.post(
         `${Server_Url}/chick/update-product/${id}`,
-        product
+        product,{
+          headers:{
+            'Authorization':token
+          }
+        }
       );
       if (response.data.success) {
         toast.success(response.data.message);

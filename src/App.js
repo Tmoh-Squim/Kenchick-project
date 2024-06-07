@@ -17,8 +17,7 @@ import ForgotPassword from "./auth/Forgot-Password";
 import VerifyOtp from "./auth/Verify-Otp";
 import ChangePassword from "./auth/Change-Password";
 import PaymentDetails from "./components/order/Payment-details";
-import ProtectedRoute from "./middleware/auth";
-import UpdateProduct from "./components/user/UpdateProduct";
+import ProtectedRoute, { AdminRoute } from "./middleware/auth";
 import { getOrdersUser } from "./redux/order";
 import UpdateOrder from "./components/user/UpdateOrder";
 import Track from "./components/user/Track";
@@ -26,6 +25,9 @@ import SearchPage from "./pages/SearchPage";
 import Products from "./components/products/Products";
 import Contact from "./pages/Contact";
 import AboutUs from "./pages/AboutUs";
+import AdminDashboard from "./components/admin/User-Profile";
+import OrderDetails from "./components/user/UpdateOrder";
+import UpdateProduct from "./components/admin/UpdateProduct";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -83,9 +85,9 @@ function App() {
         <Route
           path="/update-order/:id"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <UpdateOrder />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
          <Route
@@ -94,6 +96,22 @@ function App() {
             <ProtectedRoute>
               <Track />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
           }
         />
 

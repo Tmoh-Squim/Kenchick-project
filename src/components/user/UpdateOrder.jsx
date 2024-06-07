@@ -1,66 +1,19 @@
 import {
-  Button,
   Card,
   Col,
-  Dropdown,
   Image,
   Layout,
-  Menu,
   Typography,
 } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Server, Server_Url } from "../../server";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { AiOutlineArrowDown } from "react-icons/ai";
+import { Server } from "../../server";
 
-const UpdateOrder = () => {
+const OrderDetails = () => {
   const location = useLocation();
   const order = location.state.order;
   const navigate = useNavigate();
-  const [status, setStatus] = useState(order?.status);
-  const email = order?.user?.email;
-  const token = localStorage.getItem('token')
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={(e) => setStatus("Confirmed")}>
-        Confirmed
-      </Menu.Item>
-      <Menu.Item key="2" onClick={(e) => setStatus("Shipping")}>
-        Shipping
-      </Menu.Item>
-      <Menu.Item key="3" onClick={(e) => setStatus("On the way")}>
-        On the way
-      </Menu.Item>
-      <Menu.Item key="4s" onClick={(e) => setStatus("Delivered")}>
-        Delivered
-      </Menu.Item>
-    </Menu>
-  );
-
-  const handleUpdateStatus = async () => {
-    try {
-      const response = await axios.post(
-        `${Server_Url}/order/update-order/${order?._id}`,
-        { email: email, status: status },{
-          headers:{
-            'Authorization':token
-          }
-        }
-      );
-
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
-  };
-
+  
   return (
     <Layout className="p-2">
       <h1 className="800px:text-3xl text-xl">
@@ -100,14 +53,6 @@ const UpdateOrder = () => {
           );
         })}
         <div className="800px:flex block">
-          <Card className="800px:w-[50%] px-1">
-            <h1 className="text-2xl">User details</h1>
-            <div>
-              <h1>Name: {order?.user?.name}</h1>
-              <h1>Email: {order?.user?.email}</h1>
-              <h1>Phone: {order?.user?.phone}</h1>
-            </div>
-          </Card>
 
           <Card className="800px:w-[40%] 800px:mx-4">
             <h1 className="text-2xl">Delivery details</h1>
@@ -117,9 +62,6 @@ const UpdateOrder = () => {
               <h1>Location: {order?.deliveryDetails?.location}</h1>
             </div>
           </Card>
-        </div>
-
-        <div className="800px:flex block my-2">
           <Card className="800px:w-[50%] px-1">
             <h1 className="text-2xl">Payment info</h1>
             <div>
@@ -127,29 +69,10 @@ const UpdateOrder = () => {
               <h1>Status: {order?.paymentInfo?.status}</h1>
             </div>
           </Card>
-
-          <Card className="800px:w-[40%] 800px:mx-4 flex flex-col">
-            <Col>
-              <h1 className="text-2xl">Order status</h1>
-              <Dropdown overlay={menu} placement="bottomLeft">
-                <Button className="flex justify-between items-center">
-                  {status} <AiOutlineArrowDown size={14} />
-                </Button>
-              </Dropdown>
-              <Button
-                className="px-4 my-2"
-                type="primary"
-                danger
-                onClick={handleUpdateStatus}
-              >
-                Update status
-              </Button>
-            </Col>
-          </Card>
         </div>
       </Col>
     </Layout>
   );
 };
 
-export default UpdateOrder;
+export default OrderDetails;
