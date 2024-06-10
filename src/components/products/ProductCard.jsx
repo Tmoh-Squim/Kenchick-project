@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
     <div className=" py-2 800px:w-[100%] bg-slate-50 800px:mx-2 mx-1  800px:px-4 rounded-md">
       <img
         src={`${Server}/${product.image}`}
-        className="800px:w-[100%] rounded-md 800px:h-[210px] w-full h-[130px] cursor-pointer"
+        className="800px:w-[100%] rounded-md 800px:h-[210px] w-full  cursor-pointer"
         alt={product.name}
         onClick={handleCardClick}
       />
