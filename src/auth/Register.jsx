@@ -120,7 +120,7 @@ const Register = () => {
             </div>
             <div className="mt-2">
               <input
-                type="text"
+                type="number"
                 className="outline-none px-2 focus:outline-1 focus:outline-blue-500 h-[2.6rem] w-full 800px:w-[80%] rounded-lg bg-slate-300"
                 placeholder="Enter your phone"
                 onChange={(e)=>setPhone(e.target.value)}

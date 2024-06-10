@@ -19,9 +19,8 @@ import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
 import { removeTheme, setTheme } from "../../redux/theme";
-import { getUsers } from "../../redux/user";
 import AdminUsers from "./Users";
-import { getOrdersAdmin, getOrdersUser } from "../../redux/order";
+import {  getOrdersUser } from "../../redux/order";
 import CompletedOrders from "./CompleteOrders";
 import PendingOrders from "./PendingOrders";
 import { toast } from "react-toastify";
@@ -30,7 +29,6 @@ import TrackOrder from "./TrackOrder";
 import OutOfStock from "./OutOfStock";
 import Address from "./Address";
 import SavedAddress from "./SavedAddress";
-import Headerr from "../layout/Header";
 const UserProfile = () => {
   const date = Date().slice(15, 18);
 
@@ -73,7 +71,18 @@ const UserProfile = () => {
   };
   return (
     <Layout className="overflow-x-hidden">
-     <Headerr />
+     <Header className={`${theme? '#0000004b':'bg-white'} flex items-center px-1`}>
+        <div
+          className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          <AiOutlineMenu size={25} color={theme ===true ?'white' :'black'} />
+        </div>
+
+        <h1 className={`${theme ? 'text-white' :'text-black'} 800px:text-2xl text-xl align-middle text-center`}>
+          {greeting} {user.name} Welcome to Your Dashboard
+        </h1>
+      </Header>
       <Layout theme="light" className="mt-1">
         <Sider
           collapsed={collapsed}

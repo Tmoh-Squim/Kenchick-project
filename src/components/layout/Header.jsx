@@ -251,12 +251,13 @@ const Headerr = () => {
           </div>
         )}
       </div>
+    
       {open && (
         <div className="absolute top-0 left-0 right-0 bg-[#0000004b]">
           <Cart setOpen={setOpen} />
         </div>
       )}
-
+  {/**mobile sidebar */}
       <div
         className={` ${
           menu ? "hidden" : ""
