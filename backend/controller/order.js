@@ -6,11 +6,11 @@ const sendMail = require("../utils/mailer");
 const createOrder = asyncHandler(async (req, res, next) => {
   try {
     const { cart, paymentInfo, user, deliveryDetails, totalPrice } = req.body;
-    if(!cart || !paymentInfo || !user || !deliveryDetails || !totalPrice){
+    if (!cart || !paymentInfo || !user || !deliveryDetails || !totalPrice) {
       return res.send({
-        success:false,
-        message:"complete fields to place order"
-      })
+        success: false,
+        message: "complete fields to place order",
+      });
     }
     cart.forEach(async (product) => {
       const exists = await productModel.findById(product._id);
@@ -80,29 +80,29 @@ const getOrdersAdmin = asyncHandler(async (req, res, next) => {
   }
 });
 
-const updateOrder = asyncHandler(async(req,res,next)=>{
+const updateOrder = asyncHandler(async (req, res, next) => {
   try {
-    const {email,status} = req.body;
-    if(!email || !status){
+    const { email, status } = req.body;
+    if (!email || !status) {
       res.send({
-        success:false,
-        message:'Email and status are required'
-      })
+        success: false,
+        message: "Email and status are required",
+      });
     }
     const id = req.params.id;
     const order = await orderModel.findById(id);
-    if(!order){
+    if (!order) {
       res.send({
-        success:false,
-        message:'Order not found'
-      })
+        success: false,
+        message: "Order not found",
+      });
     }
-    if(status === "Processing refund" ){
+    if (status === "Processing refund") {
       order?.cart?.forEach(async (product) => {
         const exists = await productModel.findById(product._id);
         exists.sold -= product?.qty;
         exists.stock += product?.qty;
-  
+
         await exists.save();
       });
     }
@@ -110,22 +110,23 @@ const updateOrder = asyncHandler(async(req,res,next)=>{
     await order.save();
 
     await sendMail({
-      email:email,
-      subject:'Order status',
-      message:`Hello ${email} your order is in ${status} status Order ID: ${order?._id}` 
-    })
+      email: email,
+      subject: "Order status",
+      message: `Hello ${email} your order is in ${status} status Order ID: ${order?._id}`,
+    });
 
     res.send({
-      success:true,
-      message:'Order status updated successfully'
-    })
-
+      success: true,
+      message: "Order status updated successfully",
+    });
   } catch (error) {
-    return next(res.send({
-      success:false,
-      message:error.message
-    }))
+    return next(
+      res.send({
+        success: false,
+        message: error.message,
+      })
+    );
   }
-})
+});
 
-module.exports = { createOrder, getOrdersAdmin, getOrdersUser,updateOrder };
+module.exports = { createOrder, getOrdersAdmin, getOrdersUser, updateOrder };

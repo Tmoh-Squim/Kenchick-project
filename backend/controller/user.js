@@ -363,41 +363,45 @@ const AddDeliveryDetails = expressAsyncHandler(async (req, res, next) => {
     const id = req.params.id;
 
     if (!county || !subcounty || !location || !type) {
-      return res.send({
+      return res.status(400).send({
         success: false,
         message: "Incomplete delivery details",
       });
     }
+
     const user = await userModel.findById(id);
     if (!user) {
-      return res.send({
+      return res.status(404).send({
         success: false,
         message: "User with that id not found!",
       });
     }
+
     const newDeliveryDetails = {
       county: county,
       subcounty: subcounty,
       location: location,
       type: type,
     };
+    if(user?.deliveryDetails?.find((data)=>data.type === type)){
+      return next(res.send({
+        success:false,
+        message:'Delivery details already exists'
+      }))
+    }
 
-    user.deliveryDetails.push(...user.deliveryDetails, newDeliveryDetails);
+    user.deliveryDetails.push(newDeliveryDetails);
     await user.save();
 
     res.send({
       success: true,
-      message: "Details added succesfully",
+      message: "Details added successfully",
     });
   } catch (error) {
-    return next(
-      res.send({
-        success: false,
-        message: error.message,
-      })
-    );
+    next(error);
   }
 });
+
 const removeAddress = expressAsyncHandler(async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -405,7 +409,7 @@ const removeAddress = expressAsyncHandler(async (req, res, next) => {
     if (!addressId) {
       return next(
         res.send({
-          success: true,
+          success: false,
           message: "address id is required!",
         })
       );
