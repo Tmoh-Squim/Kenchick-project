@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   Col,
   Dropdown,
   Image,
@@ -84,7 +83,7 @@ const AdminUpdateOrder = () => {
                     })
                   }
                 />
-                <Card className="block 800px:mx-4 800px:w-[57%] my-2 800px:my-0">
+                <div className="block 800px:mx-4 800px:w-[57%] my-2 800px:my-0">
                   <Typography.Paragraph className="text-green-500">
                     Product details
                   </Typography.Paragraph>
@@ -94,43 +93,43 @@ const AdminUpdateOrder = () => {
                   <h1 className="text-semibold text-xl">
                     Ksh {order.totalPrice}
                   </h1>
-                </Card>
+                </div>
               </div>
             </div>
           );
         })}
         <div className="800px:flex block">
-          <Card className="800px:w-[50%] px-1">
-            <h1 className="text-2xl">User details</h1>
+          <div className="800px:w-[50%] px-1">
+            <h1 className="text-xl">User details</h1>
             <div>
               <h1>Name: {order?.user?.name}</h1>
               <h1>Email: {order?.user?.email}</h1>
               <h1>Phone: {order?.user?.phone}</h1>
             </div>
-          </Card>
+          </div>
 
-          <Card className="800px:w-[40%] 800px:mx-4">
-            <h1 className="text-2xl">Delivery details</h1>
+          <div className="800px:w-[40%] 800px:mx-4">
+            <h1 className="text-xl">Delivery details</h1>
             <div>
               <h1>County: {order?.deliveryDetails?.county}</h1>
               <h1>District: {order?.deliveryDetails?.district}</h1>
               <h1>Location: {order?.deliveryDetails?.location}</h1>
             </div>
-          </Card>
+          </div>
         </div>
 
         <div className="800px:flex block my-2">
-          <Card className="800px:w-[50%] px-1">
-            <h1 className="text-2xl">Payment info</h1>
+          <div className="800px:w-[50%] px-1">
+            <h1 className="text-xl">Payment info</h1>
             <div>
               <h1>Type: {order?.paymentInfo?.type}</h1>
               <h1>Status: {order?.paymentInfo?.status}</h1>
             </div>
-          </Card>
+          </div>
 
-          <Card className="800px:w-[40%] 800px:mx-4 flex flex-col">
+          <div className="800px:w-[40%] 800px:mx-4 flex flex-col">
             <Col>
-              <h1 className="text-2xl">Order status</h1>
+              <h1 className="text-xl">Order status</h1>
               <Dropdown overlay={menu} placement="bottomLeft">
                 <Button className="flex justify-between items-center">
                   {status} <AiOutlineArrowDown size={14} />
@@ -145,7 +144,7 @@ const AdminUpdateOrder = () => {
                 Update status
               </Button>
             </Col>
-          </Card>
+          </div>
         </div>
       </Col>
     </Layout>

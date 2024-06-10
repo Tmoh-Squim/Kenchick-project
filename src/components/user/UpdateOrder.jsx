@@ -1,5 +1,4 @@
 import {
-  Card,
   Col,
   Image,
   Layout,
@@ -37,7 +36,7 @@ const OrderDetails = () => {
                     })
                   }
                 />
-                <Card className="block 800px:mx-4 800px:w-[57%] my-2 800px:my-0">
+                <div className="block 800px:mx-4 800px:w-[57%] my-2 800px:my-0">
                   <Typography.Paragraph className="text-green-500">
                     Product details
                   </Typography.Paragraph>
@@ -47,28 +46,28 @@ const OrderDetails = () => {
                   <h1 className="text-semibold text-xl">
                     Ksh {order.totalPrice}
                   </h1>
-                </Card>
+                </div>
               </div>
             </div>
           );
         })}
         <div className="800px:flex block">
 
-          <Card className="800px:w-[40%] 800px:mx-4">
-            <h1 className="text-2xl">Delivery details</h1>
+          <div className="800px:w-[40%] 800px:mx-4">
+            <h1 className="text-xl">Delivery details</h1>
             <div>
               <h1>County: {order?.deliveryDetails?.county}</h1>
               <h1>District: {order?.deliveryDetails?.district}</h1>
               <h1>Location: {order?.deliveryDetails?.location}</h1>
             </div>
-          </Card>
-          <Card className="800px:w-[50%] px-1">
-            <h1 className="text-2xl">Payment info</h1>
+          </div>
+          <div className="800px:w-[50%]">
+            <h1 className="text-xl">Payment info</h1>
             <div>
               <h1>Type: {order?.paymentInfo?.type}</h1>
               <h1>Status: {order?.paymentInfo?.status}</h1>
             </div>
-          </Card>
+          </div>
         </div>
       </Col>
     </Layout>
