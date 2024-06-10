@@ -45,6 +45,7 @@ const SavedAddress = () => {
     <Layout>
       <Table
         dataSource={data}
+        scroll={{ x: true }}
         columns={[
           {
             title: "Delivery Id",

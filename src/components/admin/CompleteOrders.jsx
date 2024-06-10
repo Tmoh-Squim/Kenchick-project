@@ -19,6 +19,7 @@ const CompletedOrders = () => {
   return (
    <Content>
     <Table
+    scroll={{ x: true }}
     dataSource={data}
     columns={[
       {

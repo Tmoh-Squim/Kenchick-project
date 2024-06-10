@@ -19,6 +19,7 @@ const TrackOrder = () => {
     <Content>
       <Table
         dataSource={data}
+        scroll={{ x: true }}
         columns={[
           {
             title: "Order Id",
@@ -65,7 +66,6 @@ const TrackOrder = () => {
             responsive: ['md']
           },
         ]}
-        scroll={{ x: 'max-content' }}
       />
     </Content>
   );

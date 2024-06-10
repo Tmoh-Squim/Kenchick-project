@@ -13,6 +13,7 @@ const PendingOrders = () => {
    <Content>
     <Table
     dataSource={orders}
+    scroll={{ x: true }}
     columns={[
       {
         title:"Id",
