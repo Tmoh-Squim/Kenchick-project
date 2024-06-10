@@ -261,7 +261,7 @@ const Headerr = () => {
       <div
         className={` ${
           menu ? "hidden" : ""
-        } h-[70px] fixed z-50 w-full overflow-x-hidden items-center justify-between flex px-2 bg-slate-200 800px:hidden right-0 left-0 top-0`}
+        } h-[70px] z-50 w-full overflow-x-hidden items-center justify-between flex px-2 bg-slate-200 800px:hidden right-0 left-0 top-0`}
       >
         <div className="cursor-pointer" onClick={() => setMenu(!menu)}>
           <AiOutlineMenu size={33} />

@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   Col,
   Dropdown,
   Image,
@@ -69,7 +70,7 @@ const AdminUpdateOrder = () => {
       <Col>
         {order?.cart.map((item, index) => {
           return (
-            <div key={index} className="my-2 800px:flex block">
+            <Card key={index} className="my-2 800px:flex block">
               <div className="800px:flex block">
                 <Image
                   src={`${Server}/${item.image}`}
@@ -95,10 +96,10 @@ const AdminUpdateOrder = () => {
                   </h1>
                 </div>
               </div>
-            </div>
+            </Card>
           );
         })}
-        <div className="800px:flex block">
+        <Card className="800px:flex block">
           <div className="800px:w-[50%] px-1">
             <h1 className="text-xl">User details</h1>
             <div>
@@ -116,9 +117,9 @@ const AdminUpdateOrder = () => {
               <h1>Location: {order?.deliveryDetails?.location}</h1>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="800px:flex block my-2">
+        <Card className="800px:flex block my-2">
           <div className="800px:w-[50%] px-1">
             <h1 className="text-xl">Payment info</h1>
             <div>
@@ -145,7 +146,7 @@ const AdminUpdateOrder = () => {
               </Button>
             </Col>
           </div>
-        </div>
+        </Card>
       </Col>
     </Layout>
   );

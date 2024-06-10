@@ -89,7 +89,6 @@ const SavedAddress = () => {
                 </div>
               );
             },
-            responsive: ["md"],
           },
         ]}
       />

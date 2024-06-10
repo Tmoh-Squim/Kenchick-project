@@ -25,31 +25,26 @@ const TrackOrder = () => {
             title: "Order Id",
             key: "_id",
             dataIndex: "_id",
-            responsive: ['md']
           },
           {
             title: "Status",
             key: "status",
             dataIndex: 'status',
-            responsive: ['md']
           },
           {
             title: "Item Qty",
             key: "title",
             render: (text, record) => record.cart.length,
-            responsive: ['md']
           },
           {
             title: "Total",
             key: "description",
             dataIndex: "totalPrice",
-            responsive: ['md']
           },
           {
             title: "Created At",
             key: "createdAt",
             dataIndex: 'createdAt',
-            responsive: ['md']
           },
           {
             title: "Preview",
@@ -63,7 +58,6 @@ const TrackOrder = () => {
                 }}
               />
             ),
-            responsive: ['md']
           },
         ]}
       />
