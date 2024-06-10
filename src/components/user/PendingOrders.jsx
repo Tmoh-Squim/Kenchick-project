@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import {useNavigate} from "react-router-dom"
 
 const PendingOrders = () => {
-  const {orders} = useSelector((state)=>state.userOrders.orders);
+  const {orders} = useSelector((state)=>state.userOrders?.orders);
   const navigate = useNavigate();
 
   return (

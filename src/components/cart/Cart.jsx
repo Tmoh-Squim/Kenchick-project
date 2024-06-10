@@ -33,7 +33,7 @@ const Cart = ({ setOpen }) => {
   };
   return (
     <div className="relative w-full h-screen">
-      <div className="800px:w-[30%] w-full  fixed z-50 right-0 h-screen overflow-y-scroll bg-slate-200">
+      <div className="800px:w-[30%] w-full  fixed z-10 right-0 h-screen overflow-y-scroll bg-slate-200">
         <div
           className="cursor-pointer absolute flex w-full justify-end right-2 top-2"
           onClick={() => setOpen(false)}

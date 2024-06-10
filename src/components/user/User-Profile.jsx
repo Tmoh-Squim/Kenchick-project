@@ -13,9 +13,7 @@ import {
   AiOutlineSun,
   AiOutlineUser,
 } from "react-icons/ai";
-import {
-  MdOutlineTrackChanges
-} from "react-icons/md";
+import { MdOutlineTrackChanges } from "react-icons/md";
 import Dashboard from "./Dashboard";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
@@ -23,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeTheme, setTheme } from "../../redux/theme";
 import { getUsers } from "../../redux/user";
 import AdminUsers from "./Users";
-import { getOrdersAdmin } from "../../redux/order";
+import { getOrdersAdmin, getOrdersUser } from "../../redux/order";
 import CompletedOrders from "./CompleteOrders";
 import PendingOrders from "./PendingOrders";
 import { toast } from "react-toastify";
@@ -31,61 +29,51 @@ import { useNavigate } from "react-router-dom";
 import TrackOrder from "./TrackOrder";
 import OutOfStock from "./OutOfStock";
 import Address from "./Address";
+import SavedAddress from "./SavedAddress";
+import Headerr from "../layout/Header";
 const UserProfile = () => {
-  const date = Date().slice(15,18);
+  const date = Date().slice(15, 18);
 
   const [collapsed, setCollapsed] = useState(false);
   const [active, setActive] = useState(1);
   const { user } = useSelector((state) => state.user?.user);
   const { theme } = useSelector((state) => state.theme);
-  const [greeting,setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
- 
+
   const dispatch = useDispatch();
-  dispatch(getUsers());
-  dispatch(getOrdersAdmin());
+  dispatch(getOrdersUser(user?._id));
 
   const handleTheme = () => {
-    if(theme){
+    if (theme) {
       dispatch(removeTheme());
-    }else{
+    } else {
       dispatch(setTheme());
     }
   };
-  useEffect(()=>{
-    if(date < 12){
-      setGreeting('Good Morning')
-    }else if(date >= 12 && date < 19){
-      setGreeting('Good Afternoon')
-    }else{
-      setGreeting('Good Evening')
+  useEffect(() => {
+    if (date < 12) {
+      setGreeting("Good Morning");
+    } else if (date >= 12 && date < 19) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
     }
-  },[date])
+  }, [date]);
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     try {
-      localStorage.removeItem('token');
-      navigate('/');
+      localStorage.removeItem("token");
+      navigate("/");
       window.location.reload();
-      toast.success('Logged out successfully')
+      toast.success("Logged out successfully");
     } catch (error) {
-      toast.error('Something went wrong')
+      toast.error("Something went wrong");
     }
-  }
+  };
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme? '#0000004b':'bg-white'} flex items-center px-1`}>
-        <div
-          className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <AiOutlineMenu size={25} color={theme ===true ?'white' :'black'} />
-        </div>
-
-        <h1 className={`${theme ? 'text-white' :'text-black'} 800px:text-2xl text-xl align-middle text-center`}>
-          {greeting} {user.name} Welcome to Your Dashboard
-        </h1>
-      </Header>
+     <Headerr />
       <Layout theme="light" className="mt-1">
         <Sider
           collapsed={collapsed}
@@ -108,8 +96,10 @@ const UserProfile = () => {
                 title: "Orders",
                 label: "Orders",
                 key: "Orders",
-               onClick:()=>{setActive(7)},
-               
+                onClick: () => {
+                  setActive(7);
+                },
+
                 icon: <AiOutlineOrderedList size={20} />,
               },
               {
@@ -119,7 +109,7 @@ const UserProfile = () => {
                 onClick: () => {
                   setActive(9);
                 },
-                icon: < MdOutlineTrackChanges size={20} />,
+                icon: <MdOutlineTrackChanges size={20} />,
               },
               {
                 title: "Profile",
@@ -144,7 +134,7 @@ const UserProfile = () => {
                 label: "Saved Address",
                 key: "Saved Address",
                 onClick: () => {
-                  setActive(2);
+                  setActive(3);
                 },
                 icon: <AiOutlineSave size={20} />,
               },
@@ -174,7 +164,9 @@ const UserProfile = () => {
                 title: "Logout",
                 label: "Logout",
                 key: "Logout",
-                onClick:()=> {handleLogout()},
+                onClick: () => {
+                  handleLogout();
+                },
                 icon: <AiOutlineLogout size={20} />,
               },
             ]}
@@ -182,7 +174,8 @@ const UserProfile = () => {
         </Sider>
         <Content className="p-2">
           {active === 1 && <Dashboard />}
-          {active === 2 && <Address /> }
+          {active === 2 && <Address />}
+          {active === 3 && <SavedAddress />}
           {active === 4 && <AdminUsers />}
           {active === 5 && <Profile />}
           {active === 6 && <ChangePassword />}
