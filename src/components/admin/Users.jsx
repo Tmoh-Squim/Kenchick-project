@@ -48,6 +48,7 @@ const AdminUsers = () => {
    <Content>
     <Table
     dataSource={data}
+    scroll={{ x: true }}
     columns={[
       {
         title:"Id",
