@@ -15,7 +15,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { AiOutlineArrowDown } from "react-icons/ai";
 
-const UpdateOrder = () => {
+const AdminUpdateOrder = () => {
   const location = useLocation();
   const order = location.state.order;
   const navigate = useNavigate();
@@ -152,4 +152,4 @@ const UpdateOrder = () => {
   );
 };
 
-export default UpdateOrder;
+export default AdminUpdateOrder;

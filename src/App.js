@@ -28,6 +28,7 @@ import AboutUs from "./pages/AboutUs";
 import AdminDashboard from "./components/admin/User-Profile";
 import OrderDetails from "./components/user/UpdateOrder";
 import UpdateProduct from "./components/admin/UpdateProduct";
+import AdminUpdateOrder from "./components/admin/UpdateOrder";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -86,7 +87,7 @@ function App() {
           path="/update-order/:id"
           element={
             <AdminRoute>
-              <UpdateOrder />
+              <AdminUpdateOrder />
             </AdminRoute>
           }
         />

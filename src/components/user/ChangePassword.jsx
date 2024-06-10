@@ -30,7 +30,7 @@ const ChangePassword = () => {
      Change Your Password
      </h1>
      
-      <Form layout="vertical" className="800px:w-full rounded-md bg-slate-100 py-4 px-1 800px:px-2" onFinish={(values) => handleChangePassword(values)}>
+      <Form layout="vertical" className="800px:w-full rounded-md py-4 px-1 800px:px-2" onFinish={(values) => handleChangePassword(values)}>
         <Form.Item name={"password"} label={'Enter your old password'}>
           <Input
             placeholder="Enter your old password"

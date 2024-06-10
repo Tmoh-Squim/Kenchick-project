@@ -45,7 +45,7 @@ const Profile = () => {
         <Form.Item label={"Full name"} name={"name"} initialValue={name}>
           <Input
             value={name}
-            className="h-[2.5rem] text-xl text-white "
+            className="h-[2.5rem] text-xl "
             disabled
           />
         </Form.Item>

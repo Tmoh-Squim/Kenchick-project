@@ -26,17 +26,18 @@ const PaymentDetails = () => {
   const handleRemoveFromCart = (item) => {
     dispatch(removeFromCart(item));
   };
+  useEffect(()=>{
+    setDeliveryDetails({
+      county: county,
+      district: district,
+      location: location,
+    });
+  },[county,district,location])
   const handleSubmit = async () => {
     try {
       if (!county || !district || !location) {
         return setError(true);
       } else {
-        setDeliveryDetails({
-          county: county,
-          district: district,
-          location: location,
-        });
-
         const newOrder = {
           cart: cartItem,
           user: user,
@@ -74,7 +75,7 @@ const PaymentDetails = () => {
 
   return (
     <>
-      <div className="800px:px-4 px-2 bg-slate-100 w-full h-screen">
+      <div className="800px:px-4 px-2 bg-slate-100 w-full ">
         <div className="py-2">
           <h1 className="text-2xl text-black text-center">
             Hello{" "}
@@ -103,7 +104,7 @@ const PaymentDetails = () => {
           />
         </Card>
 
-        <div className="800px:flex block justify-center mt-4 items-center h-screen 800px:h-[80vh]">
+        <div className="800px:flex block justify-center mt-4 items-center h-screen 800px:h-[100vh]">
           <div className="bg-white py-4 rounded-md px-2 800px:mx-4 block my-4 800px:w-[45%] 800px:h-[75vh] 800px:my-0">
             <div className="block py-2">
               <div>
@@ -203,12 +204,13 @@ const PaymentDetails = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-md relative py-2 px-2 800px:mx-4 800px:w-[33%] 800px:h-[75vh] overflow-y-scroll ">
-            <div>
+          <div className="bg-white rounded-md relative py-2 800px:mt-[1.2rem] px-2 800px:mx-4 800px:w-[33%]">
+          <div>
               <h1 className="text-xl text-black font-semibold mx-2">
                 Cart summary
               </h1>
             </div>
+          <div className=" 800px:h-[68vh] overflow-y-scroll ">
             {cartItem.map((item, index) => (
               <div key={index} className="my-2 mb-3 px-2 ">
                 <div className="flex items-center justify-between">
@@ -252,11 +254,12 @@ const PaymentDetails = () => {
                 </div>
               </div>
             ))}
-            <div className="800px:fixed 800px:bottom-[90px] 800px:right-[11rem] z-50 bottom-2 right-2 absolute">
+            <div className=" 800px:bottom-[8px] 800px:right-[1.5rem] z-50 bottom-2 right-2 absolute">
               <h1 className="text-xl font-semibold">
                 Total: Ksh {cartTotalAmount}
               </h1>
             </div>
+          </div>
           </div>
         </div>
       </div>
