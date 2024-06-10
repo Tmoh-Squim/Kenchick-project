@@ -11,6 +11,11 @@ const createOrder = asyncHandler(async (req, res, next) => {
         success: false,
         message: "complete fields to place order",
       });
+    }else if(deliveryDetails?.county === ''){
+      return next(res.send({
+        success:false,
+        message:'County is required'
+      }))
     }
     cart.forEach(async (product) => {
       const exists = await productModel.findById(product._id);
