@@ -41,6 +41,7 @@ const Orders = () => {
       title: "Name",
       key: "title",
       dataIndex: "title",
+      render: (text) => text.slice(0, 20)
     },
     {
       title: "Description",

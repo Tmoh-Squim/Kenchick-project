@@ -210,7 +210,7 @@ const PaymentDetails = () => {
                 Cart summary
               </h1>
             </div>
-          <div className=" 800px:h-[68vh] overflow-y-scroll ">
+          <div className=" 800px:h-[68vh] pb-[1rem] overflow-y-scroll ">
             {cartItem.map((item, index) => (
               <div key={index} className="my-2 mb-3 px-2 ">
                 <div className="flex items-center justify-between">
@@ -233,7 +233,7 @@ const PaymentDetails = () => {
                         });
                       }}
                     >
-                      <h1>{item.title}</h1>
+                      <h1>{item.title.length > 18 ? item?.title?.length.slice(0,18) : item?.title}</h1>
                       <h1 className="my-">
                         Ksh {item.price} * {item.qty}
                       </h1>
