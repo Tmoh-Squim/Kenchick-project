@@ -30,7 +30,7 @@ const ChatBot = ({ setOpen }) => {
   return (
     <div className=" w-[80%] z-50 800px:w-[25%] h-[60vh] rounded-t-lg bg-white fixed bottom-0  right-0 px-2">
 
-<div className="overflow-y-scroll h-[60vh] pb-[2.2rem]">
+<div className="overflow-y-scroll h-[60vh] pb-[2.6rem]">
         <div>
         <div
         className="cursor-pointer absolute right-2 top-2"
@@ -82,7 +82,7 @@ const ChatBot = ({ setOpen }) => {
 
        {
         active && (
-            <div className="absolute right-2 top-1 cursor-pointer" onClick={handleChat}>
+            <div className="absolute right-2 top-2 cursor-pointer" onClick={handleChat}>
             <AiOutlineSend size={18} color="gray" />
           </div>
         )
