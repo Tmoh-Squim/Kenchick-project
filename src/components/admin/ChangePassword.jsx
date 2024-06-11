@@ -26,7 +26,7 @@ const ChangePassword = () => {
   return (
     <Layout className="800px:px-4 flex justify-center h-screen items-center">
      <Row className="my-auto">
-     <h1 className="text-2xl text-center">
+     <h1 className="text-xl text-center">
      Change Your Password
      </h1>
      
