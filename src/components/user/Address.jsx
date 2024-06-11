@@ -70,9 +70,9 @@ const Address = () => {
               value={county}
               onChange={(e) => {
                 setCounty(e.target.value);
-                setSubcounty(''); // Reset subcounty on county change
+                setSubcounty(''); 
               }}
-              className="w-[95%] border h-[40px] rounded-[5px]"
+              className="800px:w-[95%] border h-[40px] rounded-[5px]"
             >
               <option value="" className="block border pb-2">
                 choose your county
@@ -98,7 +98,7 @@ const Address = () => {
               id="subcounty"
               value={subcounty}
               onChange={(e) => setSubcounty(e.target.value)}
-              className="w-[95%] border h-[40px] rounded-[5px]"
+              className="800px:w-[95%] border h-[40px] rounded-[5px]"
             >
               <option value="" className="block border pb-2">
                 choose your sub-county
@@ -121,7 +121,7 @@ const Address = () => {
           <Input
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="h-[2.5rem] "
+            className="h-[2.5rem] 800px:w-[95%] "
           />
         </Form.Item>
         <Form.Item label={"Address type"} name={"type"} initialValue={type}>
@@ -130,7 +130,7 @@ const Address = () => {
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="w-[95%] border h-[40px] rounded-[5px]"
+            className="800px:w-[95%] border h-[40px] rounded-[5px]"
           >
             <option value="" className="block border pb-2">
               choose address type

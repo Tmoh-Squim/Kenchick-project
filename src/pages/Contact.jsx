@@ -19,6 +19,7 @@ const Contact = () => {
               Share Your Feedback
             </h1>
 
+            <form>
             <div className="mt-[3rem]">
               <div className="800px:flex block justify-around">
                 <input
@@ -38,7 +39,7 @@ const Contact = () => {
               </div>
               <div className="800px:flex block justify-around my-[2rem]">
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   id="email"
                   placeholder="Email"
@@ -47,6 +48,9 @@ const Contact = () => {
                 <input
                   type="number"
                   name="phone"
+                  min={0}
+                  minLength={10}
+                  maxLength={12}
                   id="phone"
                   placeholder="Phone number"
                   className="outline-none border-b border-blue-500 w-full my-3 800px:my-0 800px:w-auto hover:border-yellow-400"
@@ -58,11 +62,12 @@ const Contact = () => {
               </div>
 
               <div className="my-[3rem] rounded-[20px] bg-yellow-400 flex justify-center items-center w-max px-6 py-2 mx-auto cursor-pointer hover:bg-yellow-200">
-                <h1 className="text-slate-50 font-semibold text-center">
+                <button type="submit" className="text-slate-50 font-semibold text-center">
                     Submit
-                </h1>
+                </button>
               </div>
             </div>
+            </form>
           </div>
         </div>
       </div>
