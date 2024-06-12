@@ -12,7 +12,7 @@ const Track = () => {
         <Headerr />
 
         <div className='w-full h-[90vh] flex justify-center items-center'>
-            <h1 className='text-xl'>
+            <h1 className='text-xl text-center'>
             Hello {user?.name}! Your Order is {order?.status}
             </h1>
         </div>
