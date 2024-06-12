@@ -51,6 +51,7 @@ const SavedAddress = () => {
             title: "Delivery Id",
             key: "_id",
             dataIndex: "_id",
+            render: (text) => text.slice(0, 10)+ '...'
           },
           {
             title: "Type",
