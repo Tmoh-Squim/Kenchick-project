@@ -137,7 +137,7 @@ const AdminUpdateOrder = () => {
           <div className="flex-1 mt-4 md:mt-0 md:ml-4 flex flex-col">
             <Typography.Title level={5}>Order Status</Typography.Title>
             <Dropdown overlay={menu} placement="bottomLeft">
-              <Button className="flex justify-between py-4 items-center w-full">
+              <Button className="flex justify-between py-5 items-center w-full">
                 {status} <AiOutlineArrowDown size={14} />
               </Button>
             </Dropdown>
