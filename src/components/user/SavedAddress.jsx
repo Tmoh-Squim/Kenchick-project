@@ -51,25 +51,21 @@ const SavedAddress = () => {
             title: "Delivery Id",
             key: "_id",
             dataIndex: "_id",
-            responsive: ["md"],
           },
           {
             title: "Type",
             key: "type",
             dataIndex: "type",
-            responsive: ["md"],
           },
           {
             title: "County",
             key: "county",
             dataIndex: "county",
-            responsive: ["md"],
           },
           {
             title: "Sub-County",
             key: "subcounty",
             dataIndex: "subcounty",
-            responsive: ["md"],
           },
           {
             title: "Actions",

@@ -72,7 +72,7 @@ const Address = () => {
                 setCounty(e.target.value);
                 setSubcounty(''); 
               }}
-              className="800px:w-[95%] border h-[40px] rounded-[5px]"
+              className="800px:w-[95%] w-full border h-[40px] rounded-[5px]"
             >
               <option value="" className="block border pb-2">
                 choose your county
@@ -98,7 +98,7 @@ const Address = () => {
               id="subcounty"
               value={subcounty}
               onChange={(e) => setSubcounty(e.target.value)}
-              className="800px:w-[95%] border h-[40px] rounded-[5px]"
+              className="800px:w-[95%] border h-[40px] rounded-[5px] w-full"
             >
               <option value="" className="block border pb-2">
                 choose your sub-county
@@ -121,6 +121,7 @@ const Address = () => {
           <Input
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter your exact location"
             className="h-[2.5rem] 800px:w-[95%] "
           />
         </Form.Item>
@@ -130,7 +131,7 @@ const Address = () => {
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="800px:w-[95%] border h-[40px] rounded-[5px]"
+            className="800px:w-[95%] border h-[40px] rounded-[5px] w-full"
           >
             <option value="" className="block border pb-2">
               choose address type
@@ -151,7 +152,7 @@ const Address = () => {
           htmlType="submit"
           type="primary"
           className="px-10 flex justify-center items-center"
-          loading={loading} // Set loading state for the button
+          loading={loading} 
         >
           <h1 className="text-[16px] text-center mt-2">Submit</h1>
         </Button>
