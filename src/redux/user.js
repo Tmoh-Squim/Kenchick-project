@@ -326,7 +326,7 @@ export const ResetPasswordSlice = createSlice({
       .addCase(ResetPasswordi.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
         toast.error(action.payload.error);
       });
   },

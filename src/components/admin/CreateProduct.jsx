@@ -1,11 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { Server_Url } from "../../server";
+import { useDispatch, useSelector } from "react-redux";
+import { createProducti, getProducts } from "../../redux/product";
+import Loader from "../../utils/Loader";
 const token = localStorage.getItem("token");
 const CreateProduct = () => {
   const [error, setError] = useState(false);
+  const {success,loading} = useSelector((state)=>state.createProduct);
+
   const [title, setTitle] = useState("");
   const [description, setDesription] = useState("");
   const [category, setCategory] = useState("");
@@ -13,7 +16,9 @@ const CreateProduct = () => {
   const [price, setPrice] = useState();
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null)
-  const Categories = ["Day old chicks", "1 week chicks", "3 months chicks","Food"];
+  const Categories = ["Day old chicks", "1 week old chicks", "3 months old chicks","Food"];
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (image) {
@@ -51,29 +56,34 @@ const CreateProduct = () => {
       formData.append("price", price);
       formData.append("image", image);
       formData.append("description", description);
-
-      const response = await axios.post(
-        `${Server_Url}/chick/create-chick`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/formdata",
-            Authorization: token,
-          },
-        }
-      );
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message);
-      }
+      dispatch(createProducti(formData))
+      
     } catch (error) {
       toast.error("Something went wrong! try again later");
     }
   };
+  useEffect(()=>{
+    if(success === true){
+      dispatch(getProducts())
+      setTitle("");
+      setDesription("");
+      setCategory("");
+      setStock("");
+      setPrice("");
+      setImage(null);
+      setImagePreview(null);
+    }
+  },[success])
+
   return (
     <div>
-      <div className="800px:flex block justify-center  items-center ">
+      {
+        loading ? (
+          <div className="w-full h-screen bg-white flex justify-center items-center">
+          <Loader />
+        </div>
+        ):(
+          <div className="800px:flex block justify-center  items-center ">
         <div className=" py-4 rounded-md px-2 800px:mx-4 block my-4 800px:w-[60%]  800px:my-0">
           <div className="block py-2">
             <div>
@@ -213,6 +223,8 @@ const CreateProduct = () => {
           </div>
         </div>
       </div>
+        )
+      }
     </div>
   );
 };

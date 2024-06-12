@@ -1,14 +1,18 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Server, Server_Url } from "../../server";
 import { useLocation } from "react-router-dom";
 import Headerr from "../layout/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts, updateProducti } from "../../redux/product";
+import Loader from "../../utils/Loader";
 
 const UpdateProduct = () => {
   const location = useLocation();
   const product = location.state.product;
-  const token = localStorage.getItem("token");
+  const {success,loading} = useSelector((state)=>state.updateProduct);
+  const dispatch = useDispatch();
+
   const Categories = [
     "Day old chicks",
     "1 week old chicks",
@@ -28,36 +32,32 @@ const UpdateProduct = () => {
   const handleCreateProduct = async () => {
     try {
       const product = {
+        id:id,
         title: title,
         description: description,
         stock: stock,
         price: price,
         category: category,
       };
-
-      const response = await axios.post(
-        `${Server_Url}/chick/update-product/${id}`,
-        product,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      if (response.data.success) {
-        toast.success(response.data.message);
-      } else {
-        toast.error(response.data.message);
-      }
+      dispatch(updateProducti(product))
     } catch (error) {
       toast.error("Something went wrong! try again later");
     }
   };
   useEffect(() => {
-    console.log("cat", category);
-  }, [category]);
+    if(success === true){
+      dispatch(getProducts())
+    }
+  }, [success]);
   return (
-    <div className="h-[100vh] overflow-y-scroll">
+    <>
+    {
+      loading ? (
+        <div className="w-full h-screen bg-white flex justify-center items-center">
+        <Loader />
+      </div>
+      ):(
+        <div className="h-[100vh] overflow-y-scroll">
       <Headerr />
       <h1 className="text-2xl text-center my-2">Update Product</h1>
       <div className="800px:flex block h-[100vh]  justify-center  items-center mt-[35px] ">
@@ -183,6 +183,9 @@ const UpdateProduct = () => {
         </div>
       </div>
     </div>
+      )
+    }
+    </>
   );
 };
 

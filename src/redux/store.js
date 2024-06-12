@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./product";
+import productReducer, { createProductSlice, deleteProductSlice, updateProductSlice } from "./product";
 import userReducer, {
   ForgotPasswordSlice,
   ResetPasswordSlice,
@@ -26,7 +26,10 @@ const store = configureStore({
     adminOrders: adminOrderReducer,
     userOrders: userOrderSlice,
     loginUser: loginUserSlice,
-    registerUser: registerUserSlice
+    registerUser: registerUserSlice,
+    deleteProduct: deleteProductSlice,
+    createProduct: createProductSlice,
+    updateProduct: updateProductSlice,
   },
 });
 

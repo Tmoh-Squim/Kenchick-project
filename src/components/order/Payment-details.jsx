@@ -236,7 +236,7 @@ const PaymentDetails = () => {
                         });
                       }}
                     >
-                      <h1>{item.title.length > 18 ? item?.title?.length.slice(0,18) : item?.title}</h1>
+                      <h1>{item.title.length > 18 ? item?.title.slice(0,18)+'...' : item?.title}</h1>
                       <h1 className="my-">
                         Ksh {item.price} * {item.qty}
                       </h1>

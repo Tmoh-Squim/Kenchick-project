@@ -5,10 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineEye } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { deleteProducti } from '../../redux/product';
+import { deleteProducti, getProducts } from '../../redux/product';
+import Loader from '../../utils/Loader';
 
 const Orders = () => {
   const { products } = useSelector((state) => state.products);
+  const {loading,success} = useSelector((state)=>state.deleteProduct);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState('');
@@ -29,6 +31,11 @@ const Orders = () => {
     dispatch(deleteProducti(deleteProduct, dispatch));
     setOpen(false);
   };
+  useEffect(()=>{
+    if(success === true){
+      dispatch(getProducts())
+    }
+  },[success])
 
   const columns = [
     {
@@ -79,7 +86,7 @@ const Orders = () => {
       key: "Action",
       dataIndex: "_id",
       render: (id, product) => (
-        <div className="responsive-button-group">
+        <ButtonGroup className="responsive-button-group">
           <Button type='primary mx-2'
             onClick={() => {
               navigate(`/update-product/${id}`, { state: { product: product } });
@@ -94,13 +101,20 @@ const Orders = () => {
             }}>
             Delete
           </Button>
-        </div>
+        </ButtonGroup>
       )
     }
   ];
 
   return (
-    <Content>
+    <>
+    {
+      loading ? (
+        <div className="w-full h-screen bg-white flex justify-center items-center">
+        <Loader />
+      </div>
+      ):(
+        <Content>
       <Table
         dataSource={data}
         columns={columns}
@@ -113,6 +127,9 @@ const Orders = () => {
         title="Do you want to delete the product?"
       />
     </Content>
+      )
+    }
+    </>
   );
 }
 
