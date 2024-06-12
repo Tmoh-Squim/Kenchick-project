@@ -4,20 +4,28 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Server_Url } from "../../server";
+const token = localStorage.getItem('token');
 const Profile = () => {
   const { user } = useSelector((state) => state.user?.user);
   const [name] = useState(user?.name);
   const [email] = useState(user?.email);
   const [phone] = useState(user?.phone);
+  const [loading,setLoading] = useState(false)
 
   const handleUpdate = async (values) => {
     try {
+      setLoading(true);
       if (!values?.password) {
+        setLoading(false)
         return toast.error("Passowrd is required!");
       }
       const response = await axios.post(
         `${Server_Url}/auth/update-user-details/${user?._id}`,
-        values
+        values,{
+          headers:{
+            'Authorization':token
+          }
+        }
       );
       if (response.data.success) {
         toast.success(response.data.message);
@@ -26,6 +34,8 @@ const Profile = () => {
       }
     } catch (error) {
       toast.error("Something went wrong!");
+    }finally{
+      setLoading(false)
     }
   };
   return (
@@ -62,7 +72,7 @@ const Profile = () => {
         <Button
           htmlType="submit"
           type="primary"
-          className="px-10  flex justify-center items-center"
+          className="px-10  flex justify-center py-5 items-center"
         >
           <h1 className="text-[16px] text-center mt-2">Update</h1>
         </Button>
