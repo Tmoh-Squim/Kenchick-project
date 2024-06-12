@@ -65,14 +65,14 @@ const AdminUpdateOrder = () => {
   };
 
   return (
-    <Layout className="800px:800px:p-4 p-2 p-2 bg-white shadow-md rounded-md">
+    <Layout className="800px:800px:p-4  p-2 bg-white shadow-md rounded-md">
       <Typography.Title level={3} className="text-center mb-4">
         Order Details
       </Typography.Title>
 
       <Col className="space-y-4">
         {order?.cart.map((item, index) => (
-          <div key={index} className="block 800px:flex my-2 800px:800px:p-4 p-2 p-2 shadow-md">
+          <div key={index} className="block 800px:flex my-2 800px:800px:p-4  p-2 shadow-md">
             <Image
               src={`${Server}/${item.image}`}
               alt={item.name}
