@@ -62,8 +62,8 @@ const VerifyEmail = () => {
   };
 
   return (
-    <div className="block w-full justify-between 800px:px-4 800px:flex">
-      <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] flex items-center bg-white">
+    <div className="w-full 800px:justify-between items-center 800px:px-4 flex bg-slate-200">
+      <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] hidden 800px:flex items-center bg-white">
         <div>
           <div>
             <h1 className="text-blue-500 text-3xl font-semibold">

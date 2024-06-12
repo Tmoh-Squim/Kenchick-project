@@ -19,7 +19,6 @@ import ChangePassword from "./auth/Change-Password";
 import PaymentDetails from "./components/order/Payment-details";
 import ProtectedRoute, { AdminRoute } from "./middleware/auth";
 import { getOrdersUser } from "./redux/order";
-import UpdateOrder from "./components/user/UpdateOrder";
 import Track from "./components/user/Track";
 import SearchPage from "./pages/SearchPage";
 import Products from "./components/products/Products";
