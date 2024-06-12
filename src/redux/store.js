@@ -7,6 +7,7 @@ import userReducer, {
   VerifyOtpSlice,
   adminUserSlice,
   loginUserSlice,
+  registerUserSlice,
 } from "./user";
 import cartReducer from "./cart";
 import themeReducer from "./theme";
@@ -25,6 +26,7 @@ const store = configureStore({
     adminOrders: adminOrderReducer,
     userOrders: userOrderSlice,
     loginUser: loginUserSlice,
+    registerUser: registerUserSlice
   },
 });
 

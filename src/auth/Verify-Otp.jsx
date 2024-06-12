@@ -4,6 +4,7 @@ import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { ForgotPasswordi, VerifyOtpi } from "../redux/user";
+import Loader from "../utils/Loader";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
@@ -33,7 +34,7 @@ const VerifyOtp = () => {
 
   useEffect(()=>{
     if(success){
-      navigate("/login",{state:{otp:otp,email:email}})
+      navigate("/change-password",{state:{otp:otp,email:email}})
     }else{
       return
     }
@@ -48,7 +49,14 @@ const VerifyOtp = () => {
   }
 
   return (
-    <div className="block w-full justify-between items-center 800px:px-4 800px:flex bg-slate-200">
+   <>
+   {
+    loading ? (
+      <div className="w-full h-screen bg-white flex justify-center items-center">
+      <Loader />
+    </div>
+    ):(
+      <div className="block w-full justify-between items-center 800px:px-4 800px:flex bg-slate-200">
       <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] hidden 800px:flex items-center bg-white">
         <div>
           <div>
@@ -121,6 +129,9 @@ const VerifyOtp = () => {
         </div>
       </div>
     </div>
+    )
+   }
+   </>
   );
 };
 

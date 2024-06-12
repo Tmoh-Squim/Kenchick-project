@@ -87,6 +87,25 @@ export const LoginUser = createAsyncThunk("/login", async (user) => {
   }
 });
 
+export const RegisterUser = createAsyncThunk("/register-user", async (user) => {
+  try {
+    var validRegex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!user?.email.match(validRegex)) {
+      return toast.error("Invalid email address");
+    }
+    const response = await axios.post(`${Server_Url}/auth/create-user`,user);
+
+    if (response.data.success) {
+      return response.data
+    } else {
+      return toast.error(response.data.message);
+    }
+  } catch (error) {
+    toast.error("Something went wrong! try again later");
+  }
+});
+
 const initialState = {
   user: `${localStorage.getItem("user") ? localStorage.getItem("user") : {}}`,
   isLoading: true,
@@ -134,7 +153,35 @@ export const adminUserSlice = createSlice({
       });
   },
 }).reducer;
-
+export const registerUserSlice = createSlice({
+  name: "registerUser",
+  initialState: {
+    loading: false,
+    success: false,
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(RegisterUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(RegisterUser.fulfilled, (state, action) => {
+        state.success = action.payload.success;
+        state.loading = false;
+        if (state.success) {
+          toast.success(action.payload.message);
+        } else {
+          toast.error(action.payload.message);
+        }
+      })
+      .addCase(RegisterUser.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload;
+        toast.error(action.payload.message);
+      });
+  },
+}).reducer;
 export const loginUserSlice = createSlice({
   name: "loginUser",
   initialState: {

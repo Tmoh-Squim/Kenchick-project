@@ -1,53 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import chick from "../assets/chick1.png";
 import {toast} from "react-toastify";
 import { Server_Url } from "../server";
+import { useDispatch, useSelector } from "react-redux";
+import { RegisterUser } from "../redux/user";
+import Loader from "../utils/Loader";
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [name,setName] = useState("");
   const [phone,setPhone] = useState("");
+  const {loading,success} = useSelector((state)=>state.registerUser);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+  const user = {
+    name:name,
+    email:email,
+    phone:phone,
+    password:password
+  }
   const handleSignup = async()=>{
     try {
-      const user = {
-        name:name,
-        email:email,
-        phone:phone,
-        password:password
-      }
       if (!/^[a-zA-Z\s]+$/.test(name) || name.length < 3) {
         return toast.error("Invalid name");
       }if (!email.match(validRegex)) {
         return toast.error("Invalid email address");
-      }if (isNaN(phone) || phone.length < 10 || phone.length > 12) {
+      }if (isNaN(phone) || phone.length < 10 || phone.length > 12 || phone.length === 11) {
         return toast.error("Invalid phone number");
       }
       if (password.length <6){
         return toast.error("Password must be at least 6 char")
+      }else{
+        dispatch(RegisterUser(user))
       }
-      const response = await axios.post(`${Server_Url}/auth/create-user`,user);
 
-      if(response.data.success){
-       toast.success(response.data.message);
-       navigate("/verify-email",{state:{user:user}});
-      }
-      else{
-       return toast.error(response.data.message)
-      }
     } catch (error) {
       toast('Something went wrong! try again later')
     }
   }
+  useEffect(()=>{
+
+    if(success === true){
+      navigate("/verify-email",{state:{user:user}});
+     }
+  },[success])
   
   return (
-    <div className="block w-full 800px:justify-between items-center 800px:px-4 800px:flex bg-slate-200">
+    <>
+    {
+      loading ? (
+        <div className="w-full h-screen bg-white flex justify-center items-center">
+        <Loader />
+      </div>
+      ):(
+        <div className="block w-full 800px:justify-between items-center 800px:px-4 800px:flex bg-slate-200">
       <div className="w-full px-2 800px:h-screen 800px:w-[40%] hidden 800px:flex items-center bg-white">
         <div>
           <div>
@@ -177,6 +190,9 @@ const Register = () => {
         </div>
       </div>
     </div>
+      )
+    }
+    </>
   );
 };
 
