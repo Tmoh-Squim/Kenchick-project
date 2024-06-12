@@ -11,6 +11,7 @@ const AdminUpdateOrder = () => {
   const order = location.state.order;
   const navigate = useNavigate();
   const [status, setStatus] = useState(order?.status);
+  const [loading,setLoading] = useState(false);
   const email = order?.user?.email;
   const token = localStorage.getItem("token");
 
@@ -40,6 +41,7 @@ const AdminUpdateOrder = () => {
 
   const handleUpdateStatus = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(
         `${Server_Url}/order/update-order/${order?._id}`,
         { email, status },
@@ -57,18 +59,20 @@ const AdminUpdateOrder = () => {
       }
     } catch (error) {
       toast.error("Something went wrong");
+    }finally{
+      setLoading(false);
     }
   };
 
   return (
-    <Layout className="p-4 bg-white shadow-md rounded-md">
+    <Layout className="800px:800px:p-4 p-2 p-2 bg-white shadow-md rounded-md">
       <Typography.Title level={3} className="text-center mb-4">
         Order Details
       </Typography.Title>
 
       <Col className="space-y-4">
         {order?.cart.map((item, index) => (
-          <div key={index} className="block 800px:flex my-2 p-4 shadow-md">
+          <div key={index} className="block 800px:flex my-2 800px:800px:p-4 p-2 p-2 shadow-md">
             <Image
               src={`${Server}/${item.image}`}
               alt={item.name}
@@ -97,7 +101,7 @@ const AdminUpdateOrder = () => {
           </div>
         ))}
 
-        <div className="800px:flex block p-4 shadow-md">
+        <div className="800px:flex block 800px:p-4 p-2 shadow-md">
           <div className="flex-1">
             <Typography.Title level={5}>User Details</Typography.Title>
             <Typography.Text>Name: {order?.user?.name}</Typography.Text>
@@ -121,7 +125,7 @@ const AdminUpdateOrder = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row p-4 ">
+        <div className="flex flex-col md:flex-row 800px:p-4 p-2 ">
           <div className="flex-1">
             <Typography.Title level={5}>Payment Info</Typography.Title>
             <Typography.Text>Type: {order?.paymentInfo?.type}</Typography.Text>
@@ -138,9 +142,10 @@ const AdminUpdateOrder = () => {
               </Button>
             </Dropdown>
             <Button
-              className="mt-4"
+              className="mt-4 h-[2.5rem]"
               type="primary"
               danger
+              loading={loading}
               onClick={handleUpdateStatus}
             >
               Update Status
