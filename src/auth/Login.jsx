@@ -1,42 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
-import { Server_Url } from "../server";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginUser } from "../redux/user";
+import Loader from "../utils/Loader";
 
 const Login = () => {
   const {user} = useSelector((state)=>state.user);
   const [visible, setVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {loading,success} = useSelector((state)=>state.loginUser);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  var validRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const handleLogin = async()=>{
     try {
-      const user ={
-        email:email,
-        password:password
-      }
-      if (!email.match(validRegex)) {
-        return toast.error("Invalid email address");
-      }
-      const response = await axios.post(`${Server_Url}/auth/login-user`,user);
-
-      if(response.data.success){
-        const {token} = response.data;
-
-        localStorage.setItem("token",token);
-        navigate("/");
-        window.location.reload();
-       return toast.success(response.data.message)
-      }
-      else{
-       return toast.error(response.data.message)
-      }
+      const user = {
+        email: email,
+        password: password,
+      };
+      dispatch(LoginUser(user))
     } catch (error) {
       toast.error("Something went wrong! try again later")
     }
@@ -46,11 +32,23 @@ const Login = () => {
     if(user?.user){
       navigate("/profile")
     }
+    if(success === true){
+      toast.success('Logged in successfully!')
+      navigate("/");
+      window.location.reload();
+    }
     //eslint-disable-next-line
-  },[user])
+  },[user,success])
 
   return (
-    <div className=" w-full justify-between items-center 800px:px-4 flex bg-slate-200">
+  <>
+  {
+    loading ? (
+      <div className="w-full h-screen bg-white flex justify-center items-center">
+      <Loader />
+    </div>
+    ):(
+      <div className=" w-full justify-between items-center 800px:px-4 flex bg-slate-200">
       <div className="w-full h-screen justify-center hidden px-2 800px:w-[40%] 800px:flex items-center bg-white">
         <div>
           <div>
@@ -153,6 +151,9 @@ const Login = () => {
         </div>
       </div>
     </div>
+    )
+  }
+  </>
   );
 };
 

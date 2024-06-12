@@ -20,7 +20,7 @@ const VerifyOtp = () => {
 
   const handleLogin = async()=>{
     try {
-      if(otp.length > 0){
+      if(otp.length === 6){
         dispatch(VerifyOtpi({email,otp}));
       }else{
         setError(true)

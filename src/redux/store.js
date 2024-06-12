@@ -6,6 +6,7 @@ import userReducer, {
   VerifyEmailSlice,
   VerifyOtpSlice,
   adminUserSlice,
+  loginUserSlice,
 } from "./user";
 import cartReducer from "./cart";
 import themeReducer from "./theme";
@@ -23,6 +24,7 @@ const store = configureStore({
     users: adminUserSlice,
     adminOrders: adminOrderReducer,
     userOrders: userOrderSlice,
+    loginUser: loginUserSlice,
   },
 });
 
