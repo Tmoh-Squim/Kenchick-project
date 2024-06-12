@@ -71,8 +71,8 @@ const Headerr = () => {
       <div
         className={`${
           active
-            ? "bg-slate-50 h-[90px] hidden fixed top-0 z-50 shadow-md left-0 right-0 800px:block"
-            : "bg-slate-50 h-[90px] z-50 hidden 800px:block shadow-md"
+            ? "bg-slate-50 h-[90px] hidden fixed top-0 z-50 shadow-lg left-0 right-0 800px:block"
+            : "bg-slate-50 h-[95px] z-50 hidden 800px:block shadow-xl"
         }`}
       >
         <div
@@ -105,9 +105,9 @@ const Headerr = () => {
             </div>
             <div
               className="flex items-center hover:text-red-500"
-              onClick={() => navigate("/products")}
+              onClick={() => navigate("/food")}
             >
-              <h1 className="text-xl cursor-pointer ">Products</h1>
+              <h1 className="text-xl cursor-pointer ">Food</h1>
             </div>
             <div
               className="flex items-center relative"
@@ -135,13 +135,28 @@ const Headerr = () => {
                 } `}
               >
                 <div className="block">
-                  <h1 className="cursor-pointer hover:text-red-500">
+                  <h1
+                    className="cursor-pointer hover:text-red-500"
+                    onClick={() => {
+                      navigate("/day-old-chicks");
+                    }}
+                  >
                     Day old chicks
                   </h1>
-                  <h1 className="my-[1.2rem] cursor-pointer hover:text-red-500">
+                  <h1
+                    className="my-[1.2rem] cursor-pointer hover:text-red-500"
+                    onClick={() => {
+                      navigate("/week-old-chicks");
+                    }}
+                  >
                     1 week old chicks
                   </h1>
-                  <h1 className="cursor-pointer hover:text-red-500">
+                  <h1
+                    className="cursor-pointer hover:text-red-500"
+                    onClick={() => {
+                      navigate("/three-months-old-chicks");
+                    }}
+                  >
                     3 months old chicks
                   </h1>
                 </div>

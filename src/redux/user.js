@@ -33,12 +33,18 @@ export const ForgotPasswordi = createAsyncThunk(
 );
 
 export const VerifyOtpi = createAsyncThunk("/verify-otp", async (email, otp) => {
-    console.log('email',email,'otp',otp)
   const response = await axios.post(`${Server_Url}/auth/verify-otp`, {
     email,
     otp
   });
   return response.data;
+});
+export const VerifyEmaili = createAsyncThunk("/verify-email", async (newUser) => {
+
+const response = await axios.post(`${Server_Url}/auth/verify-email`, {
+ newUser
+});
+return response.data;
 });
 
 export const ResetPasswordi = createAsyncThunk("/reset-password", async (email, otp,newPassword) => {
@@ -150,6 +156,36 @@ export  const VerifyOtpSlice = createSlice({
           }
         })
         .addCase(VerifyOtpi.rejected, (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload;
+          toast.error(action.payload.message)
+        });
+    },
+  }).reducer
+
+  export  const VerifyEmailSlice = createSlice({
+    name: "verifyEmail",
+    initialState:{
+        loading:false,
+        error:null,
+        success:false
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(VerifyEmaili.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(VerifyEmaili.fulfilled, (state, action) => {
+          state.success = action.payload.success;
+          state.loading = false;
+          if(state.success){
+            toast.success(action.payload.message)
+          }else{
+            toast.error(action.payload.message)
+          }
+        })
+        .addCase(VerifyEmaili.rejected, (state, action) => {
           state.loading = false;
           state.success = false;
           state.error = action.payload;

@@ -3,49 +3,63 @@ import { useLocation, useNavigate } from "react-router-dom";
 import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { ForgotPasswordi, VerifyOtpi } from "../redux/user";
+import { ForgotPasswordi, VerifyEmaili } from "../redux/user";
 
-const VerifyOtp = () => {
+const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
-  const [error,setError] = useState(false);
+  const [error, setError] = useState(false);
 
-  const {loading,success} = useSelector((state)=>state.verifyOtp);
+  const { loading, success } = useSelector((state) => state.verifyEmail);
 
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const {email} = location.state;
+  const { user } = location.state;
+  const email = user?.email;
+  const name = user?.name;
+  const phone = user?.phone;
+  const password = user?.password;
 
   const navigate = useNavigate();
-
-  const handleLogin = async()=>{
+ const newUser = {
+    email: email,
+    otp: otp,
+    password: password,
+    name: name,
+    phone: phone,
+  }
+  const handleLogin = async () => {
     try {
-      if(otp.length > 0){
-        dispatch(VerifyOtpi({email,otp}));
-      }else{
-        setError(true)
+      if (otp.length === 6) {
+        dispatch(
+          VerifyEmaili(newUser)
+        );
+      } else if(otp.length < 6 || otp?.length > 6){
+      return  setError(true)
       }
-      
+      else {
+       return setError(true);
+      }
     } catch (error) {
-      toast.error("Something went wrong! try again later")
+      toast.error("Something went wrong! try again later");
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(success){
-      navigate("/login",{state:{otp:otp,email:email}})
-    }else{
-      return
+  useEffect(() => {
+    if (success) {
+      navigate("/login");
+    } else {
+      return;
     }
-  },[success]);
+  }, [success]);
 
-  const handleOtpResend = () =>{
+  const handleOtpResend = () => {
     try {
-      dispatch(ForgotPasswordi({email:email}));
+      dispatch(ForgotPasswordi({ email: email }));
     } catch (error) {
-      toast.error("Something went wrong! Please try again later")
+      toast.error("Something went wrong! Please try again later");
     }
-  }
+  };
 
   return (
     <div className="block w-full justify-between 800px:px-4 800px:flex">
@@ -84,7 +98,9 @@ const VerifyOtp = () => {
             <div className="mt-2">
               <input
                 type="text"
-                className={`${error ? 'outline-red-300' : ''} outline-none px-2 focus:outline-1 focus:outline-blue-500 h-[2.6rem] w-full 800px:w-[80%] rounded-lg bg-slate-300`}
+                className={`${
+                  error ? "outline-red-300" : ""
+                } outline-none px-2 focus:outline-1 focus:outline-blue-500 h-[2.6rem] w-full 800px:w-[80%] rounded-lg bg-slate-300`}
                 placeholder="Enter your otp"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
@@ -92,36 +108,36 @@ const VerifyOtp = () => {
             </div>
 
             <div className="my-2">
-            <div>
-            <h1>Didn't receive the code?{" "}
-              <span className="text-blue-500 mx-1 font-semibold cursor-pointer" onClick={handleOtpResend}>
-                Resend
-              </span>
-              </h1>  
+              <div>
+                <h1>
+                  Didn't receive the code?{" "}
+                  <span
+                    className="text-blue-500 mx-1 font-semibold cursor-pointer"
+                    onClick={handleOtpResend}
+                  >
+                    Resend
+                  </span>
+                </h1>
+              </div>
             </div>
           </div>
-          </div>
 
-          {
-            loading ? (
-              <div
-            className="px-6 py-2 mx-4 my-6 bg-blue-500 rounded-xl w-max cursor-pointer"
-          >
-            <h1 className="text-white text-xl">Waiting...</h1>
-          </div>
-            ):(
-              <div
-            className="px-6 py-2 mx-4 my-6 bg-blue-500 rounded-xl w-max cursor-pointer"
-            onClick={()=>handleLogin()}
-          >
-            <h1 className="text-white text-xl">Verify</h1>
-          </div>
-            )
-          }
+          {loading ? (
+            <div className="px-6 py-2 mx-4 my-6 bg-blue-500 rounded-xl w-max cursor-pointer">
+              <h1 className="text-white text-xl">Waiting...</h1>
+            </div>
+          ) : (
+            <div
+              className="px-6 py-2 mx-4 my-6 bg-blue-500 rounded-xl w-max cursor-pointer"
+              onClick={() => handleLogin()}
+            >
+              <h1 className="text-white text-xl">Verify</h1>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default VerifyOtp;
+export default VerifyEmail;

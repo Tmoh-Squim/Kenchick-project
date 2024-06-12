@@ -64,6 +64,9 @@ const PaymentDetails = () => {
 
         if (response.data.success) {
           toast.success(response.data.message);
+          localStorage.removeItem('cart')
+          navigate('/profile')
+          window.location.reload()
         } else {
           toast.error(response.data.message);
         }

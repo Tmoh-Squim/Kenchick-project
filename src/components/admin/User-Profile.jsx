@@ -34,6 +34,7 @@ import PendingOrders from "./PendingOrders";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import OutOfStock from "./OutOfStock";
+import RefundedOrders from "./RefundedOrders";
 const AdminDashboard = () => {
   const date = Date().slice(15,18);
 
@@ -134,6 +135,12 @@ const AdminDashboard = () => {
                     key: "Completed orders",
                     onClick:()=>{setActive(8)}
                   },
+                  {
+                    title: "Refunded orders",
+                    label: "Refunded orders",
+                    key: "Refunded orders",
+                    onClick:()=>{setActive(11)}
+                  },
                 ],
                
                 icon: <AiOutlineOrderedList size={20} />,
@@ -225,6 +232,7 @@ const AdminDashboard = () => {
           {active === 7 && <PendingOrders />}
           {active === 8 && <CompletedOrders />}
           {active === 10 && <OutOfStock />}
+          {active === 11 && <RefundedOrders />}
         </Content>
       </Layout>
     </Layout>

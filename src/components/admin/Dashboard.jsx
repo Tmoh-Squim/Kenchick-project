@@ -1,6 +1,6 @@
-import { Card, Row } from "antd";
+import { Card, Col, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
-//import { Bar, Pie } from "@ant-design/charts";
+import { Bar, Pie } from "@ant-design/charts";
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineCheckCircle,
@@ -187,14 +187,14 @@ const Dashboard = () => {
           <Card>
             <h1>Order statistics</h1>
             <Row gutter={16}>
-              {/*
+              
               <Col span={16}>
                 <Bar {...barConfig} height={250} layout={'vertical'}/>
               </Col>
               <Col span={8}>
                 <Pie {...pieConfig} height={250} />
               </Col> 
-  */}
+ 
             </Row>
           </Card>
         </Card>

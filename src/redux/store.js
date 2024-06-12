@@ -3,6 +3,7 @@ import productReducer from "./product";
 import userReducer, {
   ForgotPasswordSlice,
   ResetPasswordSlice,
+  VerifyEmailSlice,
   VerifyOtpSlice,
   adminUserSlice,
 } from "./user";
@@ -16,6 +17,7 @@ const store = configureStore({
     cart: cartReducer,
     forgotpassword: ForgotPasswordSlice,
     verifyOtp: VerifyOtpSlice,
+    verifyEmail: VerifyEmailSlice,
     resetPassword: ResetPasswordSlice,
     theme: themeReducer,
     users: adminUserSlice,

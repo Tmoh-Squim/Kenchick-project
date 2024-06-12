@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Server, Server_Url } from "../../server";
 import { useLocation } from "react-router-dom";
@@ -8,8 +8,13 @@ import Headerr from "../layout/Header";
 const UpdateProduct = () => {
   const location = useLocation();
   const product = location.state.product;
-  const token = localStorage.getItem('token');
-
+  const token = localStorage.getItem("token");
+  const Categories = [
+    "Day old chicks",
+    "1 week old chicks",
+    "3 months old chicks",
+    "Food",
+  ];
 
   const [error] = useState(false);
   const [title, setTitle] = useState(product?.title);
@@ -32,10 +37,11 @@ const UpdateProduct = () => {
 
       const response = await axios.post(
         `${Server_Url}/chick/update-product/${id}`,
-        product,{
-          headers:{
-            'Authorization':token
-          }
+        product,
+        {
+          headers: {
+            Authorization: token,
+          },
         }
       );
       if (response.data.success) {
@@ -47,6 +53,9 @@ const UpdateProduct = () => {
       toast.error("Something went wrong! try again later");
     }
   };
+  useEffect(() => {
+    console.log("cat", category);
+  }, [category]);
   return (
     <div className="h-[100vh] overflow-y-scroll">
       <Headerr />
@@ -92,19 +101,32 @@ const UpdateProduct = () => {
           <div className="block py-2">
             <div>
               <label htmlFor="county" className="text-gray-500">
-                Enter product Category <span className="text-red-500">*</span>
+                Choose product Category <span className="text-red-500">*</span>
               </label>
             </div>
-            <input
-              type="text"
-              placeholder="Enter product category"
+            <select
+              name="categories"
+              id="categories"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
               className={`${
                 error ? "outline-red-200" : ""
               } outline-none px-2 h-[2.5rem] my-2  w-full rounded-lg bg-slate-100`}
-              style={{ color: "black" }}
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            />
+            >
+              {category?.legth < 0 && (
+                <option value="category">Choose category</option>
+              )}
+              {Categories.map((category) => (
+                <option
+                  key={category}
+                  style={{ color: "black" }}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="block py-2">

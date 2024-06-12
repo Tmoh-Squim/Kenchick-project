@@ -1,13 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Image,
-  Layout,
-  Menu,
-  Typography,
-} from "antd";
+import { Button, Col, Dropdown, Image, Layout, Menu, Typography } from "antd";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Server, Server_Url } from "../../server";
@@ -21,33 +12,41 @@ const AdminUpdateOrder = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState(order?.status);
   const email = order?.user?.email;
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="1" onClick={(e) => setStatus("Confirmed")}>
-        Confirmed
-      </Menu.Item>
-      <Menu.Item key="2" onClick={(e) => setStatus("Shipping")}>
-        Shipping
-      </Menu.Item>
-      <Menu.Item key="3" onClick={(e) => setStatus("On the way")}>
-        On the way
-      </Menu.Item>
-      <Menu.Item key="4s" onClick={(e) => setStatus("Delivered")}>
-        Delivered
-      </Menu.Item>
-    </Menu>
-  );
+  const menu =
+    status === "Delivered" ? (
+      <Menu>
+        <Menu.Item key="4" onClick={() => setStatus("Delivered")}>
+          Delivered
+        </Menu.Item>
+      </Menu>
+    ) : (
+      <Menu>
+        <Menu.Item key="1" onClick={() => setStatus("Confirmed")}>
+          Confirmed
+        </Menu.Item>
+        <Menu.Item key="2" onClick={() => setStatus("Shipping")}>
+          Shipping
+        </Menu.Item>
+        <Menu.Item key="3" onClick={() => setStatus("On the way")}>
+          On the way
+        </Menu.Item>
+        <Menu.Item key="4" onClick={() => setStatus("Delivered")}>
+          Delivered
+        </Menu.Item>
+      </Menu>
+    );
 
   const handleUpdateStatus = async () => {
     try {
       const response = await axios.post(
         `${Server_Url}/order/update-order/${order?._id}`,
-        { email: email, status: status },{
-          headers:{
-            'Authorization':token
-          }
+        { email, status },
+        {
+          headers: {
+            Authorization: token,
+          },
         }
       );
 
@@ -62,91 +61,92 @@ const AdminUpdateOrder = () => {
   };
 
   return (
-    <Layout className="p-2">
-      <h1 className="800px:text-3xl text-xl">
-      Order details
-      </h1>
-     
-      <Col>
-        {order?.cart.map((item, index) => {
-          return (
-            <Card key={index} className="my-2 800px:flex block">
-              <div className="800px:flex block">
-                <Image
-                  src={`${Server}/${item.image}`}
-                  alt={item.name}
-                  className="800px:w-[100px] 800px:h-[100px] w-[100%] mx-auto cursor-pointer rounded-md"
-                  width={200}
-                  height={200}
-                  onClick={() =>
-                    navigate(`/product-details/${item._id}`, {
-                      state: { product: item },
-                    })
-                  }
-                />
-                <div className="block 800px:mx-4 800px:w-[57%] my-2 800px:my-0">
-                  <Typography.Paragraph className="text-green-500">
-                    Product details
-                  </Typography.Paragraph>
-                  <h1 className="font-semibold">{item.title}</h1>
-                  <h1>{item.description}</h1>
-                  <h1>Qty {item.qty}</h1>
-                  <h1 className="text-semibold text-xl">
-                    Ksh {order.totalPrice}
-                  </h1>
-                </div>
-              </div>
-            </Card>
-          );
-        })}
-        <Card className="800px:flex block">
-          <div className="800px:w-[50%] px-1">
-            <h1 className="text-xl">User details</h1>
-            <div>
-              <h1>Name: {order?.user?.name}</h1>
-              <h1>Email: {order?.user?.email}</h1>
-              <h1>Phone: {order?.user?.phone}</h1>
+    <Layout className="p-4 bg-white shadow-md rounded-md">
+      <Typography.Title level={3} className="text-center mb-4">
+        Order Details
+      </Typography.Title>
+
+      <Col className="space-y-4">
+        {order?.cart.map((item, index) => (
+          <div key={index} className="block 800px:flex my-2 p-4 shadow-md">
+            <Image
+              src={`${Server}/${item.image}`}
+              alt={item.name}
+              className="w-full 800px:w-1/3 h-auto mx-auto md:mx-0 cursor-pointer rounded-md"
+              width={200}
+              height={200}
+              onClick={() =>
+                navigate(`/product-details/${item._id}`, {
+                  state: { product: item },
+                })
+              }
+            />
+            <div className="mt-4 md:mt-0 md:ml-4 flex-1 800px:w-[50%]">
+              <Typography.Paragraph className="text-green-500">
+                Product details
+              </Typography.Paragraph>
+              <Typography.Title level={5}>{item.title}</Typography.Title>
+              <Typography.Text>{item.description}</Typography.Text>
+              <Typography.Text className="block mt-2">
+                Qty: {item.qty}
+              </Typography.Text>
+              <Typography.Text className="font-semibold">
+                Ksh {order.totalPrice}
+              </Typography.Text>
             </div>
           </div>
+        ))}
 
-          <div className="800px:w-[40%] 800px:mx-4">
-            <h1 className="text-xl">Delivery details</h1>
-            <div>
-              <h1>County: {order?.deliveryDetails?.county}</h1>
-              <h1>District: {order?.deliveryDetails?.district}</h1>
-              <h1>Location: {order?.deliveryDetails?.location}</h1>
-            </div>
-          </div>
-        </Card>
-
-        <Card className="800px:flex block my-2">
-          <div className="800px:w-[50%] px-1">
-            <h1 className="text-xl">Payment info</h1>
-            <div>
-              <h1>Type: {order?.paymentInfo?.type}</h1>
-              <h1>Status: {order?.paymentInfo?.status}</h1>
-            </div>
+        <div className="800px:flex block p-4 shadow-md">
+          <div className="flex-1">
+            <Typography.Title level={5}>User Details</Typography.Title>
+            <Typography.Text>Name: {order?.user?.name}</Typography.Text>
+            <Typography.Text className="block">
+              Email: {order?.user?.email}
+            </Typography.Text>
+            <Typography.Text>Phone: {order?.user?.phone}</Typography.Text>
           </div>
 
-          <div className="800px:w-[40%] 800px:mx-4 flex flex-col">
-            <Col>
-              <h1 className="text-xl">Order status</h1>
-              <Dropdown overlay={menu} placement="bottomLeft">
-                <Button className="flex justify-between items-center">
-                  {status} <AiOutlineArrowDown size={14} />
-                </Button>
-              </Dropdown>
-              <Button
-                className="px-4 my-2"
-                type="primary"
-                danger
-                onClick={handleUpdateStatus}
-              >
-                Update status
+          <div className="flex-1 mt-4 md:mt-0 md:ml-4">
+            <Typography.Title level={5}>Delivery Details</Typography.Title>
+            <Typography.Text>
+              County: {order?.deliveryDetails?.county}
+            </Typography.Text>
+            <Typography.Text className="block">
+              District: {order?.deliveryDetails?.district}
+            </Typography.Text>
+            <Typography.Text>
+              Location: {order?.deliveryDetails?.location}
+            </Typography.Text>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row p-4 ">
+          <div className="flex-1">
+            <Typography.Title level={5}>Payment Info</Typography.Title>
+            <Typography.Text>Type: {order?.paymentInfo?.type}</Typography.Text>
+            <Typography.Text className="block">
+              Status: {order?.paymentInfo?.status}
+            </Typography.Text>
+          </div>
+
+          <div className="flex-1 mt-4 md:mt-0 md:ml-4 flex flex-col">
+            <Typography.Title level={5}>Order Status</Typography.Title>
+            <Dropdown overlay={menu} placement="bottomLeft">
+              <Button className="flex justify-between items-center w-full">
+                {status} <AiOutlineArrowDown size={14} />
               </Button>
-            </Col>
+            </Dropdown>
+            <Button
+              className="mt-4"
+              type="primary"
+              danger
+              onClick={handleUpdateStatus}
+            >
+              Update Status
+            </Button>
           </div>
-        </Card>
+        </div>
       </Col>
     </Layout>
   );

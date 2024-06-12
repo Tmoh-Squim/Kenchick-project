@@ -29,6 +29,11 @@ import AdminDashboard from "./components/admin/User-Profile";
 import OrderDetails from "./components/user/UpdateOrder";
 import UpdateProduct from "./components/admin/UpdateProduct";
 import AdminUpdateOrder from "./components/admin/UpdateOrder";
+import DayOld from "./pages/DayOld";
+import WeekOld from "./pages/WeekOld";
+import MonthOld from "./pages/MonthOld";
+import Food from "./pages/Food";
+import VerifyEmail from "./auth/Verify-email";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
@@ -54,11 +59,16 @@ function App() {
         <Route path="/product-details/:id" element={<ProductDetails />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/products" element={<Products />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/day-old-chicks" element={<DayOld />} />
+        <Route path="/week-old-chicks" element={<WeekOld />} />
+        <Route path="/three-months-old-chicks" element={<MonthOld />} />
+        <Route path="/food" element={<Food />} />
         <Route
           path="/payment-details"
           element={

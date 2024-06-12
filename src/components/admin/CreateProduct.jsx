@@ -12,10 +12,17 @@ const CreateProduct = () => {
   const [stock, setStock] = useState("");
   const [price, setPrice] = useState();
   const [image, setImage] = useState(null);
-  const Categories = ["Day old chicks", "1 week chicks", "3 months chicks"];
+  const [imagePreview, setImagePreview] = useState(null)
+  const Categories = ["Day old chicks", "1 week chicks", "3 months chicks","Food"];
 
   useEffect(() => {
-    console.log("image", image);
+    if (image) {
+      const objectUrl = URL.createObjectURL(image);
+      setImagePreview(objectUrl);
+      
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+
   }, [image]);
 
   const handleImageChange = (e) => {
@@ -66,7 +73,7 @@ const CreateProduct = () => {
   };
   return (
     <div>
-      <div className="800px:flex block justify-center  items-center h-screen ">
+      <div className="800px:flex block justify-center  items-center ">
         <div className=" py-4 rounded-md px-2 800px:mx-4 block my-4 800px:w-[60%]  800px:my-0">
           <div className="block py-2">
             <div>
@@ -107,7 +114,7 @@ const CreateProduct = () => {
           <div className="block py-2">
             <div>
               <label htmlFor="county" className="text-gray-500">
-                Enter product Category <span className="text-red-500">*</span>
+                Choose product Category <span className="text-red-500">*</span>
               </label>
             </div>
             <select
@@ -116,6 +123,8 @@ const CreateProduct = () => {
               className={`${
                 error ? "outline-red-200" : ""
               } outline-none px-2 h-[2.5rem] my-2  w-full rounded-lg bg-slate-100`}
+              value={category} 
+              onChange={(e) => setCategory(e.target.value)}
             >
               <option value="category">Choose category</option>
               {Categories.map((category) => (
@@ -187,7 +196,7 @@ const CreateProduct = () => {
             </div>
             {image !== null && (
               <img
-                src={`${{ uri: image }}`}
+                src={imagePreview}
                 alt=""
                 className="w-[80px] h-[80px]"
               />
