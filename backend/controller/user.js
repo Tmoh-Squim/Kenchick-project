@@ -2,9 +2,7 @@ const { HashPassword, ComparePassword } = require("../helper/hashPassword");
 const userModel = require("../model/user");
 const JWT = require("jsonwebtoken");
 const sendMail = require("../utils/mailer");
-const sendOtp = require("../utils/otp");
 const otpModel = require("../model/otp");
-const user = require("../model/user");
 const expressAsyncHandler = require("express-async-handler");
 
 function generateOTP() {
@@ -28,26 +26,118 @@ const createUser = expressAsyncHandler(async (req, res, next) => {
         })
       );
     }
-
-    const hash = await HashPassword(password);
-    const newUser = {
-      name: name,
+    const otp = generateOTP();
+    const newOtp = {
       email: email,
-      phone: phone,
-      password: hash,
+      otp: otp,
     };
+    const exists = await otpModel.findOne({ email: email });
+    if (exists) {
+      await sendMail({
+        email: email,
+        subject: "Email verification otp",
+        message: `Hello ${email} use the following otp to verify your email: ${otp}`,
+      }).catch((error) => {
+        return res.send({
+          success: false,
+          message: "Please check your network connection and try again later",
+        });
+      });
+      exists.email = exists.email;
+      exists.otp = otp;
+      await exists.save();
+      res.send({
+        success: true,
+        message: "Otp sent successfully! please check your email",
+        newOtp,
+      });
+    }
+    await sendMail({
+      email: email,
+      subject: "Password reset otp",
+      message: `Hello ${email} use the following otp to reset your password: ${otp}`,
+    }).catch((error) => {
+      return res.send({
+        success: false,
+        message: "Please check your network connection and try again later",
+      });
+    });
 
-    const user = await userModel.create(newUser);
-
+    await otpModel.create(newOtp);
     res.send({
       success: true,
-      message: "Account created successfully",
-      user,
+      message: "Otp sent successfully! please check your email",
+      newOtp,
     });
   } catch (error) {
     return next(res.send({ message: error.message }));
   }
 });
+
+const VerifyEmail = expressAsyncHandler(async (req, res, next) => {
+  try {
+    const { email, otp, name, phone, password } = req.body.newUser;
+    const exists = await otpModel.findOne({ email, otp });
+    if (!exists) {
+      return next(
+        res.send({
+          success: false,
+          message: "Invalid otp or email",
+        })
+      );
+    }
+    exists.verified = true;
+    await exists.save();
+
+    Register(email, name, phone, password, otp, next, res);
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+async function Register(email, name, phone, password, otp, next, res) {
+  if (!name || !email || !phone || !password) {
+    return res.send({
+      message: "All fields are required!",
+    });
+  }
+  const otpverified = await otpModel.findOne({ otp, email });
+  if (otpverified.verified === false) {
+    return res.send({
+      success: false,
+      message: "Otp not verified",
+    });
+  }
+  const existUser = await userModel.findOne({ email });
+  if (existUser) {
+    return next(
+      res.send({
+        success: false,
+        message: "Email already exists!",
+      })
+    );
+  }
+
+  const hash = await HashPassword(password);
+  const newUser = {
+    name: name,
+    email: email,
+    phone: phone,
+    password: hash,
+  };
+
+  const user = await userModel.create(newUser);
+  await otpModel.findOneAndDelete({ otp, email });
+
+  res.send({
+    success: true,
+    message: "Account created successfully! Continue to login",
+    user,
+  });
+}
 
 const Login = expressAsyncHandler(async (req, res, next) => {
   try {
@@ -383,11 +473,13 @@ const AddDeliveryDetails = expressAsyncHandler(async (req, res, next) => {
       location: location,
       type: type,
     };
-    if(user?.deliveryDetails?.find((data)=>data.type === type)){
-      return next(res.send({
-        success:false,
-        message:'Delivery details already exists'
-      }))
+    if (user?.deliveryDetails?.find((data) => data.type === type)) {
+      return next(
+        res.send({
+          success: false,
+          message: "Delivery details already exists",
+        })
+      );
     }
 
     user.deliveryDetails.push(newDeliveryDetails);
@@ -450,4 +542,5 @@ module.exports = {
   deleteUserAdmin,
   AddDeliveryDetails,
   removeAddress,
+  VerifyEmail,
 };

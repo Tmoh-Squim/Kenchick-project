@@ -12,6 +12,7 @@ const {
   deleteUserAdmin,
   AddDeliveryDetails,
   removeAddress,
+  VerifyEmail,
 } = require("../controller/user");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
@@ -19,6 +20,7 @@ const router = express.Router();
 
 router.post("/create-user", createUser);
 router.post("/login-user", Login);
+router.post("/verify-email",VerifyEmail)
 router.post("/forgot-password", ResetPassword);
 router.get("/getUser", isAuthenticated, loadUser);
 router.post("/verify-otp", VerifyOtp);
