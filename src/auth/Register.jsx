@@ -64,7 +64,7 @@ const Register = () => {
         </div>
       </div>
 
-      <div className="w-full 800px:h-screen 800px:w-[60%] flex justify-center items-center bg-slate-200">
+      <div className="w-full 800px:h-screen 800px:w-[60%] h-screen flex justify-center items-center bg-slate-200">
         <div className="p-4 w-full 800px:w-[80%] 800px:m-auto">
           <div className="my-5">
             <h1 className="text-3xl text-black text-center font-bold">

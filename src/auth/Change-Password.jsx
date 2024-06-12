@@ -40,7 +40,7 @@ const ChangePassword = () => {
 
   return (
     <div className="block w-full justify-between items-center 800px:px-4 800px:flex bg-slate-200">
-      <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] hidden 800px:flex items-center bg-white">
+      <div className="w-full 800px:h-screen h-max px-4 800px:w-[40%] hidden 800px:flex justify-center items-center bg-white">
         <div>
           <div>
             <h1 className="text-blue-500 text-3xl font-semibold">
@@ -56,7 +56,7 @@ const ChangePassword = () => {
         </div>
       </div>
 
-      <div className="w-full 800px:h-screen 800px:w-[60%] flex justify-center items-center bg-slate-200">
+      <div className="w-full 800px:h-screen 800px:w-[60%] h-screen flex justify-center items-center bg-slate-200">
         <div className="p-4 w-full 800px:w-[80%] 800px:m-auto">
           <div className="my-5">
             <h1 className="text-3xl text-black text-center font-bold">
