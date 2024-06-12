@@ -27,6 +27,7 @@ const PendingOrders = () => {
             title: "Id",
             key: "_id",
             dataIndex: "_id",
+            render: (text) => text.slice(0, 10)+ '...'
           },
 
           {

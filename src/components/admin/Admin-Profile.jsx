@@ -17,7 +17,7 @@ import {
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
 import Dashboard from "./Dashboard";
-import Orders from "./Orders";
+import  Products from "./Products";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
                 icon: <AiOutlineProduct size={20} />,
               },
               {
-                title: "Orders",
+                title: "  Products",
                 label: "Orders",
                 key: "Orders",
                 children: [
@@ -232,7 +232,7 @@ const AdminDashboard = () => {
         </Sider>
         <Content className="p-2">
           {active === 1 && <Dashboard />}
-          {active === 2 && <Orders />}
+          {active === 2 && <Products />}
           {active === 3 && <CreateProduct />}
           {active === 4 && <AdminUsers />}
           {active === 5 && <Profile />}

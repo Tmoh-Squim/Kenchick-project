@@ -5,15 +5,15 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import {useNavigate} from "react-router-dom"
 
-const CompletedOrders = () => {
+const Orders = () => {
   const {orders} = useSelector((state)=>state.adminOrders.orders);
   const [data,setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(()=>{  
-    const dat = orders.filter((order)=>order.status === 'Delivered');
+    const dat = orders?.filter((order)=>order.status === 'Delivered');
     setData(dat)
-  },[])
+  },[orders])
   
 
   return (
@@ -25,7 +25,8 @@ const CompletedOrders = () => {
       {
         title:"Id",
         key:"_id",
-        dataIndex:"_id"
+        dataIndex:"_id",
+        render: (text) => text.slice(0, 10)+ '...'
       },
 
       {
@@ -41,7 +42,8 @@ const CompletedOrders = () => {
       {
         title:"Created At",
         key:"createdAt",
-        dataIndex:'createdAt'
+        dataIndex:'createdAt',
+        render: (text) => text.slice(0, 10)
       },
       {
         title:"Status",
@@ -70,4 +72,4 @@ const CompletedOrders = () => {
   )
 }
 
-export default CompletedOrders
+export default Orders

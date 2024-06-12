@@ -53,7 +53,8 @@ const AdminUsers = () => {
       {
         title:"Id",
         key:"_id",
-        dataIndex:"_id"
+        dataIndex:"_id",
+        render: (text) => text.slice(0, 10)+ '...'
       },
 
       {
@@ -74,7 +75,8 @@ const AdminUsers = () => {
       {
         title:"Joined on",
         key:"CreatedAt",
-        dataIndex:`createdAt`
+        dataIndex:`createdAt`,
+        render: (text) => text.slice(0, 10)
       },
       {
         title:"Action",

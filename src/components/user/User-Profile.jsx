@@ -22,14 +22,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeTheme, setTheme } from "../../redux/theme";
 import AdminUsers from "./Users";
 import { getOrdersUser } from "../../redux/order";
-import CompletedOrders from "./CompleteOrders";
-import PendingOrders from "./PendingOrders";
+import CompletedOrders from "./Orders";
+import Orders from "./Orders";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import TrackOrder from "./TrackOrder";
 import OutOfStock from "./OutOfStock";
 import Address from "./Address";
 import SavedAddress from "./SavedAddress";
+import UserPendingOrders from "./PendingOrders";
 
 const UserProfile = () => {
   const date = Date().slice(15, 18);
@@ -118,9 +119,25 @@ const UserProfile = () => {
                 title: "Orders",
                 label: "Orders",
                 key: "Orders",
-                onClick: () => {
-                  setActive(7);
-                },
+                children:[
+                  {
+                    title: "Pending Orders",
+                    label: "Pending Orders",
+                    key: "Pending Orders",
+                    onClick: () => {
+                      setActive(11);
+                    },
+                    
+                  },
+                  {
+                    title: "Delivered Orders",
+                    label: "Delivered Orders",
+                    key: "Delivered Orders",
+                    onClick: () => {
+                      setActive(7);
+                    },
+                  },
+                ],
                 icon: <AiOutlineOrderedList size={20} />,
               },
               {
@@ -196,10 +213,11 @@ const UserProfile = () => {
           {active === 4 && <AdminUsers />}
           {active === 5 && <Profile />}
           {active === 6 && <ChangePassword />}
-          {active === 7 && <PendingOrders />}
+          {active === 7 && <Orders />}
           {active === 8 && <CompletedOrders />}
           {active === 9 && <TrackOrder />}
           {active === 10 && <OutOfStock />}
+          {active === 11 && <UserPendingOrders />}
         </Content>
       </Layout>
     </Layout>

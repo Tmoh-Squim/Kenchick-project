@@ -25,6 +25,7 @@ const TrackOrder = () => {
             title: "Order Id",
             key: "_id",
             dataIndex: "_id",
+            render: (text) => text.slice(0, 10)+ '...'
           },
           {
             title: "Status",
@@ -45,6 +46,7 @@ const TrackOrder = () => {
             title: "Created At",
             key: "createdAt",
             dataIndex: 'createdAt',
+            render: (text) => text.slice(0, 10)
           },
           {
             title: "Preview",

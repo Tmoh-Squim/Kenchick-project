@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteProducti, getProducts } from '../../redux/product';
 import Loader from '../../utils/Loader';
 
-const Orders = () => {
+const Products = () => {
   const { products } = useSelector((state) => state.products);
   const {loading,success} = useSelector((state)=>state.deleteProduct);
   const [data, setData] = useState([]);
@@ -42,7 +42,7 @@ const Orders = () => {
       title: "Id",
       key: "_id",
       dataIndex: "_id",
-      responsive: ['md'],
+      render: (text) => text.slice(0, 10)+ '...'
     },
     {
       title: "Name",
@@ -54,19 +54,17 @@ const Orders = () => {
       title: "Description",
       key: "description",
       dataIndex: "description",
-      responsive: ['lg'],
+      render: (text) => text.slice(0, 30)+ '...'
     },
     {
       title: "Sold Out",
       key: "sold",
       dataIndex: 'sold',
-      responsive: ['md'],
     },
     {
       title: "Stock",
       key: "stock",
       dataIndex: 'stock',
-      responsive: ['md'],
     },
     {
       title: "Preview",
@@ -133,4 +131,4 @@ const Orders = () => {
   );
 }
 
-export default Orders;
+export default Products;
