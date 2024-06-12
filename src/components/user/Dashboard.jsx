@@ -120,22 +120,22 @@ const Dashboard = () => {
       <div className="px-2">
         <h1>Business Analytics</h1>
 
-        <div className="800px:flex flex-wrap block ">
-          <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+        <div className="800px:flex flex-wrap block justify-between ">
+          <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
               <h1>Pending</h1>
               <AiOutlineShopping size={30} />
             </div>
             {pending}
           </Card>
-          <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+          <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
               <h1>Confirmed</h1>
               <AiOutlineCheckCircle color="green" size={30} />
             </div>
             {confirmed}
           </Card>
-          <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+          <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
               <h1>Shipping</h1>
               <AiOutlineTruck size={30} />
@@ -143,7 +143,7 @@ const Dashboard = () => {
             {shipping}
           </Card>
           <Card
-            className="800px:w-[23%] shadow-sm m-2  rounded-lg cursor-pointer"
+            className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg cursor-pointer"
             onClick={handleOutOfDelivery}
           >
             <div className="flex justify-between">
@@ -152,28 +152,28 @@ const Dashboard = () => {
             </div>
             {outOfDelivery}
           </Card>
-          <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+          <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
               <h1>All products</h1>
               <AiOutlineProduct size={30}/>
               </div>
               {products?.length}
             </Card>
-            <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+            <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
               <div className="flex justify-between">
                 <h1>Delivered</h1>
                 <AiOutlineDeliveredProcedure size={30} />
               </div>
               {deliverd}
             </Card>
-            <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+            <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
               <div className="flex justify-between">
                 <h1>All users</h1>
                 <AiOutlineUsergroupAdd size={30} />
               </div>
               {users?.length}
             </Card>
-            <Card className="800px:w-[23%] shadow-sm m-2  rounded-lg">
+            <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
               <div className="flex justify-between">
                 <h1>Returned</h1>
                 <HiOutlineReceiptRefund size={30} />

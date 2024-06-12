@@ -2,6 +2,7 @@ import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import Layout, { Content, Header } from "antd/es/layout/layout";
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import {
   AiOutlineDashboard,
   AiOutlineFileAdd,
@@ -11,14 +12,10 @@ import {
   AiOutlineMoon,
   AiOutlineOrderedList,
   AiOutlineProduct,
-  AiOutlineSave,
   AiOutlineSun,
   AiOutlineUser,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
-import {
-  MdOutlineTrackChanges
-} from "react-icons/md";
 import Dashboard from "./Dashboard";
 import Orders from "./Orders";
 import Profile from "./Profile";
@@ -35,66 +32,75 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import OutOfStock from "./OutOfStock";
 import RefundedOrders from "./RefundedOrders";
+
 const AdminDashboard = () => {
-  const date = Date().slice(15,18);
+  const date = Date().slice(15, 18);
 
   const [collapsed, setCollapsed] = useState(false);
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 760px)" });
   const [active, setActive] = useState(1);
   const { user } = useSelector((state) => state.user?.user);
   const { theme } = useSelector((state) => state.theme);
-  const [greeting,setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
- 
+
   const dispatch = useDispatch();
   dispatch(getUsers());
   dispatch(getOrdersAdmin());
 
   const handleTheme = () => {
-    if(theme){
+    if (theme) {
       dispatch(removeTheme());
-    }else{
+    } else {
       dispatch(setTheme());
     }
   };
-  useEffect(()=>{
-    if(date < 12){
-      setGreeting('Good Morning')
-    }else if(date >= 12 && date < 19){
-      setGreeting('Good Afternoon')
-    }else{
-      setGreeting('Good Evening')
-    }
-  },[date])
 
-  const handleLogout = ()=>{
-    try {
-      localStorage.removeItem('token');
-      navigate('/');
-      window.location.reload();
-      toast.success('Logged out successfully')
-    } catch (error) {
-      toast.error('Something went wrong')
+  useEffect(() => {
+    if (date < 12) {
+      setGreeting("Good Morning");
+    } else if (date >= 12 && date < 19) {
+      setGreeting("Good Afternoon");
+    } else {
+      setGreeting("Good Evening");
     }
-  }
+  }, [date]);
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("token");
+      navigate("/");
+      window.location.reload();
+      toast.success("Logged out successfully");
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    if (isSmallScreen) {
+      setCollapsed(true);
+    }
+  }, [isSmallScreen]);
+
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme? '#0000004b':'bg-white'} flex items-center px-1`}>
-        <div
-          className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <AiOutlineMenu size={25} color={theme ===true ?'white' :'black'} />
+      <Header className={`${theme ? "#0000004b" : "bg-white"} flex items-center px-1`}>
+        <div className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]" onClick={() => setCollapsed(!collapsed)}>
+          <AiOutlineMenu size={25} color={theme === true ? "white" : "black"} />
         </div>
 
-        <h1 className={`${theme ? 'text-white' :'text-black'} 800px:text-2xl text-xl align-middle text-center`}>
+        <h1 className={`${theme ? "text-white" : "text-black"} 800px:text-2xl text-xl align-middle text-center`}>
           {greeting} {user.name} Welcome to Your Dashboard
         </h1>
       </Header>
       <Layout theme="light" className="mt-1">
         <Sider
-          collapsed={collapsed}
+          collapsed={isSmallScreen ? true : collapsed}
           theme="light"
-          className="bg-black h-screen"
+          className="bg-black h-screen w-[5%]"
+          breakpoint="lg"
+          collapsedWidth="50px"
         >
           <Menu
             mode="inline"
@@ -126,23 +132,27 @@ const AdminDashboard = () => {
                     title: "Pending orders",
                     label: "Pending orders",
                     key: "Pending orders",
-                    
-                    onClick:()=>{setActive(7)}
+                    onClick: () => {
+                      setActive(7);
+                    },
                   },
                   {
                     title: "Completed orders",
                     label: "Completed orders",
                     key: "Completed orders",
-                    onClick:()=>{setActive(8)}
+                    onClick: () => {
+                      setActive(8);
+                    },
                   },
                   {
                     title: "Refunded orders",
                     label: "Refunded orders",
                     key: "Refunded orders",
-                    onClick:()=>{setActive(11)}
+                    onClick: () => {
+                      setActive(11);
+                    },
                   },
                 ],
-               
                 icon: <AiOutlineOrderedList size={20} />,
               },
               {
@@ -206,17 +216,15 @@ const AdminDashboard = () => {
                 onClick: () => {
                   handleTheme();
                 },
-                icon: theme ? (
-                  <AiOutlineSun size={20} />
-                ) : (
-                  <AiOutlineMoon size={20} />
-                ),
+                icon: theme ? <AiOutlineSun size={20} /> : <AiOutlineMoon size={20} />,
               },
               {
                 title: "Logout",
                 label: "Logout",
                 key: "Logout",
-                onClick:()=> {handleLogout()},
+                onClick: () => {
+                  handleLogout();
+                },
                 icon: <AiOutlineLogout size={20} />,
               },
             ]}

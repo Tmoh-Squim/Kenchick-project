@@ -24,7 +24,6 @@ import SearchPage from "./pages/SearchPage";
 import Products from "./components/products/Products";
 import Contact from "./pages/Contact";
 import AboutUs from "./pages/AboutUs";
-import AdminDashboard from "./components/admin/User-Profile";
 import OrderDetails from "./components/user/UpdateOrder";
 import UpdateProduct from "./components/admin/UpdateProduct";
 import AdminUpdateOrder from "./components/admin/UpdateOrder";
@@ -33,6 +32,7 @@ import WeekOld from "./pages/WeekOld";
 import MonthOld from "./pages/MonthOld";
 import Food from "./pages/Food";
 import VerifyEmail from "./auth/Verify-email";
+import AdminDashboard from "./components/admin/Admin-Profile";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
