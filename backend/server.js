@@ -13,6 +13,7 @@ connectDB()
 const authRoutes = require("./routes/auth");
 const chickRoutes = require("./routes/chicks")
 const orderRoutes = require("./routes/order")
+const categoryRoutes = require("./routes/category")
 //middlewares
 app.use(cors({
     origin:['https://kenchick.vercel.app',
@@ -28,7 +29,8 @@ app.use("/",express.static(path.join(__dirname,'/uploads')))
 
 app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/chick",chickRoutes);
-app.use("/api/v1/order",orderRoutes)
+app.use("/api/v1/order",orderRoutes);
+app.use("/api/v1/category",categoryRoutes);
 
 
 app.listen(PORT,()=>console.log(`server run nicely at port ${PORT}`))
