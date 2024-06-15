@@ -3,7 +3,7 @@ const compression = require("compression");
 const cors = require("cors");
 const path = require("path")
 require('dotenv').config();
-
+const {insertChatData} = require("./controller/chatbotdata")
 const connectDB = require("./config/db")
 
 const PORT =process.env.PORT || 8080;
@@ -14,6 +14,7 @@ const authRoutes = require("./routes/auth");
 const chickRoutes = require("./routes/chicks")
 const orderRoutes = require("./routes/order")
 const categoryRoutes = require("./routes/category")
+const chatbotRoutes = require("./routes/chatbot")
 //middlewares
 app.use(cors({
     origin:['https://kenchick.vercel.app',
@@ -31,6 +32,9 @@ app.use("/api/v1/auth",authRoutes);
 app.use("/api/v1/chick",chickRoutes);
 app.use("/api/v1/order",orderRoutes);
 app.use("/api/v1/category",categoryRoutes);
+app.use("/api/v1/chatbot",chatbotRoutes);
 
 
-app.listen(PORT,()=>console.log(`server run nicely at port ${PORT}`))
+app.listen(PORT,async()=>{console.log(`server run nicely at port ${PORT}`);
+//await insertChatData();
+})
