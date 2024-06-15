@@ -8,6 +8,7 @@ const token = localStorage.getItem("token");
 const CreateProduct = () => {
   const [error, setError] = useState(false);
   const {success,loading} = useSelector((state)=>state.createProduct);
+  const {categories} = useSelector((state)=>state.categories);
 
   const [title, setTitle] = useState("");
   const [description, setDesription] = useState("");
@@ -16,8 +17,6 @@ const CreateProduct = () => {
   const [price, setPrice] = useState();
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null)
-  const Categories = ["Day old chicks", "1 week old chicks", "3 months old chicks","Food"];
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -137,14 +136,14 @@ const CreateProduct = () => {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="category">Choose category</option>
-              {Categories.map((category) => (
+              {categories?.map((category,index) => (
                 <option
-                  key={category}
+                  key={index}
                   style={{ color: "black" }}
-                  value={category}
+                  value={category?.name}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  {category}
+                  {category?.name}
                 </option>
               ))}
             </select>

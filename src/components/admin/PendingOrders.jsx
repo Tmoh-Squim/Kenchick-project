@@ -44,6 +44,7 @@ const PendingOrders = () => {
             title: "Created At",
             key: "createdAt",
             dataIndex: "createdAt",
+            render: (text) => text.slice(0, 10)
           },
           {
             title: "Status",

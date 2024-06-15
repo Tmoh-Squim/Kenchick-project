@@ -3,18 +3,20 @@ import { useSelector } from "react-redux";
 import Headerr from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import ProductCard from "../components/products/ProductCard";
+import { useParams } from "react-router-dom";
 
 const DayOld = () => {
   const { products } = useSelector((state) => state.products);
   const [data, setData] = useState([]);
+  const {category} = useParams();
 
   useEffect(() => {
     const res = products.filter(
-      (product) => product.category === "Day old chicks"
+      (product) => product.category === category
     );
 
     setData(res);
-  }, [products]);
+  }, [products,category]);
   return (
     <div className="bg-slate-100">
       <Headerr />
@@ -22,7 +24,7 @@ const DayOld = () => {
         <div>
           <div>
             <h1 className="text-center text-xl my-2 800px:text-2xl">
-              Day old chicks
+              {category}
             </h1>
           </div>
           <div className="flex flex-wrap justify-around 800px:px-4">

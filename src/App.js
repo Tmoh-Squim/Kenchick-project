@@ -28,17 +28,17 @@ import OrderDetails from "./components/user/UpdateOrder";
 import UpdateProduct from "./components/admin/UpdateProduct";
 import AdminUpdateOrder from "./components/admin/UpdateOrder";
 import DayOld from "./pages/DayOld";
-import WeekOld from "./pages/WeekOld";
-import MonthOld from "./pages/MonthOld";
 import Food from "./pages/Food";
 import VerifyEmail from "./auth/Verify-email";
 import AdminDashboard from "./components/admin/Admin-Profile";
+import { getCategories } from "./redux/category";
 function App() {
   const cart = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user?.user);
   useEffect(() => {
     store.dispatch(getProducts());
     store.dispatch(getUser());
+    store.dispatch(getCategories());
 
     //eslint-disable-next-line
   }, [store]);
@@ -64,9 +64,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/day-old-chicks" element={<DayOld />} />
-        <Route path="/week-old-chicks" element={<WeekOld />} />
-        <Route path="/three-months-old-chicks" element={<MonthOld />} />
+        <Route path="/day-old-chicks/:category" element={<DayOld />} />
         <Route path="/food" element={<Food />} />
         <Route
           path="/payment-details"

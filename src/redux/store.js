@@ -12,6 +12,8 @@ import userReducer, {
 import cartReducer from "./cart";
 import themeReducer from "./theme";
 import adminOrderReducer, { userOrderSlice } from "./order";
+import categorySlice, { deleteCategorySlice } from "./category";
+
 const store = configureStore({
   reducer: {
     products: productReducer,
@@ -30,6 +32,8 @@ const store = configureStore({
     deleteProduct: deleteProductSlice,
     createProduct: createProductSlice,
     updateProduct: updateProductSlice,
+    categories: categorySlice,
+    deleteCategory: deleteCategorySlice,
   },
 });
 

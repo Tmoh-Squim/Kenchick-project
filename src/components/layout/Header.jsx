@@ -16,6 +16,7 @@ import { Server } from "../../server";
 const Headerr = () => {
   const { user } = useSelector((state) => state.user?.user);
   const [active, setActive] = useState(false);
+  const {categories} = useSelector((state)=>state.categories);
   const [query, setQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [data, setData] = useState([]);
@@ -135,30 +136,19 @@ const Headerr = () => {
                 } `}
               >
                 <div className="block">
-                  <h1
+                  {
+                    categories?.map((category,index)=>(
+                      <h1
+                      key={index}
                     className="cursor-pointer hover:text-red-500"
                     onClick={() => {
-                      navigate("/day-old-chicks");
+                      navigate(`/day-old-chicks/${category?.name}`);
                     }}
                   >
-                    Day old chicks
+                   {category?.name}
                   </h1>
-                  <h1
-                    className="my-[1.2rem] cursor-pointer hover:text-red-500"
-                    onClick={() => {
-                      navigate("/week-old-chicks");
-                    }}
-                  >
-                    1 week old chicks
-                  </h1>
-                  <h1
-                    className="cursor-pointer hover:text-red-500"
-                    onClick={() => {
-                      navigate("/three-months-old-chicks");
-                    }}
-                  >
-                    3 months old chicks
-                  </h1>
+                    ))
+                  }
                 </div>
               </div>
             </div>

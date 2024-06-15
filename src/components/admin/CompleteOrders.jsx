@@ -42,7 +42,8 @@ const CompletedOrders = () => {
       {
         title:"Created At",
         key:"createdAt",
-        dataIndex:'createdAt'
+        dataIndex:'createdAt',
+        render: (text) => text.slice(0, 10)
       },
       {
         title:"Status",

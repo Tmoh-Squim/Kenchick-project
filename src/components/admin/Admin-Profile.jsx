@@ -32,6 +32,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import OutOfStock from "./OutOfStock";
 import RefundedOrders from "./RefundedOrders";
+import CreateCategory from "./Create-Category";
+import Categories from "./Categories";
 
 const AdminDashboard = () => {
   const date = Date().slice(15, 18);
@@ -59,7 +61,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (date < 12) {
       setGreeting("Good Morning");
-    } else if (date >= 12 && date < 19) {
+    } else if (date >= 12 && date < 18) {
       setGreeting("Good Afternoon");
     } else {
       setGreeting("Good Evening");
@@ -115,16 +117,7 @@ const AdminDashboard = () => {
                 icon: <AiOutlineDashboard size={20} />,
               },
               {
-                title: "Products",
-                label: "Products",
-                key: "Products",
-                onClick: () => {
-                  setActive(2);
-                },
-                icon: <AiOutlineProduct size={20} />,
-              },
-              {
-                title: "  Products",
+                title: "Orders",
                 label: "Orders",
                 key: "Orders",
                 children: [
@@ -156,6 +149,15 @@ const AdminDashboard = () => {
                 icon: <AiOutlineOrderedList size={20} />,
               },
               {
+                title: "Products",
+                label: "Products",
+                key: "Products",
+                onClick: () => {
+                  setActive(2);
+                },
+                icon: <AiOutlineProduct size={20} />,
+              },
+              {
                 title: "Add Product",
                 label: "Add Product",
                 key: "Add Product",
@@ -169,7 +171,7 @@ const AdminDashboard = () => {
                 label: "Categories",
                 key: "Categories",
                 onClick: () => {
-                  setActive();
+                  setActive(13);
                 },
                 icon: <AiOutlineProduct size={20} />,
               },
@@ -178,7 +180,7 @@ const AdminDashboard = () => {
                 label: "Add Category",
                 key: "Add Category",
                 onClick: () => {
-                  setActive();
+                  setActive(12);
                 },
                 icon: <AiOutlineFileAdd size={20} />,
               },
@@ -241,6 +243,8 @@ const AdminDashboard = () => {
           {active === 8 && <CompletedOrders />}
           {active === 10 && <OutOfStock />}
           {active === 11 && <RefundedOrders />}
+          {active === 12 && <CreateCategory />}
+          {active === 13 && <Categories />}
         </Content>
       </Layout>
     </Layout>

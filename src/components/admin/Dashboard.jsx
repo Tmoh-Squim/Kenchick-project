@@ -1,7 +1,6 @@
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { Bar, Pie } from "@ant-design/charts";
-import React, { useEffect, useState } from "react";
 import {
   AiOutlineCheckCircle,
   AiOutlineDeliveredProcedure,
@@ -10,8 +9,20 @@ import {
   AiOutlineTruck,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
-import { useSelector } from "react-redux";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
+import CountUp from "react-countup";
+import { useSelector } from "react-redux";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 
 const Dashboard = () => {
   const [deliverd, setDelivered] = useState(0);
@@ -25,7 +36,6 @@ const Dashboard = () => {
   const { orders } = useSelector((state) => state.adminOrders?.orders);
   const { products } = useSelector((state) => state.products);
   const { users } = useSelector((state) => state.users?.users);
-
 
   useEffect(() => {
     const dat = orders?.filter((order) => order.status === "Delivered");
@@ -46,72 +56,27 @@ const Dashboard = () => {
   }, [products]);
 
   useEffect(() => {
-    setPieData([
-      { type: "Pending", value: pending },
-      { type: "Confirmed", value: confirmed },
-      { type: "Shipping", value: shipping },
-      { type: "Returned", value: returned },
-    ]);
+    const pieDataFiltered = [
+      { name: "Pending", value: pending },
+      { name: "Confirmed", value: confirmed },
+      { name: "Shipping", value: shipping },
+      { name: "Returned", value: returned },
+    ].filter(item => item.value > 0);
 
-    // Prepare data for the bar chart
-    const statusCounts = [
-      { status: "Delivered", count: deliverd },
-      { status: "Confirmed", count: confirmed },
-      { status: "Pending", count: pending },
-      { status: "Shipping", count: shipping },
-      { status: "Returned", count: returned },
-    ];
+    setPieData(pieDataFiltered);
 
-    setBarData(statusCounts);
+    const barDataFiltered = [
+      { name: "Delivered", value: deliverd },
+      { name: "Confirmed", value: confirmed },
+      { name: "Pending", value: pending },
+      { name: "Shipping", value: shipping },
+      { name: "Returned", value: returned },
+    ].filter(item => item.value > 0);
+
+    setBarData(barDataFiltered);
   }, [pending, confirmed, shipping, returned, deliverd]);
 
-  const pieConfig = {
-    data: pieData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    interactions: [{ type: "element-active" }],
-    color: ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"],
-    label: {
-      style: {
-        fill: "#000",
-        fontSize: 14,
-      },
-    },
-    legend: {
-      position: "bottom",
-      layout: "vertical",
-    },
-  };
-
-  const barConfig = {
-    data: barData,
-    xField: 'status',
-    yField: 'count',
-    seriesField: 'status',
-    barWidthRatio: 5.0,
-    color: ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"],
-    xAxis: {
-      label: {
-        formatter: (v) => `${v}`,
-      },
-    },
-    yAxis: {
-      label: {
-        formatter: (v) => `${v}`,
-      },
-    },
-    legend: {
-      position: 'top',
-    },
-    animation: {
-      appear: {
-        animation: 'scale-in-y',
-        duration: 5000,
-      },
-    },
-  };
-
+  const COLORS = ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"];
 
   const handleOutOfDelivery = () => {};
 
@@ -121,21 +86,21 @@ const Dashboard = () => {
         <h1>Business Analytics</h1>
 
         <div className="800px:flex flex-wrap justify-between block ">
-          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
             <div className="flex justify-between">
               <h1>Pending</h1>
               <AiOutlineShopping size={30} />
             </div>
             {pending}
           </Card>
-          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
             <div className="flex justify-between">
               <h1>Confirmed</h1>
               <AiOutlineCheckCircle color="green" size={30} />
             </div>
             {confirmed}
           </Card>
-          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
             <div className="flex justify-between">
               <h1>Shipping</h1>
               <AiOutlineTruck size={30} />
@@ -143,7 +108,7 @@ const Dashboard = () => {
             {shipping}
           </Card>
           <Card
-            className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg cursor-pointer"
+            className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg cursor-pointer"
             onClick={handleOutOfDelivery}
           >
             <div className="flex justify-between">
@@ -152,54 +117,85 @@ const Dashboard = () => {
             </div>
             {outOfDelivery}
           </Card>
-          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
             <div className="flex justify-between">
               <h1>All products</h1>
-              <AiOutlineProduct size={30}/>
-              </div>
-              {products?.length}
-            </Card>
-            <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
-              <div className="flex justify-between">
-                <h1>Delivered</h1>
-                <AiOutlineDeliveredProcedure size={30} />
-              </div>
-              {deliverd}
-            </Card>
-            <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
-              <div className="flex justify-between">
-                <h1>All users</h1>
-                <AiOutlineUsergroupAdd size={30} />
-              </div>
-              {users?.length}
-            </Card>
-            <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1  rounded-lg">
-              <div className="flex justify-between">
-                <h1>Returned</h1>
-                <HiOutlineReceiptRefund size={30} />
-              </div>
-              {returned}
-            </Card>
-          </div>
-        </div>
-        <Card>
-          <h1>Order statistics</h1>
-          <Card>
-            <h1>Order statistics</h1>
-            <Row gutter={16}>
-              
-              <Col span={16}>
-                <Bar {...barConfig} height={250} layout={'vertical'}/>
-              </Col>
-              <Col span={8}>
-                <Pie {...pieConfig} height={250} />
-              </Col> 
- 
-            </Row>
+              <AiOutlineProduct size={30} />
+            </div>
+            <CountUp end={products?.length} duration={2} />
           </Card>
-        </Card>
-      </Content>
-    );
-  };
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
+            <div className="flex justify-between">
+              <h1>Delivered</h1>
+              <AiOutlineDeliveredProcedure size={30} />
+            </div>
+            {deliverd}
+          </Card>
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
+            <div className="flex justify-between">
+              <h1>All users</h1>
+              <AiOutlineUsergroupAdd size={30} />
+            </div>
+            {users?.length}
+          </Card>
+          <Card className="800px:w-[23%] w-full shadow-sm 800px:m-2 my-1 rounded-lg">
+            <div className="flex justify-between">
+              <h1>Returned</h1>
+              <HiOutlineReceiptRefund size={30} />
+            </div>
+            {returned}
+          </Card>
+        </div>
+      </div>
+      <Card>
+        <h1>Order statistics</h1>
+        <Row gutter={16}>
+          <Col span={16}>
+            <BarChart
+              width={600}
+              height={300}
+              data={barData}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill="#8884d8">
+                {barData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </Col>
+          <Col span={8}>
+            <PieChart width={450} height={450}>
+              <Pie
+                data={pieData}
+                cx={200}
+                cy={200}
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+                label
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </Col>
+        </Row>
+      </Card>
+    </Content>
+  );
+};
 
-  export default Dashboard;
+export default Dashboard;

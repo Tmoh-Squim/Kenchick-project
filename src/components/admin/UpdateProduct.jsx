@@ -11,14 +11,8 @@ const UpdateProduct = () => {
   const location = useLocation();
   const product = location.state.product;
   const {success,loading} = useSelector((state)=>state.updateProduct);
+  const {categories} = useSelector((state)=>state.categories)
   const dispatch = useDispatch();
-
-  const Categories = [
-    "Day old chicks",
-    "1 week old chicks",
-    "3 months old chicks",
-    "Food",
-  ];
 
   const [error] = useState(false);
   const [title, setTitle] = useState(product?.title);
@@ -116,14 +110,14 @@ const UpdateProduct = () => {
               {category?.legth < 0 && (
                 <option value="category">Choose category</option>
               )}
-              {Categories.map((category) => (
+                {categories?.map((category,index) => (
                 <option
-                  key={category}
+                  key={index}
                   style={{ color: "black" }}
-                  value={category}
+                  value={category?.name}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  {category}
+                  {category?.name}
                 </option>
               ))}
             </select>
