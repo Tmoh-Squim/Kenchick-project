@@ -15,7 +15,7 @@ const OrderDetails = () => {
   const navigate = useNavigate();
   
   return (
-    <Layout className="p-2">
+    <Layout className="p-2 h-[100vh]">
       <h1 className="800px:text-3xl text-xl">
       Order details
       </h1>

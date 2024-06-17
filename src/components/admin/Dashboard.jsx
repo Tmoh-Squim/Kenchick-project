@@ -71,12 +71,13 @@ const Dashboard = () => {
       { name: "Pending", value: pending },
       { name: "Shipping", value: shipping },
       { name: "Returned", value: returned },
+      {name: "Out of stock", value: outOfDelivery}
     ].filter(item => item.value > 0);
 
     setBarData(barDataFiltered);
   }, [pending, confirmed, shipping, returned, deliverd]);
 
-  const COLORS = ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"];
+  const COLORS = ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A",'red'];
 
   const handleOutOfDelivery = () => {};
 
@@ -152,8 +153,8 @@ const Dashboard = () => {
         <Row gutter={16}>
           <Col span={16}>
             <BarChart
-              width={600}
-              height={300}
+              width={550}
+              height={350}
               data={barData}
               margin={{
                 top: 5,
@@ -165,22 +166,21 @@ const Dashboard = () => {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Legend />
               <Bar dataKey="value" fill="#8884d8">
                 {barData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} width={40} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Bar>
             </BarChart>
           </Col>
           <Col span={8}>
-            <PieChart width={450} height={450}>
+            <PieChart width={450} height={450} >
               <Pie
                 data={pieData}
                 cx={200}
                 cy={200}
                 labelLine={false}
-                outerRadius={80}
+                outerRadius={130}
                 fill="#8884d8"
                 dataKey="value"
                 label

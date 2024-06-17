@@ -84,7 +84,7 @@ const UserProfile = () => {
 
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme ? '#0000004b' : 'bg-white'} flex items-center px-1`}>
+      <Header className={`${theme ? '#0000004b' : 'bg-white'} flex shadow-lg items-center px-1`}>
         <div
           className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
           onClick={() => setCollapsed(!collapsed)}
@@ -96,7 +96,7 @@ const UserProfile = () => {
           {greeting} {user.name} Welcome to Your Dashboard
         </h1>
       </Header>
-      <Layout theme="light" className="mt-1">
+      <Layout theme="light" className="mt-0">
         <Sider
           collapsed={isSmallScreen ? true : collapsed}
           theme="light"

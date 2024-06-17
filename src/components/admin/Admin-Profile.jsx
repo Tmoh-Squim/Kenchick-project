@@ -9,15 +9,18 @@ import {
   AiOutlineLock,
   AiOutlineLogout,
   AiOutlineMenu,
+  AiOutlineMessage,
   AiOutlineMoon,
+  AiOutlineBell,
   AiOutlineOrderedList,
   AiOutlineProduct,
   AiOutlineSun,
   AiOutlineUser,
   AiOutlineUsergroupAdd,
+  AiOutlineAlert,
 } from "react-icons/ai";
 import Dashboard from "./Dashboard";
-import  Products from "./Products";
+import Products from "./Products";
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,14 +37,18 @@ import OutOfStock from "./OutOfStock";
 import RefundedOrders from "./RefundedOrders";
 import CreateCategory from "./Create-Category";
 import Categories from "./Categories";
+import LimitedStock from "./LimitedStock";
 
 const AdminDashboard = () => {
   const date = Date().slice(15, 18);
 
   const [collapsed, setCollapsed] = useState(false);
+  const { products } = useSelector((state) => state.products);
   const isSmallScreen = useMediaQuery({ query: "(max-width: 760px)" });
   const [active, setActive] = useState(1);
+  const [limitedStock,setLimitedStock] = useState(0);
   const { user } = useSelector((state) => state.user?.user);
+  const [outOfDelivery, setOutOfDelivery] = useState(0);
   const { theme } = useSelector((state) => state.theme);
   const [greeting, setGreeting] = useState("");
   const navigate = useNavigate();
@@ -67,6 +74,12 @@ const AdminDashboard = () => {
       setGreeting("Good Evening");
     }
   }, [date]);
+  useEffect(() => {
+    const data = products?.filter((product) => product.stock === 0);
+    const dat = products?.filter((product)=> product.stock !==0 && product.stock <10);
+    setOutOfDelivery(data?.length);
+    setLimitedStock(dat?.length);
+  }, [products]);
 
   const handleLogout = () => {
     try {
@@ -87,20 +100,61 @@ const AdminDashboard = () => {
 
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme ? "#0000004b" : "bg-white"} flex items-center px-1`}>
-        <div className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]" onClick={() => setCollapsed(!collapsed)}>
-          <AiOutlineMenu size={25} color={theme === true ? "white" : "black"} />
-        </div>
+      <Header
+        className={`${
+          theme ? "#0000004b" : "bg-white"
+        } flex items-center justify-between px-4`}
+      >
+        <div className="flex items-center gap-5">
+          <div
+            className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            <AiOutlineMenu
+              size={25}
+              color={theme === true ? "white" : "black"}
+            />
+          </div>
 
-        <h1 className={`${theme ? "text-white" : "text-black"} 800px:text-2xl text-xl align-middle text-center`}>
-          {greeting} {user.name} Welcome to Your Dashboard
-        </h1>
+          <h1
+            className={`${
+              theme ? "text-white" : "text-black"
+            } 800px:text-2xl text-xl align-middle text-center`}
+          >
+            {greeting} {user.name} Welcome to Your Dashboard
+          </h1>
+        </div>
+        <div className="gap-5 flex items-center justify-end">
+          <div className="relative cursor-pointer">
+            <AiOutlineMessage size={30} />
+            <div className="w-[20px] absolute h-[20px] bottom-0 left-0 rounded-full bg-green-500 text-white flex justify-center items-center">
+              {5}
+            </div>
+          </div>
+          <div className="relative cursor-pointer" onClick={()=>{setActive(15)}}>
+            <AiOutlineAlert size={30} />
+            <div className="w-[20px] absolute h-[20px] top-0 right-0 rounded-full bg-yellow-400 text-white flex justify-center items-center">
+              {limitedStock}
+            </div>
+          </div>
+          <div
+            className="relative cursor-pointer"
+            onClick={() => {
+              setActive(14);
+            }}
+          >
+            <AiOutlineBell size={30} />
+            <div className="w-[20px] absolute h-[20px] top-0 right-0 rounded-full bg-red-500 text-white flex justify-center items-center">
+              {outOfDelivery}
+            </div>
+          </div>
+        </div>
       </Header>
-      <Layout theme="light" className="mt-1">
+      <Layout theme="light" className="mt-0">
         <Sider
           collapsed={isSmallScreen ? true : collapsed}
           theme="light"
-          className="bg-black h-screen w-[5%]"
+          className=" w-[5%] overflow-y-scroll"
           breakpoint="lg"
           collapsedWidth="50px"
         >
@@ -218,7 +272,11 @@ const AdminDashboard = () => {
                 onClick: () => {
                   handleTheme();
                 },
-                icon: theme ? <AiOutlineSun size={20} /> : <AiOutlineMoon size={20} />,
+                icon: theme ? (
+                  <AiOutlineSun size={20} />
+                ) : (
+                  <AiOutlineMoon size={20} />
+                ),
               },
               {
                 title: "Logout",
@@ -245,6 +303,8 @@ const AdminDashboard = () => {
           {active === 11 && <RefundedOrders />}
           {active === 12 && <CreateCategory />}
           {active === 13 && <Categories />}
+          {active === 14 && <OutOfStock />}
+          {active === 15 && <LimitedStock />}
         </Content>
       </Layout>
     </Layout>

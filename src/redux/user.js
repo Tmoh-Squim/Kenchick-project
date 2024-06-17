@@ -44,11 +44,28 @@ export const VerifyOtpi = createAsyncThunk(
 );
 export const VerifyEmaili = createAsyncThunk(
   "/verify-email",
-  async (newUser) => {
-    const response = await axios.post(`${Server_Url}/auth/verify-email`, {
-      newUser,
-    });
-    return response.data;
+  async (newUser, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${Server_Url}/auth/verify-email`,
+        newUser,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        return response.data;
+      } else {
+        toast.error(response.data.message);
+        return rejectWithValue(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong! Try again later");
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -78,7 +95,7 @@ export const LoginUser = createAsyncThunk("/login", async (user) => {
       const { token } = response.data;
 
       localStorage.setItem("token", token);
-      return response.data
+      return response.data;
     } else {
       return toast.error(response.data.message);
     }
@@ -87,24 +104,38 @@ export const LoginUser = createAsyncThunk("/login", async (user) => {
   }
 });
 
-export const RegisterUser = createAsyncThunk("/register-user", async (user) => {
-  try {
-    var validRegex =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!user?.email.match(validRegex)) {
-      return toast.error("Invalid email address");
-    }
-    const response = await axios.post(`${Server_Url}/auth/create-user`,user);
+export const RegisterUser = createAsyncThunk(
+  "/registerUser",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const validRegex =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!formData?.get("email").match(validRegex)) {
+        toast.error("Invalid email address");
+        return rejectWithValue("Invalid email address");
+      }
+      const response = await axios.post(
+        `${Server_Url}/auth/create-user`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    if (response.data.success) {
-      return response.data
-    } else {
-      return toast.error(response.data.message);
+      if (response.data.success) {
+        return response.data;
+      } else {
+        toast.error(response.data.message);
+        return rejectWithValue(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong! try again later");
+      return rejectWithValue(error.message);
     }
-  } catch (error) {
-    toast.error("Something went wrong! try again later");
   }
-});
+);
 
 const initialState = {
   user: `${localStorage.getItem("user") ? localStorage.getItem("user") : {}}`,

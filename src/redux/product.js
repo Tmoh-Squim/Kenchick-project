@@ -6,7 +6,7 @@ const token = localStorage.getItem('token');
 
 export const getProducts = createAsyncThunk("/products",async()=>{
     const res = await axios.get(`${Server_Url}/chick/get-products`);
-
+    
     return res.data.products
 })
 

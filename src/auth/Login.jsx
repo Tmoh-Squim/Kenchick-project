@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../redux/user";
 import Loader from "../utils/Loader";
+import { TypingEffect } from "../utils/Typing";
 
 const Login = () => {
   const { user } = useSelector((state) => state.user);
@@ -54,7 +55,7 @@ const Login = () => {
             <div>
               <div>
                 <h1 className="text-blue-500 text-3xl font-semibold">
-                  Welcome to Kenchick
+                  <TypingEffect text={"Welcome to Kenchick"} />
                 </h1>
                 <h1 className="text-xl my-4 ">
                   Kenchic is Kenya's market leader in poultry. Passionate about

@@ -3,13 +3,15 @@ import Headerr from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
 import { toast } from "react-toastify";
 import emailjs from "@emailjs/browser";
+import { useSelector } from "react-redux";
 
 const Contact = () => {
-  const [email, setEmail] = useState("");
+  const { user } = useSelector((state) => state.user?.user);
+  const [email, setEmail] = useState(user?.email || "");
   const [message, setMessage] = useState("");
   const [subject, setSubject] = useState("");
-  const [phone, setPhone] = useState();
-  const [name, setName] = useState("");
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [name, setName] = useState(user?.name || "");
   const [emailer, setEmailEr] = useState(false);
   const [phoneer, setPhoneEr] = useState(false);
   var validRegex =
@@ -18,12 +20,12 @@ const Contact = () => {
   const handleSubmit = async () => {
     try {
       if (!email || !message || !subject) {
-       return toast.error("All fields are required!");
+        return toast.error("All fields are required!");
       } else if (isNaN(phone) || phone.length < 10 || phone.length > 12) {
         setPhoneEr(true);
         return toast.error("Invalid phone number");
-      }else if(!/^[a-zA-Z\s]+$/.test(name) || name.length < 3){
-        return toast.error('Invalid name')
+      } else if (!/^[a-zA-Z\s]+$/.test(name) || name.length < 3) {
+        return toast.error("Invalid name");
       }
 
       emailjs
@@ -33,11 +35,11 @@ const Contact = () => {
         .then(
           () => {
             toast.success("Message sent");
-            setEmail('');
-            setMessage('');
-            setName('');
-            setPhone('');
-            setSubject('')
+            setEmail("");
+            setMessage("");
+            setName("");
+            setPhone("");
+            setSubject("");
           },
           (error) => {
             toast.error("Message not sent", error.message);
@@ -78,6 +80,7 @@ const Contact = () => {
                   type="text"
                   name="user_name"
                   id="name"
+                  value={name}
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -88,6 +91,7 @@ const Contact = () => {
                   type="text"
                   name="subject"
                   id="Subject"
+                  value={subject}
                   placeholder="Enter Subject"
                   onChange={(e) => {
                     setSubject(e.target.value);
@@ -100,6 +104,7 @@ const Contact = () => {
                   type="email"
                   name="user_email"
                   id="email"
+                  value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -112,6 +117,7 @@ const Contact = () => {
                   type="number"
                   name="user_phone"
                   min={0}
+                  value={phone}
                   minLength={10}
                   maxLength={12}
                   id="phone"
@@ -127,6 +133,7 @@ const Contact = () => {
                 <textarea
                   name="message"
                   id="message"
+                  value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Enter your message"
                   cols="60"

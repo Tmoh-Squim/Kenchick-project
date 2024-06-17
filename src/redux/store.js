@@ -13,6 +13,7 @@ import cartReducer from "./cart";
 import themeReducer from "./theme";
 import adminOrderReducer, { userOrderSlice } from "./order";
 import categorySlice, { deleteCategorySlice } from "./category";
+import questionReducer from "./chatbot";
 
 const store = configureStore({
   reducer: {
@@ -34,6 +35,7 @@ const store = configureStore({
     updateProduct: updateProductSlice,
     categories: categorySlice,
     deleteCategory: deleteCategorySlice,
+    question: questionReducer
   },
 });
 

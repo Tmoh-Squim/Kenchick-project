@@ -14,7 +14,7 @@ const ConfigProviderWithTheme = ({ children }) => {
   return (
     <ConfigProvider theme={{
       token: {
-        colorBgContainer: theme ? '#0f0e0f' : 'white',
+        colorBgContainer: theme ? 'dark' : 'white',
         colorBgLayout: theme ? '#0f0e0f' : 'white',
         colorText: theme ? 'white' : '#0f0e0f',
       }

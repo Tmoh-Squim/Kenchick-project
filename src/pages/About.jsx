@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 const About = () => {
   return (
     <div className="800px:flex bg-slate-50 justify-around items-center w-full 800px:p-5 p-1">

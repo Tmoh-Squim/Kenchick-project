@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import chick from "../assets/chick1.png";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { ForgotPasswordi, VerifyEmaili } from "../redux/user";
+import { ForgotPasswordi, VerifyEmaili } from "../redux/user"; // Adjust the path as needed
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState("");
@@ -13,49 +13,47 @@ const VerifyEmail = () => {
 
   const location = useLocation();
   const dispatch = useDispatch();
-
-  const { user } = location.state;
-  const email = user?.email;
-  const name = user?.name;
-  const phone = user?.phone;
-  const password = user?.password;
-
   const navigate = useNavigate();
- const newUser = {
-    email: email,
-    otp: otp,
-    password: password,
-    name: name,
-    phone: phone,
-  }
+
+  const formData = location.state?.formData;
+  console.log('data',formData)
+  const email = formData?.get("email");
+  const name = formData?.get("name");
+  const phone = formData?.get("phone");
+  const password = formData?.get("password");
+  const idNumber = formData?.get("idNumber");
+  const avatar = formData?.get("avatar");
+
   const handleLogin = async () => {
     try {
       if (otp.length === 6) {
-        dispatch(
-          VerifyEmaili(newUser)
-        );
-      } else if(otp.length < 6 || otp?.length > 6){
-      return  setError(true)
-      }
-      else {
-       return setError(true);
+        const newUser = new FormData();
+        newUser.append("email", email);
+        newUser.append("otp", otp);
+        newUser.append("password", password);
+        newUser.append("name", name);
+        newUser.append("phone", phone);
+        newUser.append("idNumber", idNumber);
+        newUser.append("avatar", avatar); // Include avatar here
+
+        dispatch(VerifyEmaili(newUser));
+      } else {
+        setError(true);
       }
     } catch (error) {
-      toast.error("Something went wrong! try again later");
+      toast.error("Something went wrong! Try again later");
     }
   };
 
   useEffect(() => {
     if (success) {
       navigate("/login");
-    } else {
-      return;
     }
-  }, [success]);
+  }, [success, navigate]);
 
   const handleOtpResend = () => {
     try {
-      dispatch(ForgotPasswordi({ email: email }));
+      dispatch(ForgotPasswordi({ email }));
     } catch (error) {
       toast.error("Something went wrong! Please try again later");
     }
@@ -69,7 +67,7 @@ const VerifyEmail = () => {
             <h1 className="text-blue-500 text-3xl font-semibold">
               Welcome to Kenchick
             </h1>
-            <h1 className="text-xl my-4 ">
+            <h1 className="text-xl my-4">
               Kenchic is Kenya's market leader in poultry. Passionate about
               growing tasty, healthy chicken for everyone to enjoy. We're
               chicken experts with nearly
@@ -129,7 +127,7 @@ const VerifyEmail = () => {
           ) : (
             <div
               className="px-6 py-2 mx-4 my-6 bg-blue-500 rounded-xl w-max cursor-pointer"
-              onClick={() => handleLogin()}
+              onClick={handleLogin}
             >
               <h1 className="text-white text-xl">Verify</h1>
             </div>

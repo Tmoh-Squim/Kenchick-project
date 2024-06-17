@@ -13,7 +13,7 @@ const CreateCategory = () => {
   const handleCreateCategory = async (values) => {
     try {
       setLoading(true)
-      if (values.category.length < 6) {
+      if (values.category.length === '') {
         setLoading(false)
         return toast.error("Category name is required");
       }

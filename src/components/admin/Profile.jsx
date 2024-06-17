@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Layout } from "antd";
+import { Button, Form, Image, Input, Layout } from "antd";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Server_Url } from "../../server";
+import { Server, Server_Url } from "../../server";
 const token = localStorage.getItem('token');
 const Profile = () => {
   const { user } = useSelector((state) => state.user?.user);
   const [name] = useState(user?.name);
   const [email] = useState(user?.email);
   const [phone] = useState(user?.phone);
+  const [avatar] = useState(user?.avatar);
   const [loading,setLoading] = useState(false)
 
   const handleUpdate = async (values) => {
@@ -39,7 +40,7 @@ const Profile = () => {
     }
   };
   return (
-    <Layout className="p-2 flex justify-center w-full h-[90vh] items-center">
+    <Layout className="p-2 flex justify-center w-full  items-center">
       <div className="my-2">
         <h1 className="text-2xl text-center font-semibold">
           Update your profile
@@ -52,6 +53,19 @@ const Profile = () => {
         }}
         className="800px:w-[50%] w-full"
       >
+        <div className="w-full flex justify-center items-center">
+          <Image
+            src={
+              avatar
+                ? `${Server}/${avatar}`
+                : "https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-1024.png"
+            }
+            width={130}
+            height={130}
+            className="cursor-pointer rounded-full"
+            alt="avatar"
+          />
+        </div>
         <Form.Item label={"Full name"} name={"name"} initialValue={name}>
           <Input
             value={name}

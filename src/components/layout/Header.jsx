@@ -17,6 +17,7 @@ const Headerr = () => {
   const { user } = useSelector((state) => state.user?.user);
   const [active, setActive] = useState(false);
   const {categories} = useSelector((state)=>state.categories);
+  const [cat,setCat] = useState([]);
   const [query, setQuery] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [data, setData] = useState([]);
@@ -66,6 +67,10 @@ const Headerr = () => {
   const handleNavigate = (chick) => {
     navigate(`/product-details/${chick._id}`, { state: { product: chick } });
   };
+  useEffect(()=>{
+    const data = categories?.filter((category)=>category?.name !== "Food");
+    setCat(data)
+  },[categories])
 
   return (
     <>
@@ -137,7 +142,7 @@ const Headerr = () => {
               >
                 <div className="block">
                   {
-                    categories?.map((category,index)=>(
+                    cat?.map((category,index)=>(
                       <h1
                       key={index}
                     className="cursor-pointer hover:text-red-500"

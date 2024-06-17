@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineSend } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { messages } from "../../utils/Chats";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnswer } from "../../redux/chatbot";
+import { TypingEffect } from "../../utils/Typing";
 
 const ChatBot = ({ setOpen }) => {
   const { user } = useSelector((state) => state.user?.user);
@@ -9,6 +10,9 @@ const ChatBot = ({ setOpen }) => {
   const [data,setData] = useState(chats);
   const [chat, setChat] = useState("");
   const [active,setActive] = useState(false);
+  const [currentAnswer,setCurrentAnswer] = useState("");
+  const {answer,loading} = useSelector((state)=>state.question);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     if(chat.length >0){
@@ -17,15 +21,16 @@ const ChatBot = ({ setOpen }) => {
         setActive(false)
     }
   },[chat]);
+  useEffect(()=>{
+    setCurrentAnswer(answer?.answer)
+  },[answer,dispatch])
+
+  const ddd = {
+    question:chat
+  }
 
   const handleChat = () =>{
-    const result = messages.filter((messag)=>messag.message.toLowerCase().includes(chat.toLowerCase()));
-
-    chats.push(...chats,{
-        chat:chat,
-        answer:result
-    })
-    setData(chats)
+    dispatch(getAnswer(ddd))
   }
   return (
     <div className=" w-[80%] z-50 800px:w-[25%] h-[60vh] rounded-t-lg bg-white fixed bottom-0  right-0 px-2">
@@ -46,6 +51,16 @@ const ChatBot = ({ setOpen }) => {
             assist you today ?
           </h1>
         </div>
+
+       {
+        loading === true ? (
+          <h1>
+            thinking...
+          </h1>
+        ) :(
+          <TypingEffect text={currentAnswer} />
+        )
+       }
 
         {
             data?.map((chat)=>{
