@@ -15,12 +15,13 @@ const {
   VerifyEmail,
 } = require("../controller/user");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
+const {upload} = require("../utils/multer");
 
 const router = express.Router();
 
-router.post("/create-user", createUser);
+router.post("/create-user",upload.single('avatar'), createUser);
 router.post("/login-user", Login);
-router.post("/verify-email",VerifyEmail)
+router.post("/verify-email",upload.single('avatar'),VerifyEmail)
 router.post("/forgot-password", ResetPassword);
 router.get("/getUser", isAuthenticated, loadUser);
 router.post("/verify-otp", VerifyOtp);

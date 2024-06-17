@@ -229,17 +229,16 @@ const insertChatData = async () => {
 const getAnswer = expressAsyncHandler(async (req, res, next) => {
   try {
     const { question } = req.body;
-
     // Use a regular expression with the 'i' flag for case-insensitive matching
     const match = await chatbotModel.findOne({
       question: { $regex: new RegExp(`^${question}$`, "i") },
     });
 
     if (!match) {
-      return next({
+      return next(res.send({
         success: false,
-        message: "Invalid question!",
-      });
+        answer: "Invalid question!",
+      }));
     }
 
     const answer = match?.answer;
@@ -249,6 +248,7 @@ const getAnswer = expressAsyncHandler(async (req, res, next) => {
       answer,
     });
   } catch (error) {
+    console.log('err',error)
     return next(
       res.send({
         success: false,

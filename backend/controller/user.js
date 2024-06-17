@@ -11,8 +11,8 @@ function generateOTP() {
 
 const createUser = expressAsyncHandler(async (req, res, next) => {
   try {
-    const { name, email, phone, password } = req.body;
-    if (!name || !email || !phone || !password) {
+    const { name, email, phone, password, idNumber } = req.body;
+    if (!name || !email || !phone || !password || !idNumber) {
       return res.send({
         message: "All fields are required!",
       });
@@ -76,7 +76,8 @@ const createUser = expressAsyncHandler(async (req, res, next) => {
 
 const VerifyEmail = expressAsyncHandler(async (req, res, next) => {
   try {
-    const { email, otp, name, phone, password } = req.body.newUser;
+    const { email, otp, name, phone, password, idNumber } = req.body;
+    const file = req.file;
     const exists = await otpModel.findOne({ email, otp });
     if (!exists) {
       return next(
@@ -89,7 +90,7 @@ const VerifyEmail = expressAsyncHandler(async (req, res, next) => {
     exists.verified = true;
     await exists.save();
 
-    Register(email, name, phone, password, otp, next, res);
+    Register(email, name, phone, password, otp, idNumber, file, next, res);
   } catch (error) {
     res.send({
       success: false,
@@ -98,12 +99,24 @@ const VerifyEmail = expressAsyncHandler(async (req, res, next) => {
   }
 });
 
-async function Register(email, name, phone, password, otp, next, res) {
-  if (!name || !email || !phone || !password) {
+async function Register(
+  email,
+  name,
+  phone,
+  password,
+  otp,
+  idNumber,
+  file,
+  next,
+  res
+) {
+  if (!name || !email || !phone || !password || !idNumber) {
     return res.send({
       message: "All fields are required!",
     });
   }
+  const fileUrl = file.filename;
+
   const otpverified = await otpModel.findOne({ otp, email });
   if (otpverified.verified === false) {
     return res.send({
@@ -126,7 +139,9 @@ async function Register(email, name, phone, password, otp, next, res) {
     name: name,
     email: email,
     phone: phone,
+    idNumber: idNumber,
     password: hash,
+    avatar: fileUrl,
   };
 
   const user = await userModel.create(newUser);
@@ -225,7 +240,7 @@ const ResetPassword = expressAsyncHandler(async (req, res, next) => {
     }
     await sendMail({
       email: email,
-      subject: "Password reset otp",
+      subject: "Email verification otp",
       message: `Hello ${email} use the following otp to reset your password: ${otp}`,
     }).catch((error) => {
       return res.send({

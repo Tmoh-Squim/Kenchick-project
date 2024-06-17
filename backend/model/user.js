@@ -9,14 +9,24 @@ const userSchema = mongoose.Schema({
     email:{
         type:String,
         required:true,
+        unique:true
     },
     phone:{
         type:Number,
-        required:true
+        required:true,
+        unique:true
     },
     password:{
         type:String,
         required:true
+    },
+    avatar:{
+        type:String
+    },
+    idNumber:{
+        type:Number,
+        required:true,
+        unique:true
     },
     deliveryDetails:[
         {
