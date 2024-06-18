@@ -5,11 +5,10 @@ export const TypingEffect = ({text}) => {
     <TypeAnimation
       sequence={[
        `${text}`,
-        1000,
       ]}
       wrapper="span"
-      speed={40}
-      repeat={Infinity}
+      speed={50}
+      repeat={false}
     />
   );
 };

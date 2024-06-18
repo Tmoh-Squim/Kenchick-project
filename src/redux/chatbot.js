@@ -7,7 +7,7 @@ export const getAnswer = createAsyncThunk('/get-answer',async(ddd)=>{
     try {
         const response = await axios.post(`${Server_Url}/chatbot/question`,ddd);
 
-        return response.data
+        return response.data.answer
     } catch (error) {
         console.log('err',error)
         }

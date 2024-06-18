@@ -11,4 +11,7 @@ body{
       gap: 8px;
     }
   }
-  
+  /* styles.css */
+.hide-cursor::after {
+  content: '';
+}
