@@ -115,7 +115,44 @@ async function Register(
       message: "All fields are required!",
     });
   }
-  const fileUrl = file.filename;
+  if(file){
+    const fileUrl = file.filename;
+    const otpverified = await otpModel.findOne({ otp, email });
+  if (otpverified.verified === false) {
+    return res.send({
+      success: false,
+      message: "Otp not verified",
+    });
+  }
+  const existUser = await userModel.findOne({ email });
+  if (existUser) {
+    return next(
+      res.send({
+        success: false,
+        message: "Email already exists!",
+      })
+    );
+  }
+
+  const hash = await HashPassword(password);
+  const newUser = {
+    name: name,
+    email: email,
+    phone: phone,
+    idNumber: idNumber,
+    password: hash,
+    avatar: fileUrl,
+  };
+
+  const user = await userModel.create(newUser);
+  await otpModel.findOneAndDelete({ otp, email });
+
+  res.send({
+    success: true,
+    message: "Account created successfully! Continue to login",
+    user,
+  });
+  }
 
   const otpverified = await otpModel.findOne({ otp, email });
   if (otpverified.verified === false) {
@@ -141,7 +178,7 @@ async function Register(
     phone: phone,
     idNumber: idNumber,
     password: hash,
-    avatar: fileUrl,
+    avatar: 'https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-1024.png',
   };
 
   const user = await userModel.create(newUser);
