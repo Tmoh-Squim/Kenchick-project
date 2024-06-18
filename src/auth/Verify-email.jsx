@@ -14,15 +14,13 @@ const VerifyEmail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const formData = location.state?.formData;
-  console.log('data',formData)
-  const email = formData?.get("email");
-  const name = formData?.get("name");
-  const phone = formData?.get("phone");
-  const password = formData?.get("password");
-  const idNumber = formData?.get("idNumber");
-  const avatar = formData?.get("avatar");
+ 
+  const email = location.state.email
+  const name = location.state.name
+  const phone = location.state.phone
+  const password = location.state.password
+  const idNumber = location.state.idNumber
+  const avatar =  location.state.avatar
 
   const handleLogin = async () => {
     try {
@@ -34,7 +32,9 @@ const VerifyEmail = () => {
         newUser.append("name", name);
         newUser.append("phone", phone);
         newUser.append("idNumber", idNumber);
-        newUser.append("avatar", avatar); // Include avatar here
+       if(avatar){
+        newUser.append("avatar", avatar);
+       }
 
         dispatch(VerifyEmaili(newUser));
       } else {

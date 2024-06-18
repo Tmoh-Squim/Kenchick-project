@@ -44,9 +44,7 @@ const Register = () => {
       if (isNaN(id) || id.length < 7 || id.length > 9) {
         return toast.error("Invalid id number");
       }
-      if (avatar === null) {
-        return toast.error("Avatar is required!");
-      }
+    
       if (password.length < 6) {
         return toast.error("Password must be at least 6 characters");
       }
@@ -73,10 +71,19 @@ const Register = () => {
       formData.append("idNumber", id);
       formData.append("password", password);
       formData.append("avatar", avatar);
-      navigate("/verify-email", { state: { formData: formData } });
+      navigate("/verify-email", { 
+        state: { 
+          name, 
+          email, 
+          phone, 
+          idNumber: id, 
+          password, 
+          avatar: avatar
+        } 
+      });
     }
     // eslint-disable-next-line
-  }, [success]);
+  }, [success,name,email,phone,id,password,navigate,avatar]);
 
   const handleAvatar = (e) => {
     const file = e.target.files[0];

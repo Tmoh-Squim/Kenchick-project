@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Ratings from "../../utils/Rating";
 import { AiOutlineClose } from "react-icons/ai";
 import { removeFromCart } from "../../redux/cart";
-import { Card, Checkbox, Steps } from "antd";
+import { Button, Card, Steps } from "antd";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -17,6 +17,7 @@ const PaymentDetails = () => {
   const [district, setDistrict] = useState("");
   const [location, setLocation] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [deliveryDetails, setDeliveryDetails] = useState({});
   const [selectedDelivery, setSelectedDelivery] = useState(null);
 
@@ -26,16 +27,18 @@ const PaymentDetails = () => {
   const handleRemoveFromCart = (item) => {
     dispatch(removeFromCart(item));
   };
-  useEffect(()=>{
+  useEffect(() => {
     setDeliveryDetails({
       county: county,
       district: district,
       location: location,
     });
-  },[county,district,location])
+  }, [county, district, location]);
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       if (!county || !district || !location) {
+        setLoading(false);
         return setError(true);
       } else {
         const newOrder = {
@@ -64,15 +67,17 @@ const PaymentDetails = () => {
 
         if (response.data.success) {
           toast.success(response.data.message);
-          localStorage.removeItem('cart')
-          navigate('/profile')
-          window.location.reload()
+          localStorage.removeItem("cart");
+          navigate("/profile");
+          window.location.reload();
         } else {
           toast.error(response.data.message);
         }
       }
     } catch (error) {
       toast.error("Something went wrong! please try again later");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -197,72 +202,75 @@ const PaymentDetails = () => {
               </select>
             </div>
 
-            <div
-              className="bg-blue-500 px-4 mt-2 800px:mt-4 py-1.5 rounded-lg hover:bg-blue-300 cursor-pointer"
+            <Button
+              className="bg-blue-500 px-4 mt-2 800px:mt-4 py-2 w-full h-[2.5rem] font-semibold text-white rounded-lg cursor-pointer"
               onClick={handleSubmit}
+              loading={loading}
             >
-              <h1 className="text-center text-white text-[20px] font-semibold">
-                Submit
-              </h1>
-            </div>
+              Submit
+            </Button>
           </div>
 
           <div className="bg-white rounded-md relative py-2 800px:mt-[1.2rem] px-2 800px:mx-4 800px:w-[33%]">
-          <div>
+            <div>
               <h1 className="text-xl text-black font-semibold mx-2">
                 Cart summary
               </h1>
             </div>
-          <div className=" 800px:h-[68vh] pb-[1rem] overflow-y-scroll ">
-            {cartItem.map((item, index) => (
-              <div key={index} className="my-2 mb-3 px-2 ">
-                <div className="flex items-center justify-between">
-                  <div className="flex">
-                    <img
-                      src={`${Server}/${item.image}`}
-                      alt={item.name}
-                      className="w-[110px] h-[110px] cursor-pointer"
-                      onClick={() => {
-                        navigate(`/product-details/${item._id}`, {
-                          state: { product: item },
-                        });
-                      }}
-                    />
-                    <div
-                      className="mx-2 block cursor-pointer"
-                      onClick={() => {
-                        navigate(`/product-details/${item._id}`, {
-                          state: { product: item },
-                        });
-                      }}
-                    >
-                      <h1>{item.title.length > 18 ? item?.title.slice(0,18)+'...' : item?.title}</h1>
-                      <h1 className="my-">
-                        Ksh {item.price} * {item.qty}
-                      </h1>
-                      <h1 className="my-0.5">
-                        total: Ksh {item.price * item.qty}
-                      </h1>
+            <div className=" 800px:h-[68vh] pb-[1rem] overflow-y-scroll ">
+              {cartItem.map((item, index) => (
+                <div key={index} className="my-2 mb-3 px-2 ">
+                  <div className="flex items-center justify-between">
+                    <div className="flex">
+                      <img
+                        src={`${Server}/${item.image}`}
+                        alt={item.name}
+                        className="w-[110px] h-[110px] cursor-pointer"
+                        onClick={() => {
+                          navigate(`/product-details/${item._id}`, {
+                            state: { product: item },
+                          });
+                        }}
+                      />
+                      <div
+                        className="mx-2 block cursor-pointer"
+                        onClick={() => {
+                          navigate(`/product-details/${item._id}`, {
+                            state: { product: item },
+                          });
+                        }}
+                      >
+                        <h1>
+                          {item.title.length > 18
+                            ? item?.title.slice(0, 18) + "..."
+                            : item?.title}
+                        </h1>
+                        <h1 className="my-">
+                          Ksh {item.price} * {item.qty}
+                        </h1>
+                        <h1 className="my-0.5">
+                          total: Ksh {item.price * item.qty}
+                        </h1>
 
-                      <Ratings rating={item.rating?.rate} />
+                        <Ratings rating={item.rating?.rate} />
+                      </div>
+                    </div>
+
+                    <div
+                      className="cursor-pointer hover:text-red-500"
+                      onClick={() => handleRemoveFromCart(item)}
+                    >
+                      <AiOutlineClose size={28} />
                     </div>
                   </div>
-
-                  <div
-                    className="cursor-pointer hover:text-red-500"
-                    onClick={() => handleRemoveFromCart(item)}
-                  >
-                    <AiOutlineClose size={28} />
-                  </div>
                 </div>
+              ))}
+              <div className=" 800px:bottom-[8px] 800px:right-[1.5rem] z-50 bottom-2 right-2 absolute">
+                <h1 className="text-xl font-semibold">
+                  Total: Ksh {cartTotalAmount}
+                </h1>
               </div>
-            ))}
-            <div className=" 800px:bottom-[8px] 800px:right-[1.5rem] z-50 bottom-2 right-2 absolute">
-              <h1 className="text-xl font-semibold">
-                Total: Ksh {cartTotalAmount}
-              </h1>
             </div>
-          </div>
           </div>
         </div>
       </div>
