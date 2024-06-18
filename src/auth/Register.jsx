@@ -25,7 +25,6 @@ const Register = () => {
   const validRegex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")){3,}@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    const formData = new FormData();
   const handleSignup = async () => {
     try {
       if (!/^[a-zA-Z\s]+$/.test(name) || name.length < 3) {
@@ -51,8 +50,7 @@ const Register = () => {
       if (password.length < 6) {
         return toast.error("Password must be at least 6 characters");
       }
-
-      
+      const formData = new FormData();
       formData.append("name", name);
       formData.append("email", email);
       formData.append("phone", phone);
@@ -68,8 +66,16 @@ const Register = () => {
 
   useEffect(() => {
     if (success) {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("idNumber", id);
+      formData.append("password", password);
+      formData.append("avatar", avatar);
       navigate("/verify-email", { state: { formData: formData } });
     }
+    // eslint-disable-next-line
   }, [success]);
 
   const handleAvatar = (e) => {
@@ -217,7 +223,7 @@ const Register = () => {
                     )}
                   </div>
                 </div>
-                <div className="cursor-pointer flex gap-3 my-1">
+                <div className="cursor-pointer flex gap-3 my-2">
                   {avatar ? (
                     <div className="w-[45px] h-[45px] object-contain rounded-full">
                       <img

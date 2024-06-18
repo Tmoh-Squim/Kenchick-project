@@ -53,6 +53,9 @@ const VerifyEmail = () => {
 
   const handleOtpResend = () => {
     try {
+    const formData = location.state?.formData;
+  console.log('data',formData)
+  const email = formData?.get("email");
       dispatch(ForgotPasswordi({ email }));
     } catch (error) {
       toast.error("Something went wrong! Please try again later");
