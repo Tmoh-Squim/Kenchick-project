@@ -14,7 +14,6 @@ const userSchema = mongoose.Schema({
     phone:{
         type:Number,
         required:true,
-        unique:true
     },
     password:{
         type:String,
@@ -26,7 +25,6 @@ const userSchema = mongoose.Schema({
     idNumber:{
         type:Number,
         required:true,
-        unique:true
     },
     deliveryDetails:[
         {
