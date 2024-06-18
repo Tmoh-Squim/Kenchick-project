@@ -248,7 +248,6 @@ const getAnswer = expressAsyncHandler(async (req, res, next) => {
       answer,
     });
   } catch (error) {
-    console.log('err',error)
     return next(
       res.send({
         success: false,

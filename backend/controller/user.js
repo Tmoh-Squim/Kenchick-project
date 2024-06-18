@@ -55,7 +55,7 @@ const createUser = expressAsyncHandler(async (req, res, next) => {
     await sendMail({
       email: email,
       subject: "Email verification otp",
-      message: `Hello ${email} use the following otp to reset your password: ${otp}`,
+      message: `Hello ${email} use the following otp to verify your email: ${otp}`,
     }).catch((error) => {
       return res.send({
         success: false,
