@@ -15,6 +15,7 @@ const chickRoutes = require("./routes/chicks")
 const orderRoutes = require("./routes/order")
 const categoryRoutes = require("./routes/category")
 const chatbotRoutes = require("./routes/chatbot")
+const paymentRoutes = require("./controller/payment")
 //middlewares
 app.use(cors({
     origin:['https://kenchick.vercel.app',
@@ -33,6 +34,7 @@ app.use("/api/v1/chick",chickRoutes);
 app.use("/api/v1/order",orderRoutes);
 app.use("/api/v1/category",categoryRoutes);
 app.use("/api/v1/chatbot",chatbotRoutes);
+app.use("/api/v1/payment",paymentRoutes);
 
 
 app.listen(PORT,async()=>{console.log(`server run nicely at port ${PORT}`);
