@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Server, Server_Url } from "../../server";
+import { Server } from "../../server";
 import { useNavigate } from "react-router-dom";
 import Ratings from "../../utils/Rating";
 import { AiOutlineClose } from "react-icons/ai";
 import { removeFromCart } from "../../redux/cart";
 import { Button, Card, Steps } from "antd";
-import axios from "axios";
 import { toast } from "react-toastify";
 
-const token = localStorage.getItem("token");
 const PaymentDetails = () => {
   const { user } = useSelector((state) => state.user?.user);
   const { cartItem, cartTotalAmount } = useSelector((state) => state.cart);
@@ -46,33 +44,13 @@ const PaymentDetails = () => {
           user: user,
           deliveryDetails: deliveryDetails,
           totalPrice: cartTotalAmount,
-          paymentInfo: {
-            type: "Mpesa",
-            status: "success",
-          },
         };
 
         if (deliveryDetails === "") {
           return toast.error("Delivery details are required!");
         }
-        const response = await axios.post(
-          `${Server_Url}/order/create-order`,
-          newOrder,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        );
+        navigate('/payment',{state:newOrder})
 
-        if (response.data.success) {
-          toast.success(response.data.message);
-          localStorage.removeItem("cart");
-          navigate("/profile");
-          window.location.reload();
-        } else {
-          toast.error(response.data.message);
-        }
       }
     } catch (error) {
       toast.error("Something went wrong! please try again later");
