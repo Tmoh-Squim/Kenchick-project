@@ -13,5 +13,6 @@ router.post("/create-order",isAuthenticated, createOrder);
 router.get("/admin-orders",isAuthenticated,isAdmin, getOrdersAdmin);
 router.get("/user-orders/:id",isAuthenticated, getOrdersUser);
 router.post("/update-order/:id",isAuthenticated,isAdmin, updateOrder);
+router.post("/refund-order/:id",isAuthenticated, updateOrder);
 
 module.exports = router;

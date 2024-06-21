@@ -134,4 +134,53 @@ const updateOrder = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { createOrder, getOrdersAdmin, getOrdersUser, updateOrder };
+const refundOrder = asyncHandler(async (req, res, next) => {
+  try {
+    const { email, status } = req.body;
+    if (!email || !status) {
+      res.send({
+        success: false,
+        message: "Email and status are required",
+      });
+    }
+    const id = req.params.id;
+    const order = await orderModel.findById(id);
+    if (!order) {
+      res.send({
+        success: false,
+        message: "Order not found",
+      });
+    }
+    if (status === "Refunded") {
+      order?.cart?.forEach(async (product) => {
+        const exists = await productModel.findById(product._id);
+        exists.sold += product?.qty;
+        exists.stock -= product?.qty;
+
+        await exists.save();
+      });
+    }
+    order.status = status;
+    await order.save();
+
+    await sendMail({
+      email: email,
+      subject: "Order status",
+      message: `Hello ${email} your order refund request has been received! it will be processed within the next 24 hrs Order ID: ${order?._id}`,
+    });
+
+    res.send({
+      success: true,
+      message: "Order status updated successfully",
+    });
+  } catch (error) {
+    return next(
+      res.send({
+        success: false,
+        message: error.message,
+      })
+    );
+  }
+});
+
+module.exports = { createOrder, getOrdersAdmin, getOrdersUser, updateOrder,refundOrder };
