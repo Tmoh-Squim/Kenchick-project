@@ -32,7 +32,7 @@ const ChatBot = ({ setOpen }) => {
   };
 
   return (
-    <div className="w-[80%] z-50 800px:w-[25%] h-[60vh] rounded-t-lg bg-white fixed bottom-0 right-0 px-1">
+    <div className="w-[80%] z-50 800px:w-[25%] h-[60vh] rounded-t-lg bg-[#0f0e0fe1] text-white fixed bottom-0 right-0 px-1">
       <div className="overflow-y-scroll h-[60vh] pb-[2.6rem]">
         <div>
           <div
@@ -75,12 +75,13 @@ const ChatBot = ({ setOpen }) => {
         </div>
       </div>
 
-      <div className="absolute bottom-1 800px:bottom-1 w-[95%]">
+      <div className="absolute bottom-0 w-[95%]">
         <input
           type="text"
           placeholder="Type here..."
           className="h-[2.5rem] rounded-lg w-[98%] px-2 bg-slate-200 outline-none"
           value={chat}
+          style={{color:'black'}}
           onChange={(e) => setChat(e.target.value)}
         />
 

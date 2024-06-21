@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect} from "react";
 import {
   AiOutlineClose,
   AiOutlineDelete,
@@ -7,11 +7,12 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { decrement, increment, removeFromCart } from "../../redux/cart";
+import  { decrement, getTotal, increment, removeFromCart } from "../../redux/cart";
 import { Server } from "../../server";
 
 const Cart = ({ setOpen }) => {
   const { cartItem, cartTotalAmount } = useSelector((state) => state.cart);
+  const cart = useSelector((state)=>state.cart);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,9 +32,12 @@ const Cart = ({ setOpen }) => {
   const handleDecrement = (item) => {
     dispatch(decrement(item));
   };
+  useEffect(()=>{
+    dispatch(getTotal())
+  },[cart,dispatch])
   return (
     <div className="relative w-full h-screen">
-      <div className="800px:w-[30%] w-full  fixed z-10 right-0 h-screen overflow-y-scroll bg-slate-200">
+      <div className="800px:w-[30%] w-full  fixed  right-0 h-screen overflow-y-scroll z-50 bg-slate-200">
         <div
           className="cursor-pointer absolute flex w-full justify-end right-2 top-2"
           onClick={() => setOpen(false)}
@@ -109,7 +113,7 @@ const Cart = ({ setOpen }) => {
       </div>
 
       <div
-        className="fixed bottom-2 z-30  right-7 cursor-pointer 800px:w-[25%] w-[80%] mx-auto py-1.5 bg-blue-600 rounded-lg px-4 hover:bg-blue-500"
+        className="fixed bottom-2 z-50  right-7 cursor-pointer 800px:w-[25%] w-[80%] mx-auto py-1.5 bg-blue-600 rounded-lg px-4 hover:bg-blue-500"
         onClick={() => {
           navigate("/payment-details");
         }}

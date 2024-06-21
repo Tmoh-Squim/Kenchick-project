@@ -18,7 +18,6 @@ import VerifyOtp from "./auth/Verify-Otp";
 import ChangePassword from "./auth/Change-Password";
 import PaymentDetails from "./components/order/Payment-details";
 import ProtectedRoute, { AdminRoute } from "./middleware/auth";
-import { getOrdersUser } from "./redux/order";
 import Track from "./components/user/Track";
 import SearchPage from "./pages/SearchPage";
 import Products from "./components/products/Products";
@@ -38,9 +37,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { Server_Url } from "./server";
 function App() {
-  const { user } = useSelector((state) => state.user?.user);
   const {cart} = useSelector((state)=>state.cart);
-  const [stripeApikey, setStripeApiKey] = useState("sdfghjkllkjhgfdfghjk");
+  const [stripeApikey, setStripeApiKey] = useState("");
 
   async function getStripeApikey() {
     const { data } = await axios.get(`${Server_Url}/payment/stripeapikey`);
@@ -51,14 +49,15 @@ function App() {
     store.dispatch(getProducts());
     store.dispatch(getUser());
     store.dispatch(getCategories());
-    getStripeApikey();
     //eslint-disable-next-line
   }, [store]);
+  useEffect(()=>{
+    getStripeApikey();
+  },[])
 
   useEffect(() => {
     store.dispatch(getTotal());
-    store.dispatch(getOrdersUser(user?._id));
-  }, [cart, user]);
+  }, [cart]);
 
   return (
     <>

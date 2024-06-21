@@ -4,12 +4,14 @@ import { Server } from "../../server";
 import { useNavigate } from "react-router-dom";
 import Ratings from "../../utils/Rating";
 import { AiOutlineClose } from "react-icons/ai";
-import { removeFromCart } from "../../redux/cart";
+import { getTotal, removeFromCart } from "../../redux/cart";
 import { Button, Card, Steps } from "antd";
 import { toast } from "react-toastify";
+import { Counties } from "../../utils/Counties";
 
 const PaymentDetails = () => {
   const { user } = useSelector((state) => state.user?.user);
+  const cart = useSelector((state)=>state.cart);
   const { cartItem, cartTotalAmount } = useSelector((state) => state.cart);
   const [county, setCounty] = useState("");
   const [district, setDistrict] = useState("");
@@ -58,6 +60,9 @@ const PaymentDetails = () => {
       setLoading(false);
     }
   };
+  useEffect(()=>{
+    dispatch(getTotal())
+  },[cart,dispatch])
 
   return (
     <>
@@ -79,7 +84,7 @@ const PaymentDetails = () => {
                 description: "",
               },
               {
-                title: "Payment details",
+                title: "Delivery details",
                 description: "",
               },
               {
@@ -92,46 +97,59 @@ const PaymentDetails = () => {
 
         <div className="800px:flex block justify-center mt-4 items-center h-screen 800px:h-[100vh]">
           <div className="bg-white py-4 rounded-md px-2 800px:mx-4 block my-4 800px:w-[45%] 800px:h-[75vh] 800px:my-0">
-            <div className="block py-2">
-              <div>
-                <label htmlFor="county">
-                  Enter Your County <span className="text-red-500">*</span>
-                </label>
-              </div>
-              <input
-                type="text"
-                value={county}
-                placeholder="Enter your county"
-                className={`${
-                  error ? "outline-red-200" : ""
-                } outline-none px-2 h-[2.5rem] my-2  w-full rounded-lg bg-slate-100`}
-                onChange={(e) => {
-                  setCounty(e.target.value);
-                }}
-              />
-            </div>
+          <div className="w-full pb-2">
+            <label className="block pb-2">Choose your County</label>
+            <select
+              name="county"
+              id="county"
+              value={county}
+              onChange={(e) => {
+                setCounty(e.target.value);
+                setDistrict(''); 
+              }}
+              className="800px:w-[95%] w-full px-2 border h-[40px] rounded-[5px]"
+            >
+              <option value="" className="block border pb-2 px-2">
+                choose your county
+              </option>
+              {Counties && Counties?.map((item) => (
+                <option
+                  className="block pb-2"
+                  key={item.isoCode}
+                  value={item.isoCode}
+                >
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            <div className="block py-2">
-              <div>
-                <label htmlFor="county">
-                  Enter Your Subcounty/ District{" "}
-                  <span className="text-red-500">*</span>
-                </label>
-              </div>
-              <input
-                type="text"
-                value={district}
-                placeholder="Enter your district"
-                className={`${
-                  error ? "outline-red-200" : ""
-                } outline-none px-2 h-[2.5rem] my-2  w-full rounded-lg bg-slate-100`}
-                onChange={(e) => {
-                  setDistrict(e.target.value);
-                }}
-              />
-            </div>
+          <div className="w-full pb-2">
+            <label className="block pb-2">Choose your Sub-County</label>
+            <select
+              name="subcounty"
+              id="subcounty"
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+              className="800px:w-[95%] border h-[40px] px-2 rounded-[5px] w-full"
+            >
+              <option value="" className="block border pb-2">
+                choose your sub-county
+              </option>
+              {county &&
+                Counties.find((item) => item.name === county)?.sub_counties?.map((item) => (
+                  <option
+                    className="block pb-2"
+                    key={item}
+                    value={item}
+                  >
+                    {item}
+                  </option>
+                ))}
+            </select>
+          </div>
 
-            <div className="block py-2">
+            <div className="block py-2 800px:w-[95%] w-full">
               <div>
                 <label htmlFor="county">
                   Enter Exact Location <span className="text-red-500">*</span>
@@ -165,7 +183,7 @@ const PaymentDetails = () => {
                     setLocation(selectedDeliveryDetails.location);
                   }
                 }}
-                className="w-full py-2 px-2 rounded-lg bg-slate-100"
+                className="w-full py-2 px-2 rounded-lg 800px:w-[95%]  bg-slate-100"
               >
                 <option value="">Choose from saved</option>
                 {user?.deliveryDetails.map((detail, index) => (

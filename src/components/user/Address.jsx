@@ -72,7 +72,7 @@ const Address = () => {
                 setCounty(e.target.value);
                 setSubcounty(''); 
               }}
-              className="800px:w-[95%] w-full border h-[40px] rounded-[5px]"
+              className="800px:w-[95%] w-full border h-[40px] px-2 rounded-[5px]"
             >
               <option value="" className="block border pb-2">
                 choose your county
@@ -98,7 +98,7 @@ const Address = () => {
               id="subcounty"
               value={subcounty}
               onChange={(e) => setSubcounty(e.target.value)}
-              className="800px:w-[95%] border h-[40px] rounded-[5px] w-full"
+              className="800px:w-[95%] border h-[40px] px-2 rounded-[5px] w-full"
             >
               <option value="" className="block border pb-2">
                 choose your sub-county
@@ -131,7 +131,7 @@ const Address = () => {
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="800px:w-[95%] border h-[40px] rounded-[5px] w-full"
+            className="800px:w-[95%] px-2 border h-[40px] rounded-[5px] w-full"
           >
             <option value="" className="block border pb-2">
               choose address type

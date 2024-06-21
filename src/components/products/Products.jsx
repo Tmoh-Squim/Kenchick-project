@@ -9,7 +9,7 @@ const Products = () => {
      <h1 className='text-2xl text-center text-black  font-semibold'>
             Our Products
         </h1>
-     <div className='flex flex-wrap justify-between 800px:px-4 bg-slate-100'>
+     <div className='flex flex-wrap 800px:px-4 bg-slate-100'>
         {
             loading ? (
                 <div>

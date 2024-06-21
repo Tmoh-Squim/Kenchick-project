@@ -71,7 +71,7 @@ export const deleteCategorySlice = createSlice({
         .addCase(deleteCategori.fulfilled,(state,action)=>{
             state.success = action.payload.success;
             state.loading = false;
-            if (state.success) {
+            if (action.payload.success === true) {
               toast.success(action.payload.message);
             } else {
               toast.error(action.payload.message);

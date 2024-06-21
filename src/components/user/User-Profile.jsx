@@ -11,6 +11,7 @@ import {
   AiOutlineMoon,
   AiOutlineOrderedList,
   AiOutlineSave,
+  AiOutlineShoppingCart,
   AiOutlineSun,
   AiOutlineUser,
 } from "react-icons/ai";
@@ -31,11 +32,14 @@ import OutOfStock from "./OutOfStock";
 import Address from "./Address";
 import SavedAddress from "./SavedAddress";
 import UserPendingOrders from "./PendingOrders";
+import { Server } from "../../server";
+import Cart from "../cart/Cart";
 
 const UserProfile = () => {
   const date = Date().slice(15, 18);
   const [collapsed, setCollapsed] = useState(false);
   const isSmallScreen = useMediaQuery({ query: "(max-width: 760px)" });
+  const [open,setOpen] = useState(false)
   const [active, setActive] = useState(1);
   const { user } = useSelector((state) => state.user?.user);
   const { theme } = useSelector((state) => state.theme);
@@ -81,20 +85,30 @@ const UserProfile = () => {
       toast.error("Something went wrong");
     }
   };
+  useEffect(() => {
+    dispatch(getOrdersUser(user?._id));
+  }, [ user,dispatch]);
 
   return (
     <Layout className="overflow-x-hidden">
-      <Header className={`${theme ? '#0000004b' : 'bg-white'} flex shadow-lg items-center px-1`}>
-        <div
+      <Header className={`${theme ? '#0000004b' : 'bg-white'} flex shadow-lg items-center justify-between 800px:px-4 px-1`}>
+       <div className="flex gap-5 items-center">
+       <div
           className="800px:mx-4 mx-1 cursor-pointer mb-[1rem]"
           onClick={() => setCollapsed(!collapsed)}
         >
           <AiOutlineMenu size={25} color={theme ? 'white' : 'black'} />
         </div>
 
-        <h1 className={`${theme ? 'text-white' : 'text-black'} 800px:text-2xl text-xl align-middle text-center`}>
+        <h1 className={`${theme ? 'text-white' : 'text-black'} 800px:text-2xl text-xl hidden 800px:block align-middle text-center`}>
           {greeting} {user.name} Welcome to Your Dashboard
         </h1>
+       </div>
+
+        <img src={`${Server}/${user?.avatar}`}
+            className="cursor-pointer rounded-full h-[50px] w-[50px]"
+            onClick={()=>setActive(5)}
+            alt="avatar" />
       </Header>
       <Layout theme="light" className="mt-0">
         <Sider
@@ -148,6 +162,15 @@ const UserProfile = () => {
                   setActive(9);
                 },
                 icon: <MdOutlineTrackChanges size={20} />,
+              },
+              {
+                title: "Your cart",
+                label: "Your cart",
+                key: "Your cart",
+                onClick: () => {
+                  setActive(12);
+                },
+                icon: <AiOutlineShoppingCart size={20} />,
               },
               {
                 title: "Profile",
@@ -218,6 +241,7 @@ const UserProfile = () => {
           {active === 9 && <TrackOrder />}
           {active === 10 && <OutOfStock />}
           {active === 11 && <UserPendingOrders />}
+          {active === 12 && <Cart setOpen={setOpen}/>}
         </Content>
       </Layout>
     </Layout>

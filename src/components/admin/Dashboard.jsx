@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "antd";
+import { Card } from "antd";
 import { Content } from "antd/es/layout/layout";
 import {
   AiOutlineCheckCircle,
@@ -18,10 +18,10 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   PieChart,
   Pie,
   Cell,
+  ResponsiveContainer,
 } from "recharts";
 
 const Dashboard = () => {
@@ -75,7 +75,7 @@ const Dashboard = () => {
     ].filter(item => item.value > 0);
 
     setBarData(barDataFiltered);
-  }, [pending, confirmed, shipping, returned, deliverd]);
+  }, [pending, confirmed, shipping, returned, deliverd,outOfDelivery]);
 
   const COLORS = ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A",'red'];
 
@@ -150,8 +150,8 @@ const Dashboard = () => {
       </div>
       <Card>
         <h1>Order statistics</h1>
-        <Row gutter={16}>
-          <Col span={16}>
+        <div  className="800px:flex block">
+          <div className="800px:w-[60%] w-full">
             <BarChart
               width={550}
               height={350}
@@ -165,16 +165,17 @@ const Dashboard = () => {
             >
               <XAxis dataKey="name" />
               <YAxis />
-              <Tooltip />
+              <Tooltip cursor={{fill:'none'}} contentStyle={{backgroundColor:'black',color:'white',borderRadius:'10px'}} />
               <Bar dataKey="value" fill="#8884d8">
                 {barData.map((entry, index) => (
                   <Cell key={`cell-${index}`} width={40} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Bar>
             </BarChart>
-          </Col>
-          <Col span={8}>
-            <PieChart width={450} height={450} >
+          </div>
+          <div className="800px:w-[40%] w-full">
+           <ResponsiveContainer>
+           <PieChart width={450} height={450} >
               <Pie
                 data={pieData}
                 cx={200}
@@ -191,8 +192,9 @@ const Dashboard = () => {
               </Pie>
               <Tooltip />
             </PieChart>
-          </Col>
-        </Row>
+           </ResponsiveContainer>
+          </div>
+        </div>
       </Card>
     </Content>
   );

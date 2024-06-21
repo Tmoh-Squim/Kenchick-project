@@ -6,12 +6,12 @@ import { useSelector } from 'react-redux'
 import {useNavigate} from "react-router-dom"
 
 const Orders = () => {
-  const {orders} = useSelector((state)=>state.adminOrders.orders);
+  const {orders} = useSelector((state)=>state.userOrders.orders);
   const [data,setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(()=>{  
-    const dat = orders?.filter((order)=>order.status === 'Delivered');
+    const dat = orders?.filter((order) => order.status === "Delivered");
     setData(dat)
   },[orders])
   
@@ -59,7 +59,7 @@ const Orders = () => {
           
           <AiOutlineEye size={28}
           onClick={()=>{
-            navigate(`/update-order/${id}`,{state:{order: order}})
+            navigate(`/order/${id}`,{state:{order: order}})
           }}
            />
         )

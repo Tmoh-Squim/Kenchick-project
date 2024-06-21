@@ -44,8 +44,8 @@ const Profile = () => {
   return (
     <Layout className="p-2 flex justify-center w-full  items-center">
       <div className="my-2">
-        <h1 className="text-2xl text-center font-semibold">
-          Update your profile
+        <h1 className="800px:text-2xl text-xl text-center font-semibold">
+         Your profile
         </h1>
       </div>
       <Form

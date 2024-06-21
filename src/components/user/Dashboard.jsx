@@ -1,6 +1,5 @@
-import { Card, Row } from "antd";
+import { Card } from "antd";
 import { Content } from "antd/es/layout/layout";
-//import { Bar, Pie } from "@ant-design/charts";
 import React, { useEffect, useState } from "react";
 import {
   AiOutlineCheckCircle,
@@ -8,7 +7,6 @@ import {
   AiOutlineProduct,
   AiOutlineShopping,
   AiOutlineTruck,
-  AiOutlineUsergroupAdd,
 } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
@@ -19,13 +17,7 @@ const Dashboard = () => {
   const [pending, setPending] = useState(0);
   const [returned, setReturned] = useState(0);
   const [shipping, setShipping] = useState(0);
-  const [outOfDelivery, setOutOfDelivery] = useState(0);
-  const [pieData, setPieData] = useState([]);
-  const [barData, setBarData] = useState([]);
-  const { orders } = useSelector((state) => state.adminOrders?.orders);
-  const { products } = useSelector((state) => state.products);
-  const { users } = useSelector((state) => state.users?.users);
-
+  const { orders } = useSelector((state) => state.userOrders?.orders);
 
   useEffect(() => {
     const dat = orders?.filter((order) => order.status === "Delivered");
@@ -40,87 +32,12 @@ const Dashboard = () => {
     setShipping(ship?.length);
   }, [orders]);
 
-  useEffect(() => {
-    const data = products?.filter((product) => product.stock === 0);
-    setOutOfDelivery(data?.length);
-  }, [products]);
-
-  useEffect(() => {
-    setPieData([
-      { type: "Pending", value: pending },
-      { type: "Confirmed", value: confirmed },
-      { type: "Shipping", value: shipping },
-      { type: "Returned", value: returned },
-    ]);
-
-    // Prepare data for the bar chart
-    const statusCounts = [
-      { status: "Delivered", count: deliverd },
-      { status: "Confirmed", count: confirmed },
-      { status: "Pending", count: pending },
-      { status: "Shipping", count: shipping },
-      { status: "Returned", count: returned },
-    ];
-
-    setBarData(statusCounts);
-  }, [pending, confirmed, shipping, returned, deliverd]);
-
-  const pieConfig = {
-    data: pieData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    interactions: [{ type: "element-active" }],
-    color: ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"],
-    label: {
-      style: {
-        fill: "#000",
-        fontSize: 14,
-      },
-    },
-    legend: {
-      position: "bottom",
-      layout: "vertical",
-    },
-  };
-
-  const barConfig = {
-    data: barData,
-    xField: 'status',
-    yField: 'count',
-    seriesField: 'status',
-    barWidthRatio: 5.0,
-    color: ["#5B8FF9", "#5AD8A6", "#5D7092", "#F6BD16", "#E8684A"],
-    xAxis: {
-      label: {
-        formatter: (v) => `${v}`,
-      },
-    },
-    yAxis: {
-      label: {
-        formatter: (v) => `${v}`,
-      },
-    },
-    legend: {
-      position: 'top',
-    },
-    animation: {
-      appear: {
-        animation: 'scale-in-y',
-        duration: 5000,
-      },
-    },
-  };
-
-
-  const handleOutOfDelivery = () => {};
-
   return (
     <Content>
       <div className="px-2">
-        <h1>Business Analytics</h1>
+        <h1>Order Analytics</h1>
 
-        <div className="800px:flex flex-wrap block justify-between ">
+        <div className="800px:flex flex-wrap block ">
           <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
               <h1>Pending</h1>
@@ -142,22 +59,13 @@ const Dashboard = () => {
             </div>
             {shipping}
           </Card>
-          <Card
-            className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg cursor-pointer"
-            onClick={handleOutOfDelivery}
-          >
-            <div className="flex justify-between">
-              <h1>Out of stock</h1>
-              <AiOutlineProduct size={30} color="red" />
-            </div>
-            {outOfDelivery}
-          </Card>
+          
           <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
             <div className="flex justify-between">
-              <h1>All products</h1>
+              <h1>All orders</h1>
               <AiOutlineProduct size={30}/>
               </div>
-              {products?.length}
+              {orders?.length}
             </Card>
             <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
               <div className="flex justify-between">
@@ -168,13 +76,6 @@ const Dashboard = () => {
             </Card>
             <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
               <div className="flex justify-between">
-                <h1>All users</h1>
-                <AiOutlineUsergroupAdd size={30} />
-              </div>
-              {users?.length}
-            </Card>
-            <Card className="800px:w-[24%] shadow-sm mx-1 my-2 rounded-lg">
-              <div className="flex justify-between">
                 <h1>Returned</h1>
                 <HiOutlineReceiptRefund size={30} />
               </div>
@@ -182,22 +83,6 @@ const Dashboard = () => {
             </Card>
           </div>
         </div>
-        <Card>
-          <h1>Order statistics</h1>
-          <Card>
-            <h1>Order statistics</h1>
-            <Row gutter={16}>
-              {/*
-              <Col span={16}>
-                <Bar {...barConfig} height={250} layout={'vertical'}/>
-              </Col>
-              <Col span={8}>
-                <Pie {...pieConfig} height={250} />
-              </Col> 
-  */}
-            </Row>
-          </Card>
-        </Card>
       </Content>
     );
   };

@@ -15,7 +15,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { RxCross1 } from "react-icons/rx";
 import { Server_Url } from "../../server";
+import { Card, Steps } from "antd";
 
+
+const token = localStorage.getItem("token");
 const Payment = () => {
   const [orderData, setOrderData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -178,25 +181,24 @@ if (userPhoneNumber && userPhoneNumber.toString().startsWith('0')) {
   const cashOnDeliveryHandler = async (e) => {
     e.preventDefault();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    order.paymentInfo = {
+    newOrder.paymentInfo = {
       type: "Cash On Delivery",
     };
 
-    await axios
-      .post(`${Server_Url}/order/create-order`, order, config)
-      .then((res) => {
+    await axios.post(
+      `${Server_Url}/order/create-order`,
+      newOrder,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    ).then((res) => {
         setOpen(false);
-        navigate("/order/success");
         toast.success("Order successful!");
-        localStorage.setItem("cartItems", JSON.stringify([]));
-        localStorage.setItem("latestOrder", JSON.stringify([]));
-       // window.location.reload();
+        localStorage.removeItem("cart");
+        navigate("/profile");
+        window.location.reload();
       });
   };
 
@@ -215,7 +217,7 @@ if (userPhoneNumber && userPhoneNumber.toString().startsWith('0')) {
   
       order.paymentInfo = {
         type: "lipa na mpesa",
-        status: "pending", // Set initial status as pending
+        status: "pending",
       };
   
       try {
@@ -224,42 +226,42 @@ if (userPhoneNumber && userPhoneNumber.toString().startsWith('0')) {
           jsonData,
           config
         );
-        console.log(response);
         
   
         if (response.status === 200) {
-          // Payment initiated successfully
           order.paymentInfo = {
             type: "lipa na mpesa",
-            status: "pending", // Update status to pending
+            status: "pending", 
           };
           const CheckoutRequestID = response.data.CheckoutRequestID;
 
           setLoading(true)
-          // Wait for some time to allow the transaction to complete
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 15000));
 
           const confirmResponse = await axios.post(
             `https://stk-push.onrender.com/api/confirmPayment/${CheckoutRequestID}`
-          );
-          console.log(confirmResponse);
-          
+          );          
   
           if (confirmResponse.status === 200 && confirmResponse.data.ResultCode === "0") {
-            // Payment confirmed, update order status and post the order
-            order.paymentInfo = {
+            newOrder.paymentInfo = {
               type: "lipa na mpesa",
-              status: "succeeded", // Update status to pending
+              status: "succeeded",
             };
-            await axios.post(`${Server_Url}/order/create-order`, order, config);
+            await axios.post(
+              `${Server_Url}/order/create-order`,
+              newOrder,
+              {
+                headers: {
+                  Authorization: token,
+                },
+              }
+            )
             setOpen(false);
-            navigate("/order/success");
             toast.success("Order successful!");
-            localStorage.setItem("cartItems", JSON.stringify([]));
-            localStorage.setItem("latestOrder", JSON.stringify([]));
-           // window.location.reload();
+            localStorage.removeItem("cart");
+            navigate("/profile");
+            window.location.reload();
           } else {
-            // Payment not confirmed, handle accordingly
             setOpen(true);
             toast.success("Payment not confirmed. Try again later!");
           }
@@ -278,6 +280,25 @@ if (userPhoneNumber && userPhoneNumber.toString().startsWith('0')) {
   return (
     
     <div className="w-full flex flex-col items-center py-8">
+        <Card className="800px:w-[40%] w-full 800px:mx-auto">
+          <Steps
+            current={2}
+            items={[
+              {
+                title: "Add to cart",
+                description: "",
+              },
+              {
+                title: "Delivery details",
+                description: "",
+              },
+              {
+                title: "Payment",
+                description: "",
+              },
+            ]}
+          />
+        </Card>
       <div className="w-[90%] 1000px:w-[70%] block 800px:flex">
         <div className="w-full 800px:w-[65%]">
           <PaymentInfo
@@ -508,7 +529,7 @@ const PaymentInfo = ({
           </h4>
         </div>
 
-        {/* pay with payement */}
+        {/* pay with mpesa payement */}
         {select === 4 ? (
           <div className="w-full block border-b">
             <form action="" onSubmit={handleMpesaPayment}>

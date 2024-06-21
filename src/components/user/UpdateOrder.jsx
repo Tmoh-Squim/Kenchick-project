@@ -1,18 +1,60 @@
 import {
+  Button,
   Card,
   Col,
   Image,
   Layout,
+  Modal,
   Typography,
 } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Server } from "../../server";
+import { Server, Server_Url } from "../../server";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+const token = localStorage.getItem("token");
 
 const OrderDetails = () => {
   const location = useLocation();
+  const [loading,setLoading] = useState(false);
   const order = location.state.order;
+  const [open,setOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleRefund = async ()=>{
+    try {
+      setLoading(true);
+      try {
+        const status = "Refunded";
+        const email = order?.user?.email;
+        setLoading(true);
+        const response = await axios.post(
+          `${Server_Url}/order/refund-order/${order?._id}`,
+          { email, status:status },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+  
+        if (response.data.success) {
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error("Something went wrong");
+      }finally{
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error("Something went wrong! try again later")
+    }finally{
+      setLoading(false);
+    }
+  }
   
   return (
     <Layout className="p-2 h-[100vh]">
@@ -70,7 +112,25 @@ const OrderDetails = () => {
             </div>
           </Card>
         </div>
+        {
+          order?.status === "Delivered" && (
+            <Card className="800px:w-[50%] my-1 shadow-md shadow-b w-full">
+            <h1 className="text-xl">Refund order</h1>
+            <div>
+             <Button onClick={()=>setOpen(true)}>
+              Refund
+             </Button>
+            </div>
+          </Card>
+          )
+        }
       </Col>
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        onOk={() => handleRefund()}
+        title="Are you sure you want to refund the order?"
+      />
     </Layout>
   );
 };

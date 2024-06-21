@@ -44,9 +44,11 @@ const AdminDashboard = () => {
 
   const [collapsed, setCollapsed] = useState(false);
   const { products } = useSelector((state) => state.products);
+  const {orders} = useSelector((state)=>state.adminOrders.orders);
   const isSmallScreen = useMediaQuery({ query: "(max-width: 760px)" });
   const [active, setActive] = useState(1);
   const [limitedStock,setLimitedStock] = useState(0);
+  const [refunded,setRefunded] = useState(0);
   const { user } = useSelector((state) => state.user?.user);
   const [outOfDelivery, setOutOfDelivery] = useState(0);
   const { theme } = useSelector((state) => state.theme);
@@ -97,6 +99,11 @@ const AdminDashboard = () => {
       setCollapsed(true);
     }
   }, [isSmallScreen]);
+  useEffect(()=>{
+    const data = orders?.filter((order)=>order.status === "Refunded");
+
+    setRefunded(data?.length);
+  },[orders])
 
   return (
     <Layout className="overflow-x-hidden">
@@ -125,10 +132,10 @@ const AdminDashboard = () => {
           </h1>
         </div>
         <div className="gap-5 flex items-center justify-end">
-          <div className="relative cursor-pointer">
+          <div className="relative cursor-pointer" onClick={()=>setActive(11)}>
             <AiOutlineMessage size={30} />
             <div className="w-[20px] absolute h-[20px] bottom-0 left-0 rounded-full bg-green-500 text-white flex justify-center items-center">
-              {5}
+              {refunded}
             </div>
           </div>
           <div className="relative cursor-pointer" onClick={()=>{setActive(15)}}>
