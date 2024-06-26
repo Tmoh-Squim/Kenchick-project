@@ -11,7 +11,7 @@ const TrackOrder = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const dat = orders.filter((order) => order?.status !== 'Delivered');
+    const dat = orders?.filter((order) => order?.status !== 'Delivered');
     setData(dat);
   }, [orders]);
 
