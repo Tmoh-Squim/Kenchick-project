@@ -114,11 +114,10 @@ if (userPhoneNumber && userPhoneNumber.toString().startsWith('0')) {
       .post(`${Server_Url}/order/create-order`, order, config)
       .then((res) => {
         setOpen(false);
-        navigate("/order/success");
         toast.success("Order successful!");
-        localStorage.setItem("cartItems", JSON.stringify([]));
-        localStorage.setItem("latestOrder", JSON.stringify([]));
-        //window.location.reload();
+        localStorage.removeItem("cart");
+        navigate("/profile");
+        window.location.reload();
       });
   };
 
