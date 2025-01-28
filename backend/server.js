@@ -16,7 +16,6 @@ const orderRoutes = require("./routes/order")
 const categoryRoutes = require("./routes/category")
 const chatbotRoutes = require("./routes/chatbot")
 const paymentRoutes = require("./controller/payment")
-//middlewares
 app.use(cors({
     origin:['https://kenchick.vercel.app',
     "https://kenchick-project.vercel.app",
